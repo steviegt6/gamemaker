@@ -16,12 +16,15 @@ public readonly struct Int24  {
     /// <summary>
     ///     Represents the maximum value of the data type.
     /// </summary>
-    public static Int24 MaxValue => 8388607;
+    public static Int24 MaxValue => MAX_VALUE;
 
     /// <summary>
     ///     Represents the minimum value of the data type.
     /// </summary>
-    public static Int24 MinValue => -8388608;
+    public static Int24 MinValue => MIN_VALUE;
+    
+    public const int MAX_VALUE = 8388607;
+    public const int MIN_VALUE = -8388608;
 
     public Int24(byte b0, byte b1, byte b2) {
         this.b0 = b0;

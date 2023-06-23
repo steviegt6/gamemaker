@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.IFF", "Tomat.GameMaker.IFF\Tomat.GameMaker.IFF.csproj", "{A9E3BB04-4C37-4590-B815-58849FA6188B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.Tests", "Tomat.GameMaker.Tests\Tomat.GameMaker.Tests.csproj", "{F9B742F9-8358-4494-BB7F-D57F1C0F3792}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{A9E3BB04-4C37-4590-B815-58849FA6188B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9E3BB04-4C37-4590-B815-58849FA6188B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9E3BB04-4C37-4590-B815-58849FA6188B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
