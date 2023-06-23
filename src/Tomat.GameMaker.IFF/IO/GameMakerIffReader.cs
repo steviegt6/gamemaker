@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 
 namespace Tomat.GameMaker.IFF.IO;
 
@@ -23,5 +24,23 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
         Data = data;
         Position = 0;
         Encoding = encoding ?? IGameMakerIffDataHandler.DEFAULT_ENCODING;
+    }
+
+    /// <summary>
+    ///     Initializes a new instance of <see cref="GameMakerIffReader"/> from
+    ///     a <see cref="Stream"/>.
+    /// </summary>
+    /// <param name="stream">The <see cref="Stream"/> to read from.</param>
+    /// <returns>An instance of <see cref="GameMakerIffReader"/>.</returns>
+    /// <exception cref="IOException">
+    ///     When the stream fails to read up to its length.
+    /// </exception>
+    public static GameMakerIffReader FromStream(Stream stream) {
+        var data = new byte[stream.Length];
+        var dataLength = stream.Read(data, 0, data.Length);
+        if (dataLength != data.Length)
+            throw new IOException($"Expected to read {data.Length} bytes, but only read {dataLength} bytes.");
+
+        return new GameMakerIffReader(data);
     }
 }
