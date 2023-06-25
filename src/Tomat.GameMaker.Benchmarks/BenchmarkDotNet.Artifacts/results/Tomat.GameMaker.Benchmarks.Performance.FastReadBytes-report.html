@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Tomat.GameMaker.Benchmarks.Performance.FastReadBytes-20230624-213906</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.13.5, OS=Windows 10 (10.0.19045.2965/22H2/2022Update)
+AMD Ryzen 7 5700G with Radeon Graphics, 1 CPU, 16 logical and 8 physical cores
+.NET SDK=7.0.101
+  [Host]     : .NET 7.0.5 (7.0.523.17405), X64 RyuJIT AVX2
+  Job-XFMXML : .NET 7.0.5 (7.0.523.17405), X64 RyuJIT AVX2
+</code></pre>
+<pre><code>InvocationCount=1  UnrollFactor=1  
+</code></pre>
+
+<table>
+<thead><tr><th>                                   Method</th><th>Length</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>ReadBytesMemoryAsMemoryRead</td><td>1000000</td><td>270.1 ns</td><td>58.72 ns</td><td>160.75 ns</td><td>200.0 ns</td><td>600 B</td>
+</tr><tr><td>ReadBytesMemoryConstructorRead</td><td>1000000</td><td>100.0 ns</td><td>0.00 ns</td><td>0.00 ns</td><td>100.0 ns</td><td>600 B</td>
+</tr><tr><td>ReadBytesSpanConstructorRead</td><td>1000000</td><td>169.9 ns</td><td>50.60 ns</td><td>143.55 ns</td><td>100.0 ns</td><td>600 B</td>
+</tr><tr><td>ReadBytesMemoryMarshalCreateSpanRead</td><td>1000000</td><td>300.0 ns</td><td>68.03 ns</td><td>198.45 ns</td><td>200.0 ns</td><td>600 B</td>
+</tr><tr><td>ReadBytesMemoryMarshalCreateFromPinnedArrayRead</td><td>1000000</td><td>258.6 ns</td><td>59.10 ns</td><td>161.79 ns</td><td>200.0 ns</td><td>600 B</td>
+</tr><tr><td>ReadBytesMemoryAsMemoryRead</td><td>100000000</td><td>716.3 ns</td><td>118.62 ns</td><td>334.56 ns</td><td>600.0 ns</td><td>600 B</td>
+</tr><tr><td>ReadBytesMemoryConstructorRead</td><td>100000000</td><td>838.8 ns</td><td>150.97 ns</td><td>440.39 ns</td><td>600.0 ns</td><td>600 B</td>
+</tr><tr><td>ReadBytesSpanConstructorRead</td><td>100000000</td><td>721.6 ns</td><td>113.58 ns</td><td>329.53 ns</td><td>600.0 ns</td><td>600 B</td>
+</tr><tr><td>ReadBytesMemoryMarshalCreateSpanRead</td><td>100000000</td><td>743.3 ns</td><td>120.94 ns</td><td>350.86 ns</td><td>600.0 ns</td><td>600 B</td>
+</tr><tr><td>ReadBytesMemoryMarshalCreateFromPinnedArrayRead</td><td>100000000</td><td>860.8 ns</td><td>184.32 ns</td><td>534.74 ns</td><td>600.0 ns</td><td>600 B</td>
+</tr></tbody></table>
+</body>
+</html>

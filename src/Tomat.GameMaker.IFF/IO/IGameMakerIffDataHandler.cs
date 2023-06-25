@@ -21,13 +21,13 @@ public interface IGameMakerIffDataHandler {
     /// <summary>
     ///     The position within <see cref="Data"/>.
     /// </summary>
-    long Position { get; set; }
+    int Position { get; set; }
 
     /// <summary>
     ///     The length of <see cref="Data"/> while reading or actual length of
     ///     <see cref="Data"/> while writing.
     /// </summary>
-    long Length { get; }
+    int Length { get; }
     
     /// <summary>
     ///     The encoding to use when reading or writing strings.

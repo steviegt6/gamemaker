@@ -1,5 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
+using Tomat.GameMaker.IFF.DataTypes;
 
 namespace Tomat.GameMaker.IFF.IO;
 
@@ -11,9 +15,9 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
 
     public byte[] Data { get; }
 
-    public long Position { get; set; }
+    public int Position { get; set; }
 
-    public long Length => Data.Length;
+    public int Length => Data.Length;
 
     /// <summary>
     ///     Initializes a new instance of <see cref="GameMakerIffReader"/>.
@@ -24,6 +28,86 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
         Data = data;
         Position = 0;
         Encoding = encoding ?? IGameMakerIffDataHandler.DEFAULT_ENCODING;
+    }
+
+    private unsafe T ReadGenericStruct<T>() where T : unmanaged {
+        var val = Unsafe.As<byte, T>(ref Data[Position]);
+        Position += sizeof(T);
+        return val;
+    }
+
+    public Memory<byte> ReadBytes(int count) {
+        Debug.Assert(Position >= 0 && Position + count <= Length);
+        var bytes = Data.AsMemory(Position, count);
+        Position += count;
+        return bytes;
+    }
+
+    public char[] ReadChars(int count) {
+        // TODO: Figure out best way to do this.
+        // - Memory<byte>::ToArray()?
+        // - Span<byte>::ToArray()?
+        // The latter makes more sense.
+        return Encoding.GetChars(ReadBytes(count).Span.ToArray());
+    }
+
+    public byte ReadByte() {
+        Debug.Assert(Position >= 0 && Position < Length);
+        return Data[Position++];
+    }
+
+    public bool ReadBoolean(bool wide) {
+        return wide ? ReadInt32() != 0 : ReadByte() != 0;
+    }
+
+    public short ReadInt16() {
+        Debug.Assert(Position >= 0 && Position + sizeof(short) <= Length);
+        return ReadGenericStruct<short>();
+    }
+
+    public ushort ReadUInt16() {
+        Debug.Assert(Position >= 0 && Position + sizeof(ushort) <= Length);
+        return ReadGenericStruct<ushort>();
+    }
+
+    public unsafe int ReadInt24() {
+        Debug.Assert(Position >= 0 && Position + sizeof(Int24) <= Length);
+        return ReadGenericStruct<Int24>();
+    }
+
+    public unsafe uint ReadUInt24() {
+        Debug.Assert(Position >= 0 && Position + sizeof(UInt24) <= Length);
+        return ReadGenericStruct<UInt24>();
+    }
+
+    public int ReadInt32() {
+        Debug.Assert(Position >= 0 && Position + sizeof(int) <= Length);
+        return ReadGenericStruct<int>();
+    }
+
+    public uint ReadUInt32() {
+        Debug.Assert(Position >= 0 && Position + sizeof(uint) <= Length);
+        return ReadGenericStruct<uint>();
+    }
+
+    public long ReadInt64() {
+        Debug.Assert(Position >= 0 && Position + sizeof(long) <= Length);
+        return ReadGenericStruct<long>();
+    }
+
+    public ulong ReadUInt64() {
+        Debug.Assert(Position >= 0 && Position + sizeof(ulong) <= Length);
+        return ReadGenericStruct<ulong>();
+    }
+
+    public float ReadSingle() {
+        Debug.Assert(Position >= 0 && Position + sizeof(float) <= Length);
+        return ReadGenericStruct<float>();
+    }
+
+    public double ReadDouble() {
+        Debug.Assert(Position >= 0 && Position + sizeof(double) <= Length);
+        return ReadGenericStruct<double>();
     }
 
     /// <summary>

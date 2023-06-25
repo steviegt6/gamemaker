@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Tomat.GameMaker.Benchmarks.Performance.FastReadShort-20230623-215726</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.13.5, OS=Windows 10 (10.0.19045.2965/22H2/2022Update)
+AMD Ryzen 7 5700G with Radeon Graphics, 1 CPU, 16 logical and 8 physical cores
+.NET SDK=7.0.101
+  [Host]     : .NET 7.0.5 (7.0.523.17405), X64 RyuJIT AVX2
+  Job-IFQIMA : .NET 7.0.5 (7.0.523.17405), X64 RyuJIT AVX2
+</code></pre>
+<pre><code>InvocationCount=1  UnrollFactor=1  
+</code></pre>
+
+<table>
+<thead><tr><th>                  Method</th><th>Length</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>BitConverterRead</td><td>1000000</td><td>2.192 ms</td><td>0.0564 ms</td><td>0.1638 ms</td><td>1.91 MB</td>
+</tr><tr><td>ArrayRead</td><td>1000000</td><td>2.449 ms</td><td>0.0696 ms</td><td>0.1870 ms</td><td>1.91 MB</td>
+</tr><tr><td>PointerRead</td><td>1000000</td><td>1.873 ms</td><td>0.0500 ms</td><td>0.1468 ms</td><td>1.91 MB</td>
+</tr><tr><td>UnsafeAsRead</td><td>1000000</td><td>1.500 ms</td><td>0.0691 ms</td><td>0.2005 ms</td><td>1.91 MB</td>
+</tr><tr><td>UnsafeReadUnalignedRead</td><td>1000000</td><td>1.352 ms</td><td>0.0444 ms</td><td>0.1294 ms</td><td>1.91 MB</td>
+</tr><tr><td>UnsafeReadURead</td><td>1000000</td><td>2.206 ms</td><td>0.0675 ms</td><td>0.1790 ms</td><td>1.91 MB</td>
+</tr><tr><td>GenericPointerRead</td><td>1000000</td><td>1.863 ms</td><td>0.0553 ms</td><td>0.1605 ms</td><td>1.91 MB</td>
+</tr><tr><td>GenericUnsafeAsRead</td><td>1000000</td><td>1.356 ms</td><td>0.0499 ms</td><td>0.1464 ms</td><td>1.91 MB</td>
+</tr><tr><td>GenericUnsafeReadUnalignedRead</td><td>1000000</td><td>1.343 ms</td><td>0.0396 ms</td><td>0.1147 ms</td><td>1.91 MB</td>
+</tr><tr><td>GenericUnsafeReadRead</td><td>1000000</td><td>1.867 ms</td><td>0.0592 ms</td><td>0.1746 ms</td><td>1.91 MB</td>
+</tr><tr><td>BitConverterRead</td><td>100000000</td><td>174.914 ms</td><td>3.2824 ms</td><td>3.0704 ms</td><td>190.74 MB</td>
+</tr><tr><td>ArrayRead</td><td>100000000</td><td>196.059 ms</td><td>3.6654 ms</td><td>3.4286 ms</td><td>190.74 MB</td>
+</tr><tr><td>PointerRead</td><td>100000000</td><td>135.738 ms</td><td>1.3176 ms</td><td>1.1680 ms</td><td>190.74 MB</td>
+</tr><tr><td>UnsafeAsRead</td><td>100000000</td><td>91.489 ms</td><td>1.1631 ms</td><td>0.9713 ms</td><td>190.74 MB</td>
+</tr><tr><td>UnsafeReadUnalignedRead</td><td>100000000</td><td>91.442 ms</td><td>1.4212 ms</td><td>1.3294 ms</td><td>190.74 MB</td>
+</tr><tr><td>UnsafeReadURead</td><td>100000000</td><td>172.539 ms</td><td>3.2523 ms</td><td>3.0422 ms</td><td>190.74 MB</td>
+</tr><tr><td>GenericPointerRead</td><td>100000000</td><td>136.819 ms</td><td>2.4502 ms</td><td>2.0460 ms</td><td>190.74 MB</td>
+</tr><tr><td>GenericUnsafeAsRead</td><td>100000000</td><td>92.382 ms</td><td>1.1805 ms</td><td>1.1042 ms</td><td>190.74 MB</td>
+</tr><tr><td>GenericUnsafeReadUnalignedRead</td><td>100000000</td><td>91.735 ms</td><td>1.2125 ms</td><td>1.1341 ms</td><td>190.74 MB</td>
+</tr><tr><td>GenericUnsafeReadRead</td><td>100000000</td><td>136.216 ms</td><td>1.4120 ms</td><td>1.2517 ms</td><td>190.74 MB</td>
+</tr></tbody></table>
+</body>
+</html>
