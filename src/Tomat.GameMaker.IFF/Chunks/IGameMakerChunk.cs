@@ -4,6 +4,8 @@
 ///     Represents a chunk within an IFF file structure.
 /// </summary>
 public interface IGameMakerChunk : IGameMakerSerializable {
+    public const int NAME_LENGTH = 4;
+    
     /// <summary>
     ///     The name of the chunk.
     /// </summary>

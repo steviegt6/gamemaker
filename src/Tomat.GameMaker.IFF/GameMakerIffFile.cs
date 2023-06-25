@@ -17,15 +17,30 @@ public sealed class GameMakerIffFile : IGameMakerSerializable {
     public GameMakerFormChunk? Form { get; set; }
 
     public int Read(DeserializationContext context) {
-        Form = new GameMakerFormChunk();
-        return Form.Read(context);
+        var formName = new string(context.Reader.ReadChars(IGameMakerChunk.NAME_LENGTH));
+        if (formName != GameMakerFormChunk.NAME)
+            throw new IOException("IFF file does not start with FORM chunk.");
+
+        var formSize = context.Reader.ReadInt32();
+        Form = new GameMakerFormChunk(formName, formSize);
+        Form.Read(context);
+        return IGameMakerChunk.NAME_LENGTH + sizeof(int) + formSize;
     }
 
     public int Write(SerializationContext context) {
         if (Form is null)
             throw new IOException("Cannot write IFF file without a FORM chunk.");
 
-        return Form.Write(context);
+        context.Writer.Write("FORM"u8.ToArray());
+        var sizePos = context.Writer.Position;
+        context.Writer.Write(0); // Placeholder for size.
+        var size = Form.Write(context);
+        var endPos = context.Writer.Position;
+        context.Writer.Position = sizePos;
+        context.Writer.Write(size);
+        context.Writer.Position = endPos;
+
+        return IGameMakerChunk.NAME_LENGTH + sizeof(int) + size;
     }
 
     // TODO: Reader options that lets us specify things like the GameMaker
