@@ -23,7 +23,10 @@ public sealed class GameMakerIffFile : IGameMakerSerializable {
 
         var formSize = context.Reader.ReadInt32();
         Form = new GameMakerFormChunk(formName, formSize);
-        Form.Read(context);
+        var readSize = Form.Read(context);
+        if (readSize != formSize)
+            throw new IOException("FORM chunk size does not match actual size.");
+
         return IGameMakerChunk.NAME_LENGTH + sizeof(int) + formSize;
     }
 
@@ -35,6 +38,9 @@ public sealed class GameMakerIffFile : IGameMakerSerializable {
         var sizePos = context.Writer.Position;
         context.Writer.Write(0); // Placeholder for size.
         var size = Form.Write(context);
+        if (size != Form.Size)
+            throw new IOException("FORM chunk size does not match actual size.");
+
         var endPos = context.Writer.Position;
         context.Writer.Position = sizePos;
         context.Writer.Write(size);

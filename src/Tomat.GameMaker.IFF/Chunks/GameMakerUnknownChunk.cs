@@ -6,7 +6,7 @@ namespace Tomat.GameMaker.IFF.Chunks;
 public sealed class GameMakerUnknownChunk : IGameMakerChunk {
     public string Name { get; }
 
-    public int Size { get; }
+    public int Size { get; set; }
     
     public byte[]? Data { get; set; }
 
@@ -17,14 +17,15 @@ public sealed class GameMakerUnknownChunk : IGameMakerChunk {
     
     public int Read(DeserializationContext context) {
         Data = context.Reader.ReadBytes(Size).ToArray();
-        return Size;
+        return Data.Length; // Size
     }
 
     public int Write(SerializationContext context) {
         if (Data is null)
             throw new IOException("Cannot write unknown chunk without data.");
         
+        Size = Data.Length;
         context.Writer.Write(Data);
-        return Size;
+        return Data.Length; // Size
     }
 }

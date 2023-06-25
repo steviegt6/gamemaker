@@ -48,7 +48,9 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
             Chunks[chunkName] = ChunkFactories.TryGetValue(chunkName, out var factory)
                 ? factory(chunkName, chunkLength)
                 : DefaultChunkFactory(chunkName, chunkLength);
-            Chunks[chunkName].Read(context);
+            var readSize = Chunks[chunkName].Read(context);
+            if (readSize != chunkLength)
+                throw new IOException($"Chunk {chunkName} size does not match actual size.");
         }
 
         return Size;
