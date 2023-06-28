@@ -6,8 +6,6 @@
 public interface IGameMakerChunk : IGameMakerSerializable {
     public const int NAME_LENGTH = 4;
 
-    int IGameMakerSerializable.PointerWriteOffset => 0;
-    
     /// <summary>
     ///     The name of the chunk.
     /// </summary>

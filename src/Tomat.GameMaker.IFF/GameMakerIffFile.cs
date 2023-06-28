@@ -18,8 +18,6 @@ public sealed class GameMakerIffFile : IGameMakerSerializable {
     /// </summary>
     public GameMakerFormChunk? Form { get; set; }
 
-    public int PointerWriteOffset => 0;
-
     public void Read(DeserializationContext context) {
         var formName = new string(context.Reader.ReadChars(IGameMakerChunk.NAME_LENGTH));
         if (formName != GameMakerFormChunk.NAME)

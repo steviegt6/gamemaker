@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tomat.GameMaker.IFF.Chunks.Contexts;
+using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.IO;
 
@@ -15,9 +16,9 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
 
     public short UnknownInt16 { get; set; }
 
-    public GameMakerString? FileName { get; set; }
+    public GameMakerPointer<GameMakerString> FileName { get; set; }
 
-    public GameMakerString? Config { get; set; }
+    public GameMakerPointer<GameMakerString> Config { get; set; }
 
     public int LastObjectId { get; set; }
 
@@ -27,7 +28,7 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
 
     public Guid LegacyGuid { get; set; }
 
-    public GameMakerString? GameName { get; set; }
+    public GameMakerPointer<GameMakerString> GameName { get; set; }
 
     public int MajorVersion { get; set; }
 
@@ -49,7 +50,7 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
 
     public long Timestamp { get; set; }
 
-    public GameMakerString? DisplayName { get; set; }
+    public GameMakerPointer<GameMakerString> DisplayName { get; set; }
 
     public long ActiveTargets { get; set; }
 
@@ -75,6 +76,7 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         DisableDebug = context.Reader.ReadBoolean(wide: false);
         context.VersionInfo.FormatId = FormatId = context.Reader.ReadByte();
         UnknownInt16 = context.Reader.ReadInt16();
+        FileName = context.Reader.ReadPointer<GameMakerString>();
         FileName = context.Reader.ReadStringPointerObject(context, returnAfter: true);
         Config = context.Reader.ReadStringPointerObject(context, returnAfter: true);
         LastObjectId = context.Reader.ReadInt32();

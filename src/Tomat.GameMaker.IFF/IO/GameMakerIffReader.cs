@@ -119,41 +119,24 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
         return ReadGenericStruct<double>();
     }
 
-    public T? ReadPointer<T>(int ptr) where T : IGameMakerSerializable, new() {
-        if (ptr == 0)
-            return default;
+    public IGameMakerPointer<T> ReadPointer<T>(int addr) where T : IGameMakerSerializable, new() {
+        addr -= GameMakerPointer.GetPointerOffset(typeof(T));
 
-        if (Pointers.TryGetValue(ptr, out var obj))
-            return (T)obj;
+        var ptr = new GameMakerPointer<T> {
+            Address = addr,
+        };
 
-        obj = new T();
-        Pointers.Add(ptr, obj);
-        return (T)obj;
-    }
+        if (addr == 0)
+            return ptr;
 
-    public T? ReadPointerObject<T>(int ptr, DeserializationContext context, bool returnAfter) where T : IGameMakerSerializable, new() {
-        if (ptr == 0)
-            return default;
-
-        T res;
-
-        if (Pointers.TryGetValue(ptr, out var obj)) {
-            res = (T)obj;
-        }
-        else {
-            res = new T();
-            Pointers[ptr] = res;
+        if (Pointers.TryGetValue(addr, out var obj)) {
+            ptr.Object = (T)obj;
+            return ptr;
         }
 
-        var pos = Position;
-        Position = ptr;
-
-        res.Read(context);
-
-        if (returnAfter)
-            Position = pos;
-
-        return res;
+        ptr.Object = new T();
+        Pointers.Add(addr, ptr.Object);
+        return ptr;
     }
 
     /// <summary>
@@ -176,23 +159,7 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
 }
 
 public static class GameMakerIffReaderExtensions {
-    public static T? ReadPointer<T>(this GameMakerIffReader reader) where T : IGameMakerSerializable, new() {
-        return reader.ReadPointer<T>(reader.ReadInt32());
-    }
-
-    public static T? ReadPointerObject<T>(this GameMakerIffReader reader, DeserializationContext context, bool returnAfter) where T : IGameMakerSerializable, new() {
-        return reader.ReadPointerObject<T>(reader.ReadInt32(), context, returnAfter);
-    }
-
     public static Guid ReadGuid(this GameMakerIffReader reader) {
         return new Guid(reader.ReadBytes(16).Span);
-    }
-
-    public static GameMakerString? ReadStringPointer(this GameMakerIffReader reader) {
-        return reader.ReadPointer<GameMakerString>(reader.ReadInt32() - 4);
-    }
-
-    public static GameMakerString? ReadStringPointerObject(this GameMakerIffReader reader, DeserializationContext context, bool returnAfter) {
-        return reader.ReadPointerObject<GameMakerString>(reader.ReadInt32() - 4, context, returnAfter);
     }
 }

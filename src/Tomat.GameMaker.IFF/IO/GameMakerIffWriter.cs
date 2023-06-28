@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 
 namespace Tomat.GameMaker.IFF.IO;
 
@@ -32,6 +31,8 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
     ///     A map of pointers to the addresses in which they are referenced.
     /// </summary>
     public Dictionary<IGameMakerSerializable, List<int>> PointerReferences { get; set; } = new();
+
+    // public List<IGameMakerPointer> 
 
     /// <summary>
     ///     Initializes a new instance of <see cref="GameMakerIffWriter"/>.
@@ -144,21 +145,19 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
         WriteGenericStruct(value);
     }
 
-    /// <summary>
-    ///     Writes the address of the pointer object to the current position.
-    /// </summary>
-    /// <param name="obj">The pointer object to write the address of.</param>
-    public void WritePointer(IGameMakerSerializable? obj) {
-        if (obj is null) {
+    public void Write<T>(IGameMakerPointer<T> ptr) where T : IGameMakerSerializable, new() {
+        // Checking only for null and not just default; pointers should only be
+        // getting used for reference types anyway...
+        if (ptr.Object is null) {
             Write(0);
             return;
         }
 
-        if (PointerReferences.TryGetValue(obj, out var references)) {
+        if (PointerReferences.TryGetValue(ptr.Object, out var references)) {
             references.Add(Position);
         }
         else {
-            PointerReferences[obj] = new List<int> {
+            PointerReferences[ptr.Object] = new List<int> {
                 Position,
             };
         }
@@ -166,27 +165,12 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
         Write(0); // Placeholder for the address.
     }
 
-    /// <summary>
-    ///     Marks the current position as the address in which this pointer
-    ///     object should be actually written.
-    /// </summary>
-    /// <param name="obj">The pointer object to be written.</param>
-    /// <exception cref="ArgumentNullException">
-    ///     <paramref name="obj"/> is <see langword="null"/>.
-    /// </exception>
-    public void WriteObjectPointer(IGameMakerSerializable obj) {
-        if (obj is null)
-            throw new ArgumentNullException(nameof(obj));
-
-        Pointers[obj] = Position;
-    }
-
     public void FinalizePointers() {
         Parallel.ForEach(
             PointerReferences,
             kvp => {
                 if (Pointers.TryGetValue(kvp.Key, out var ptr)) {
-                    ptr += kvp.Key.PointerWriteOffset;
+                    ptr += GameMakerPointer.GetPointerOffset(kvp.Key.GetType());
 
                     foreach (var addr in kvp.Value)
                         this.WriteAt(addr, ptr);
@@ -201,14 +185,12 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
 }
 
 public static class GameMakerIffWriterExtensions {
-    public static int Pad(this GameMakerIffWriter writer, int align) {
+    public static void Pad(this GameMakerIffWriter writer, int align) {
         var pad = writer.Position % align;
         if (pad == 0)
-            return 0;
+            return;
 
-        var padding = align - pad;
-        writer.Write(new byte[padding]);
-        return padding;
+        writer.Write(new byte[align - pad]);
     }
 
     public static void WriteAt(this GameMakerIffWriter writer, int position, int value) {

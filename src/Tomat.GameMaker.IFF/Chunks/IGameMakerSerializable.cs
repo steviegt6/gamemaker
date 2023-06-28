@@ -8,11 +8,6 @@ namespace Tomat.GameMaker.IFF.Chunks;
 /// </summary>
 public interface IGameMakerSerializable {
     /// <summary>
-    ///     Gets the number of bytes to offset by when writing pointers.
-    /// </summary>
-    int PointerWriteOffset { get; }
-
-    /// <summary>
     ///     Reads the data from the given context.
     /// </summary>
     /// <param name="context">The context to read from.</param>

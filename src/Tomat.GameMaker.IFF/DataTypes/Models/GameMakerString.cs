@@ -13,8 +13,6 @@ public sealed class GameMakerString : IGameMakerSerializable {
     /// </summary>
     public string? Value { get; set; }
 
-    public int PointerWriteOffset => 4;
-
     public void Read(DeserializationContext context) {
         // TODO: Don't ignore length. Apparently unreliable - why? Having length
         // would make this probably maybe somewhat faster.
