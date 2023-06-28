@@ -162,4 +162,10 @@ public static class GameMakerIffReaderExtensions {
     public static Guid ReadGuid(this GameMakerIffReader reader) {
         return new Guid(reader.ReadBytes(16).Span);
     }
+
+    public static GameMakerPointer<T> ReadPointerAndObject<T>(this GameMakerIffReader reader, int addr, DeserializationContext context, bool returnAfter) where T : IGameMakerSerializable, new() {
+        var ptr = reader.ReadPointer<T>(addr);
+        ptr.ReadObject(context, returnAfter);
+        return ptr;
+    }
 }
