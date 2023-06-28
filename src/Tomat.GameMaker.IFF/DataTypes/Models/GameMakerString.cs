@@ -2,7 +2,7 @@
 using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.Chunks.Contexts;
 
-namespace Tomat.GameMaker.IFF.DataTypes;
+namespace Tomat.GameMaker.IFF.DataTypes.Models;
 
 /// <summary>
 ///     Represents a string within a GameMaker IFF file.
@@ -13,7 +13,9 @@ public sealed class GameMakerString : IGameMakerSerializable {
     /// </summary>
     public string? Value { get; set; }
 
-    public int Read(DeserializationContext context) {
+    public int PointerWriteOffset => 4;
+
+    public void Read(DeserializationContext context) {
         // TODO: Don't ignore length. Apparently unreliable - why? Having length
         // would make this probably maybe somewhat faster.
         _ = context.Reader.ReadInt32(); // Ignore the length.
@@ -24,17 +26,15 @@ public sealed class GameMakerString : IGameMakerSerializable {
         var value = context.Reader.ReadChars(length);
         Value = new string(value);
         context.Reader.Position++; // Skip the null terminator.
-        return sizeof(int) + length + sizeof(byte);
     }
 
-    public int Write(SerializationContext context) {
+    public void Write(SerializationContext context) {
         if (Value is null)
             throw new IOException("Cannot serialize a null string.");
 
-        var length = Value.Length;
+        var length = context.Writer.Encoding.GetByteCount(Value);
         context.Writer.Write(length);
-        context.Writer.Write(Value.ToCharArray());
+        context.Writer.Write(context.Writer.Encoding.GetBytes(Value));
         context.Writer.Write((byte)0); // Null terminator.
-        return sizeof(int) + length + sizeof(byte);
     }
 }

@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.Chunks.Contexts;
+using Tomat.GameMaker.IFF.Chunks.FORM;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF;
@@ -16,37 +18,28 @@ public sealed class GameMakerIffFile : IGameMakerSerializable {
     /// </summary>
     public GameMakerFormChunk? Form { get; set; }
 
-    public int Read(DeserializationContext context) {
+    public int PointerWriteOffset => 0;
+
+    public void Read(DeserializationContext context) {
         var formName = new string(context.Reader.ReadChars(IGameMakerChunk.NAME_LENGTH));
         if (formName != GameMakerFormChunk.NAME)
             throw new IOException("IFF file does not start with FORM chunk.");
 
         var formSize = context.Reader.ReadInt32();
         Form = new GameMakerFormChunk(formName, formSize);
-        var readSize = Form.Read(context);
-        if (readSize != formSize)
-            throw new IOException("FORM chunk size does not match actual size.");
-
-        return IGameMakerChunk.NAME_LENGTH + sizeof(int) + formSize;
+        Form.Read(context);
     }
 
-    public int Write(SerializationContext context) {
+    public void Write(SerializationContext context) {
         if (Form is null)
             throw new IOException("Cannot write IFF file without a FORM chunk.");
 
         context.Writer.Write("FORM"u8.ToArray());
-        var sizePos = context.Writer.Position;
-        context.Writer.Write(0); // Placeholder for size.
-        var size = Form.Write(context);
-        if (size != Form.Size)
-            throw new IOException("FORM chunk size does not match actual size.");
+        var formSizePos = context.Writer.BeginLength();
+        Form.Write(context);
+        context.Writer.EndLength(formSizePos);
 
-        var endPos = context.Writer.Position;
-        context.Writer.Position = sizePos;
-        context.Writer.Write(size);
-        context.Writer.Position = endPos;
-
-        return IGameMakerChunk.NAME_LENGTH + sizeof(int) + size;
+        context.Writer.FinalizePointers();
     }
 
     // TODO: Reader options that lets us specify things like the GameMaker
@@ -62,7 +55,7 @@ public sealed class GameMakerIffFile : IGameMakerSerializable {
     public static GameMakerIffFile FromStream(Stream stream) {
         var reader = GameMakerIffReader.FromStream(stream);
         var file = new GameMakerIffFile();
-        file.Read(new DeserializationContext(reader, file));
+        file.Read(new DeserializationContext(reader, file, new GameMakerVersionInfo()));
         return file;
     }
 }

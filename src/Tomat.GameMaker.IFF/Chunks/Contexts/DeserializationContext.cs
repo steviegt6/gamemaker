@@ -1,4 +1,5 @@
-﻿using Tomat.GameMaker.IFF.IO;
+﻿using System;
+using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.Contexts;
 
@@ -9,4 +10,7 @@ namespace Tomat.GameMaker.IFF.Chunks.Contexts;
 ///     The reader used to read from a GameMaker IFF file.
 /// </param>
 /// <param name="IffFile">The GameMaker IFF file being read from.</param>
-public sealed record DeserializationContext(GameMakerIffReader Reader, GameMakerIffFile IffFile);
+/// <param name="VersionInfo">
+///     The version information of the GameMaker IFF file being read from.
+/// </param>
+public sealed record DeserializationContext(GameMakerIffReader Reader, GameMakerIffFile IffFile, GameMakerVersionInfo VersionInfo);

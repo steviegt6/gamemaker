@@ -24,9 +24,18 @@ public sealed class PrintChunkInfoCommand : BaseCommand {
 
         console.Output.WriteLine($"Chunk \"{form.Name}\" ({form.GetType().FullName})");
         console.Output.WriteLine($"Size: {form.Size} bytes");
+        console.Output.WriteLine($"Sub-chunks: {form.Chunks.Count}");
 
         foreach (var chunk in form.Chunks.Values)
             PrintChunk(console, chunk);
+
+        console.Output.WriteLine();
+        console.Output.WriteLine("Unknown chunks:");
+
+        foreach (var chunk in form.Chunks.Values) {
+            if (chunk is GameMakerUnknownChunk unknownChunk)
+                console.Output.WriteLine($"    {unknownChunk.Name} ({unknownChunk.GetType().FullName})");
+        }
 
         return default;
     }

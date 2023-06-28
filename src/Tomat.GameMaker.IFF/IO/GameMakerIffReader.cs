@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Tomat.GameMaker.IFF.Chunks;
+using Tomat.GameMaker.IFF.Chunks.Contexts;
 using Tomat.GameMaker.IFF.DataTypes;
+using Tomat.GameMaker.IFF.DataTypes.Models;
 
 namespace Tomat.GameMaker.IFF.IO;
 
@@ -18,6 +22,11 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
     public int Position { get; set; }
 
     public int Length => Data.Length;
+
+    /// <summary>
+    ///     A dictionary of pointers to objects that have been read.
+    /// </summary>
+    public Dictionary<int, IGameMakerSerializable> Pointers { get; set; } = new();
 
     /// <summary>
     ///     Initializes a new instance of <see cref="GameMakerIffReader"/>.
@@ -110,6 +119,43 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
         return ReadGenericStruct<double>();
     }
 
+    public T? ReadPointer<T>(int ptr) where T : IGameMakerSerializable, new() {
+        if (ptr == 0)
+            return default;
+
+        if (Pointers.TryGetValue(ptr, out var obj))
+            return (T)obj;
+
+        obj = new T();
+        Pointers.Add(ptr, obj);
+        return (T)obj;
+    }
+
+    public T? ReadPointerObject<T>(int ptr, DeserializationContext context, bool returnAfter) where T : IGameMakerSerializable, new() {
+        if (ptr == 0)
+            return default;
+
+        T res;
+
+        if (Pointers.TryGetValue(ptr, out var obj)) {
+            res = (T)obj;
+        }
+        else {
+            res = new T();
+            Pointers[ptr] = res;
+        }
+
+        var pos = Position;
+        Position = ptr;
+
+        res.Read(context);
+
+        if (returnAfter)
+            Position = pos;
+
+        return res;
+    }
+
     /// <summary>
     ///     Initializes a new instance of <see cref="GameMakerIffReader"/> from
     ///     a <see cref="Stream"/>.
@@ -126,5 +172,27 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
             throw new IOException($"Expected to read {data.Length} bytes, but only read {dataLength} bytes.");
 
         return new GameMakerIffReader(data);
+    }
+}
+
+public static class GameMakerIffReaderExtensions {
+    public static T? ReadPointer<T>(this GameMakerIffReader reader) where T : IGameMakerSerializable, new() {
+        return reader.ReadPointer<T>(reader.ReadInt32());
+    }
+
+    public static T? ReadPointerObject<T>(this GameMakerIffReader reader, DeserializationContext context, bool returnAfter) where T : IGameMakerSerializable, new() {
+        return reader.ReadPointerObject<T>(reader.ReadInt32(), context, returnAfter);
+    }
+
+    public static Guid ReadGuid(this GameMakerIffReader reader) {
+        return new Guid(reader.ReadBytes(16).Span);
+    }
+
+    public static GameMakerString? ReadStringPointer(this GameMakerIffReader reader) {
+        return reader.ReadPointer<GameMakerString>(reader.ReadInt32() - 4);
+    }
+
+    public static GameMakerString? ReadStringPointerObject(this GameMakerIffReader reader, DeserializationContext context, bool returnAfter) {
+        return reader.ReadPointerObject<GameMakerString>(reader.ReadInt32() - 4, context, returnAfter);
     }
 }
