@@ -5,17 +5,12 @@ using Tomat.GameMaker.IFF.DataTypes.Models;
 
 namespace Tomat.GameMaker.IFF.DataTypes;
 
-public struct GameMakerPointer<T> : IGameMakerPointer<T> where T : IGameMakerSerializable, new() {
+public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
     public int PointerOffset => GameMakerPointer.GetPointerOffset(typeof(T));
 
     public int Address { get; set; }
 
     public T? Object { get; set; }
-
-    // Address set in GameMakerIffReader::ReadPointer<T>(int) instead.
-    /*public void Read(DeserializationContext context) {
-        // Address = context.Reader.ReadInt32();
-    }*/
 
     public void ReadObject(DeserializationContext context, bool returnAfter) {
         if (Address == 0) {

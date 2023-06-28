@@ -119,7 +119,7 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
         return ReadGenericStruct<double>();
     }
 
-    public IGameMakerPointer<T> ReadPointer<T>(int addr) where T : IGameMakerSerializable, new() {
+    public GameMakerPointer<T> ReadPointer<T>(int addr) where T : IGameMakerSerializable, new() {
         addr -= GameMakerPointer.GetPointerOffset(typeof(T));
 
         var ptr = new GameMakerPointer<T> {

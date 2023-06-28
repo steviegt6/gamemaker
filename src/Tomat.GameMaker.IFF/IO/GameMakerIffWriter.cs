@@ -145,7 +145,7 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
         WriteGenericStruct(value);
     }
 
-    public void Write<T>(IGameMakerPointer<T> ptr) where T : IGameMakerSerializable, new() {
+    public void Write<T>(GameMakerPointer<T> ptr) where T : IGameMakerSerializable, new() {
         // Checking only for null and not just default; pointers should only be
         // getting used for reference types anyway...
         if (ptr.Object is null) {
