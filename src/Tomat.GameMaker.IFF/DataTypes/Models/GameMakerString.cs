@@ -21,6 +21,7 @@ public sealed class GameMakerString : IGameMakerSerializable {
         while (context.Reader.Data[context.Reader.Position] != 0)
             context.Reader.Position++;
         var length = context.Reader.Position - start;
+        context.Reader.Position = start;
         var value = context.Reader.ReadChars(length);
         Value = new string(value);
         context.Reader.Position++; // Skip the null terminator.
