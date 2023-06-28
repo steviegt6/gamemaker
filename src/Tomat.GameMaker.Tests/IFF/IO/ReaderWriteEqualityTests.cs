@@ -15,7 +15,7 @@ public static class ReaderWriteEqualityTests {
         wad.Write(new SerializationContext(writer, wad, deserCtx.VersionInfo));
         var writtenBytes = writer.Data;
 
-        Assert.AreEqual(readBytes.Length, writtenBytes.Length);
+        Assert.That(writtenBytes, Has.Length.EqualTo(readBytes.Length));
         CollectionAssert.AreEqual(readBytes, writtenBytes);
     }
 }
