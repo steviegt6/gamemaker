@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Tomat.GameMaker.IFF.Chunks;
+using Tomat.GameMaker.IFF.Chunks.Contexts;
 using Tomat.GameMaker.IFF.DataTypes;
 
 namespace Tomat.GameMaker.IFF.IO;
@@ -30,7 +32,7 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
     /// <summary>
     ///     A map of pointers to the addresses in which they are referenced.
     /// </summary>
-    public Dictionary<IGameMakerSerializable, List<int>> PointerReferences { get; set; } = new();
+    public Dictionary<IGameMakerSerializable, List<(int, bool)>> PointerReferences { get; set; } = new();
 
     // public List<IGameMakerPointer> 
 
@@ -135,7 +137,7 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
         WriteGenericStruct(value);
     }
 
-    public void Write<T>(GameMakerPointer<T> ptr) where T : IGameMakerSerializable, new() {
+    public void Write<T>(GameMakerPointer<T> ptr, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
         // Checking only for null and not just default; pointers should only be
         // getting used for reference types anyway...
         if (ptr.Object is null) {
@@ -144,11 +146,11 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
         }
 
         if (PointerReferences.TryGetValue(ptr.Object, out var references)) {
-            references.Add(Position);
+            references.Add((Position, useTypeOffset));
         }
         else {
-            PointerReferences[ptr.Object] = new List<int> {
-                Position,
+            PointerReferences[ptr.Object] = new List<(int, bool)> {
+                (Position, useTypeOffset),
             };
         }
 
@@ -156,7 +158,18 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
     }
 
     public void FinalizePointers() {
-        Parallel.ForEach(
+        foreach (var kvp in PointerReferences) {
+            if (Pointers.TryGetValue(kvp.Key, out var ptr)) {
+                foreach (var addr in kvp.Value)
+                    this.WriteAt(addr.Item1, ptr + (addr.Item2 ? GameMakerPointer.GetPointerOffset(kvp.Key.GetType()) : 0));
+            }
+            else {
+                foreach (var addr in kvp.Value)
+                    this.WriteAt(addr.Item1, 0);
+            }
+        }
+
+        /*Parallel.ForEach(
             PointerReferences,
             kvp => {
                 if (Pointers.TryGetValue(kvp.Key, out var ptr)) {
@@ -170,11 +183,15 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
                         this.WriteAt(addr, 0);
                 }
             }
-        );
+        );*/
     }
 }
 
 public static class GameMakerIffWriterExtensions {
+    public delegate void ListWrite(SerializationContext context, int index, int count);
+
+    public delegate void ListElementWrite<T>(SerializationContext context, GameMakerPointer<T> element) where T : IGameMakerSerializable, new();
+
     public static void Pad(this GameMakerIffWriter writer, int align) {
         var pad = writer.Position % align;
         if (pad == 0)
@@ -200,5 +217,38 @@ public static class GameMakerIffWriterExtensions {
         writer.Position = beginPos - 4;
         writer.Write(pos - beginPos);
         writer.Position = pos;
+    }
+
+    public static void WritePointerList<T>(this GameMakerIffWriter writer,
+                                           List<GameMakerPointer<T>> list,
+                                           SerializationContext context,
+                                           ListWrite? beforeWriter,
+                                           ListWrite? afterWriter,
+                                           ListElementWrite<T>? elementWriter,
+                                           ListElementWrite<T>? elementPointerWriter) where T : IGameMakerSerializable, new() {
+        writer.Write(list.Count);
+
+        // Write pointers.
+        foreach (var item in list) {
+            if (elementPointerWriter is null)
+                writer.Write(item);
+            else
+                elementPointerWriter.Invoke(context, item);
+        }
+
+        // Write elements.
+        for (var i = 0; i < list.Count; i++) {
+            beforeWriter?.Invoke(context, i, list.Count);
+
+            if (elementWriter is null) {
+                list[i].WriteObject(context);
+                list[i].Object!.Write(context);
+            }
+            else {
+                elementWriter.Invoke(context, list[i]);
+            }
+
+            afterWriter?.Invoke(context, i, list.Count);
+        }
     }
 }

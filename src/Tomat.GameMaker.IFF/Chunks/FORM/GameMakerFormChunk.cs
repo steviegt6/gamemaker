@@ -2,6 +2,7 @@
 using System.IO;
 using Tomat.GameMaker.IFF.Chunks.Contexts;
 using Tomat.GameMaker.IFF.Chunks.GEN8;
+using Tomat.GameMaker.IFF.Chunks.STRG;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.FORM;
@@ -30,6 +31,7 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
         Size = size;
         ChunkFactories = new Dictionary<string, ChunkFactory> {
             { GameMakerGen8Chunk.NAME, (c, s) => new GameMakerGen8Chunk(c, s) },
+            { GameMakerStrgChunk.NAME, (c, s) => new GameMakerStrgChunk(c, s) },
         };
         DefaultChunkFactory = (c, s) => new GameMakerUnknownChunk(c, s);
     }

@@ -140,7 +140,7 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         context.Writer.Write(Timestamp);
         context.Writer.Write(DisplayName);
         context.Writer.Write(ActiveTargets);
-        context.Writer.Write((int)FunctionClassifications);
+        context.Writer.Write((ulong)FunctionClassifications);
         context.Writer.Write(SteamAppId);
 
         if (FormatId >= 14)

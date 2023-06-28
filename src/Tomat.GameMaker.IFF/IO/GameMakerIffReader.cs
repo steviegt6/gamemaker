@@ -119,8 +119,9 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
         return ReadGenericStruct<double>();
     }
 
-    public GameMakerPointer<T> ReadPointer<T>(int addr) where T : IGameMakerSerializable, new() {
-        addr -= GameMakerPointer.GetPointerOffset(typeof(T));
+    public GameMakerPointer<T> ReadPointer<T>(int addr, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
+        if (useTypeOffset)
+            addr -= GameMakerPointer.GetPointerOffset(typeof(T));
 
         var ptr = new GameMakerPointer<T> {
             Address = addr,
@@ -159,13 +160,33 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
 }
 
 public static class GameMakerIffReaderExtensions {
+    public delegate void ListRead(DeserializationContext context, int index, int count);
+
+    public delegate GameMakerPointer<T> ListElementRead<T>(DeserializationContext context, bool notLast) where T : IGameMakerSerializable, new();
+
     public static Guid ReadGuid(this GameMakerIffReader reader) {
         return new Guid(reader.ReadBytes(16).Span);
     }
 
-    public static GameMakerPointer<T> ReadPointerAndObject<T>(this GameMakerIffReader reader, int addr, DeserializationContext context, bool returnAfter) where T : IGameMakerSerializable, new() {
-        var ptr = reader.ReadPointer<T>(addr);
+    public static GameMakerPointer<T> ReadPointerAndObject<T>(this GameMakerIffReader reader, int addr, DeserializationContext context, bool returnAfter, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
+        var ptr = reader.ReadPointer<T>(addr, useTypeOffset);
         ptr.ReadObject(context, returnAfter);
         return ptr;
+    }
+
+    public static List<GameMakerPointer<T>> ReadPointerList<T>(this GameMakerIffReader reader, DeserializationContext context, ListRead? beforeRead, ListRead? afterRead, ListElementRead<T>? elementReader)
+        where T : IGameMakerSerializable, new() {
+        elementReader ??= (ctx, _) => reader.ReadPointerAndObject<T>(reader.ReadInt32(), ctx, returnAfter: true);
+
+        var count = reader.ReadInt32();
+        var list = new List<GameMakerPointer<T>>(count);
+
+        for (var i = 0; i < count; i++) {
+            beforeRead?.Invoke(context, i, count);
+            list.Add(elementReader(context, i != count - 1));
+            afterRead?.Invoke(context, i, count);
+        }
+
+        return list;
     }
 }
