@@ -14,7 +14,7 @@ public sealed class PrintChunkInfoCommand : BaseCommand {
         ValidateWadExists();
 
         using var stream = File.Open(WadPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        var wad = GameMakerIffFile.FromStream(stream);
+        var wad = GameMakerIffFile.FromStream(stream, out _);
         if (wad.Form is null)
             throw new Exception("FORM chunk is null!");
 

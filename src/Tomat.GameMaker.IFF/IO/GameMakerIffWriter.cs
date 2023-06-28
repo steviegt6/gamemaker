@@ -57,12 +57,12 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
     }
 
     private void EnsureCapacity(int size) {
-        if (Length >= size)
+        if (Data.Length >= size)
             return;
 
-        var newSize = Math.Max(Length * 2, size);
+        var newSize = Math.Max(Data.Length * 2, size);
         Array.Resize(ref data, newSize);
-        Length = newSize;
+        Length = size;
     }
 
     public void Write(Memory<byte> value) {
@@ -96,52 +96,42 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
     }
 
     public void Write(short value) {
-        EnsureCapacity(Position + sizeof(short));
         WriteGenericStruct(value);
     }
 
     public void Write(ushort value) {
-        EnsureCapacity(Position + sizeof(ushort));
         WriteGenericStruct(value);
     }
 
     public unsafe void Write(Int24 value) {
-        EnsureCapacity(Position + sizeof(Int24));
         WriteGenericStruct(value);
     }
 
     public unsafe void Write(UInt24 value) {
-        EnsureCapacity(Position + sizeof(UInt24));
         WriteGenericStruct(value);
     }
 
     public void Write(int value) {
-        EnsureCapacity(Position + sizeof(int));
         WriteGenericStruct(value);
     }
 
     public void Write(uint value) {
-        EnsureCapacity(Position + sizeof(uint));
         WriteGenericStruct(value);
     }
 
     public void Write(long value) {
-        EnsureCapacity(Position + sizeof(long));
         WriteGenericStruct(value);
     }
 
     public void Write(ulong value) {
-        EnsureCapacity(Position + sizeof(ulong));
         WriteGenericStruct(value);
     }
 
     public void Write(float value) {
-        EnsureCapacity(Position + sizeof(float));
         WriteGenericStruct(value);
     }
 
     public void Write(double value) {
-        EnsureCapacity(Position + sizeof(double));
         WriteGenericStruct(value);
     }
 
