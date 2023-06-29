@@ -7,7 +7,7 @@ namespace Tomat.GameMaker.IFF.DataTypes;
 
 /// <summary>
 ///     A pointer to a GameMaker object, storing an integer address to the
-///     position of the object in the GameMaker IFF file, as well as (possible)
+///     position of the object in the GameMaker IFF file, as well as (possibly)
 ///     a reference to the object itself (set by <see cref="ReadObject"/>).
 /// </summary>
 /// <typeparam name="T">The GameMaker object type.</typeparam>
