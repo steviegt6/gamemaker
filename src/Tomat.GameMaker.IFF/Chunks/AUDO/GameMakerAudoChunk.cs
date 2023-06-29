@@ -1,24 +1,32 @@
-﻿using Tomat.GameMaker.IFF.Chunks.Contexts;
+﻿using System.Collections.Generic;
+using Tomat.GameMaker.IFF.Chunks.Contexts;
+using Tomat.GameMaker.IFF.DataTypes;
+using Tomat.GameMaker.IFF.DataTypes.Models;
+using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.AUDO;
 
-public sealed class GameMakerAudoChunk : IGameMakerChunk {
+public sealed class GameMakerAudoChunk : AbstractChunk {
     public const string NAME = "AUDO";
 
-    public string Name { get; }
+    public List<GameMakerPointer<GameMakerAudio>>? Audio { get; set; }
 
-    public int Size { get; }
+    public GameMakerAudoChunk(string name, int size) : base(name, size) { }
 
-    public GameMakerAudoChunk(string name, int size) {
-        Name = name;
-        Size = size;
+    public override void Read(DeserializationContext context) {
+        Audio = context.Reader.ReadPointerList<GameMakerAudio>(context, null, null, null);
     }
 
-    public void Read(DeserializationContext context) {
-        throw new System.NotImplementedException();
-    }
-
-    public void Write(SerializationContext context) {
-        throw new System.NotImplementedException();
+    public override void Write(SerializationContext context) {
+        context.Writer.WritePointerList(
+            Audio!,
+            context,
+            (ctx, _, _) => {
+                ctx.Writer.Pad(4);
+            },
+            null,
+            null,
+            null
+        );
     }
 }
