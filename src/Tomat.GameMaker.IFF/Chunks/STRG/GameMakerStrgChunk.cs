@@ -13,8 +13,7 @@ public sealed class GameMakerStrgChunk : AbstractChunk {
     public GameMakerStrgChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        Strings = context.Reader.ReadPointerList<GameMakerString>(
-            context,
+        Strings = context.ReadPointerList<GameMakerString>(
             null,
             null,
             (ctx, _) => {
@@ -23,15 +22,14 @@ public sealed class GameMakerStrgChunk : AbstractChunk {
                 if (ctx.Reader.Position % ctx.VersionInfo.StringAlignment != 0)
                     throw new System.Exception("String not aligned to expected string alignment.");
 
-                return ctx.Reader.ReadPointerAndObject<GameMakerString>(addr, ctx, returnAfter: true, useTypeOffset: false);
+                return ctx.ReadPointerAndObject<GameMakerString>(addr, returnAfter: true, useTypeOffset: false);
             }
         );
     }
 
     public override void Write(SerializationContext context) {
-        context.Writer.WritePointerList(
+        context.WritePointerList(
             Strings!,
-            context,
             (ctx, _, _) => {
                 ctx.Writer.Pad(ctx.VersionInfo.StringAlignment);
             },

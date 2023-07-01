@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.DataTypes;
+using Tomat.GameMaker.IFF.DataTypes.Models;
 
 namespace Tomat.GameMaker.IFF.IO;
 
@@ -174,10 +175,6 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
 }
 
 public static class GameMakerIffWriterExtensions {
-    public delegate void ListWrite(SerializationContext context, int index, int count);
-
-    public delegate void ListElementWrite<T>(SerializationContext context, GameMakerPointer<T> element) where T : IGameMakerSerializable, new();
-
     public static void Pad(this GameMakerIffWriter writer, int align) {
         var pad = writer.Position % align;
         if (pad == 0)
@@ -203,38 +200,5 @@ public static class GameMakerIffWriterExtensions {
         writer.Position = beginPos - 4;
         writer.Write(pos - beginPos);
         writer.Position = pos;
-    }
-
-    public static void WritePointerList<T>(this GameMakerIffWriter writer,
-                                           List<GameMakerPointer<T>> list,
-                                           SerializationContext context,
-                                           ListWrite? beforeWriter,
-                                           ListWrite? afterWriter,
-                                           ListElementWrite<T>? elementWriter,
-                                           ListElementWrite<T>? elementPointerWriter) where T : IGameMakerSerializable, new() {
-        writer.Write(list.Count);
-
-        // Write pointers.
-        foreach (var item in list) {
-            if (elementPointerWriter is null)
-                writer.Write(item);
-            else
-                elementPointerWriter.Invoke(context, item);
-        }
-
-        // Write elements.
-        for (var i = 0; i < list.Count; i++) {
-            beforeWriter?.Invoke(context, i, list.Count);
-
-            if (elementWriter is null) {
-                list[i].WriteObject(context);
-                list[i].Object!.Write(context);
-            }
-            else {
-                elementWriter.Invoke(context, list[i]);
-            }
-
-            afterWriter?.Invoke(context, i, list.Count);
-        }
     }
 }
