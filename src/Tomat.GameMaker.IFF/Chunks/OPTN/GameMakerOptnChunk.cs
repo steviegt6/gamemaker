@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Tomat.GameMaker.IFF.DataTypes;
+﻿using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models;
 
 namespace Tomat.GameMaker.IFF.Chunks.OPTN;
@@ -33,7 +32,7 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
 
     public uint LoadAlpha { get; set; }
 
-    public List<GameMakerConstant>? Constants { get; set; }
+    public GameMakerList<GameMakerConstant>? Constants { get; set; }
 
     public GameMakerOptnChunk(string name, int size) : base(name, size) { }
 
@@ -95,7 +94,8 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
             ReadOptionFlag(context, OptnOptionFlags.CreationEventOrder);
         }
 
-        Constants = context.ReadList<GameMakerConstant>();
+        Constants = new GameMakerList<GameMakerConstant>();
+        Constants.Read(context);
     }
 
     public override void Write(SerializationContext context) {
@@ -152,7 +152,7 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
             WriteOptionFlag(context, OptnOptionFlags.CreationEventOrder);
         }
 
-        context.WriteList(Constants!);
+        Constants!.Write(context);
     }
 
     private void ReadOptionFlag(DeserializationContext context, OptnOptionFlags flag) {

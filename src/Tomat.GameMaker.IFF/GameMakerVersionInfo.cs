@@ -6,6 +6,7 @@ public sealed class GameMakerVersionInfo {
     public static readonly Version VERSION_UNKNOWN = NormalizeVersion(new Version());
     public static readonly Version VERSION_DEFAULT = NormalizeVersion(new Version(1, 0));
 
+    public static readonly Version GM_1_0_0_9999 = NormalizeVersion(new Version(1, 0, 0, 9999));
     public static readonly Version GM_2 = NormalizeVersion(new Version(2, 0));
     public static readonly Version GM_2_2_2_302 = NormalizeVersion(new Version(2, 2, 2, 302));
     public static readonly Version GM_2_3 = NormalizeVersion(new Version(2, 3));

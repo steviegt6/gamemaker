@@ -28,7 +28,7 @@ public interface IGameMakerIffDataHandler {
     ///     <see cref="Data"/> while writing.
     /// </summary>
     int Length { get; }
-    
+
     /// <summary>
     ///     The encoding to use when reading or writing strings.
     /// </summary>

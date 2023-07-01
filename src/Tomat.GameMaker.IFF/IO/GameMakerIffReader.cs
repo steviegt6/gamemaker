@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 
 namespace Tomat.GameMaker.IFF.IO;
 
@@ -161,5 +160,13 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
 public static class GameMakerIffReaderExtensions {
     public static Guid ReadGuid(this GameMakerIffReader reader) {
         return new Guid(reader.ReadBytes(16).Span);
+    }
+
+    public static void Pad(this GameMakerIffReader reader, int align) {
+        var pad = reader.Position % align;
+        if (pad == 0)
+            return;
+
+        reader.Position += align - pad;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Tomat.GameMaker.IFF.Chunks.AUDO;
+using Tomat.GameMaker.IFF.Chunks.EXTN;
 using Tomat.GameMaker.IFF.Chunks.GEN8;
 using Tomat.GameMaker.IFF.Chunks.LANG;
 using Tomat.GameMaker.IFF.Chunks.OPTN;
@@ -35,7 +36,7 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
             { GameMakerGen8Chunk.NAME, (c, s) => new GameMakerGen8Chunk(c, s) },
             { GameMakerOptnChunk.NAME, (c, s) => new GameMakerOptnChunk(c, s) },
             { GameMakerLangChunk.NAME, (c, s) => new GameMakerLangChunk(c, s) },
-            // EXTN
+            { GameMakerExtnChunk.NAME, (c, s) => new GameMakerExtnChunk(c, s) },
             // SOND
             // AGRP
             // SPRT
