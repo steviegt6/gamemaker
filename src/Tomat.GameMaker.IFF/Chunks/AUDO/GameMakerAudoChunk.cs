@@ -13,18 +13,15 @@ public sealed class GameMakerAudoChunk : AbstractChunk {
     public GameMakerAudoChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        Audio = context.ReadPointerList<GameMakerAudio>(null, null, null);
+        Audio = context.ReadPointerList<GameMakerAudio>();
     }
 
     public override void Write(SerializationContext context) {
         context.WritePointerList(
             Audio!,
-            (ctx, _, _) => {
+            beforeWriter: (ctx, _, _) => {
                 ctx.Writer.Pad(4);
-            },
-            null,
-            null,
-            null
+            }
         );
     }
 }

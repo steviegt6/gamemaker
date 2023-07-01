@@ -27,7 +27,7 @@ public static class DeserializationContextExtensions {
         return ptr;
     }
 
-    public static List<GameMakerPointer<T>> ReadPointerList<T>(this DeserializationContext context, ListRead? beforeRead, ListRead? afterRead, ListElementRead<T>? elementReader)
+    public static List<GameMakerPointer<T>> ReadPointerList<T>(this DeserializationContext context, ListRead? beforeRead = null, ListRead? afterRead = null, ListElementRead<T>? elementReader = null)
         where T : IGameMakerSerializable, new() {
         elementReader ??= (ctx, _) => ctx.ReadPointerAndObject<T>(ctx.Reader.ReadInt32(), returnAfter: true);
 

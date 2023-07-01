@@ -14,9 +14,7 @@ public sealed class GameMakerStrgChunk : AbstractChunk {
 
     public override void Read(DeserializationContext context) {
         Strings = context.ReadPointerList<GameMakerString>(
-            null,
-            null,
-            (ctx, _) => {
+            elementReader: (ctx, _) => {
                 var addr = ctx.Reader.ReadInt32();
 
                 if (ctx.Reader.Position % ctx.VersionInfo.StringAlignment != 0)
@@ -30,12 +28,10 @@ public sealed class GameMakerStrgChunk : AbstractChunk {
     public override void Write(SerializationContext context) {
         context.WritePointerList(
             Strings!,
-            (ctx, _, _) => {
+            beforeWriter: (ctx, _, _) => {
                 ctx.Writer.Pad(ctx.VersionInfo.StringAlignment);
             },
-            null,
-            null,
-            (ctx, element) => {
+            elementPointerWriter: (ctx, element) => {
                 ctx.Writer.Write(element, useTypeOffset: false);
             }
         );

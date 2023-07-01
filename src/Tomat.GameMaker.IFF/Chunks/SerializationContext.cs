@@ -21,8 +21,14 @@ public static class SerializationContextExtensions {
 
     public delegate void ListElementWrite<T>(SerializationContext context, GameMakerPointer<T> element) where T : IGameMakerSerializable, new();
 
-    public static void WritePointerList<T>(this SerializationContext context, List<GameMakerPointer<T>> list, ListWrite? beforeWriter, ListWrite? afterWriter, ListElementWrite<T>? elementWriter, ListElementWrite<T>? elementPointerWriter)
-        where T : IGameMakerSerializable, new() {
+    public static void WritePointerList<T>(
+        this SerializationContext context,
+        List<GameMakerPointer<T>> list,
+        ListWrite? beforeWriter = null,
+        ListWrite? afterWriter = null,
+        ListElementWrite<T>? elementWriter = null,
+        ListElementWrite<T>? elementPointerWriter = null
+    ) where T : IGameMakerSerializable, new() {
         context.Writer.Write(list.Count);
 
         // Write pointers.
