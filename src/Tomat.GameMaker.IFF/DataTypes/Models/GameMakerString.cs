@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.Chunks.Contexts;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models;
 

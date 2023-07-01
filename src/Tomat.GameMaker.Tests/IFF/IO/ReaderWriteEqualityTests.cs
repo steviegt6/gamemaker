@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using Tomat.GameMaker.IFF;
-using Tomat.GameMaker.IFF.Chunks.Contexts;
+using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.Tests.IFF.IO;

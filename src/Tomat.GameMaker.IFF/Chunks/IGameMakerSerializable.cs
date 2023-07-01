@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks.Contexts;
-
-namespace Tomat.GameMaker.IFF.Chunks;
+﻿namespace Tomat.GameMaker.IFF.Chunks;
 
 /// <summary>
 ///     Represents an arbitrary piece of data that can be serialized to and from

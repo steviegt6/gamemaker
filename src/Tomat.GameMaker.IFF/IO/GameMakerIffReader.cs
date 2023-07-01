@@ -5,7 +5,6 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.Chunks.Contexts;
 using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models;
 

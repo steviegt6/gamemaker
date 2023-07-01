@@ -1,6 +1,6 @@
 ﻿using Tomat.GameMaker.IFF.IO;
 
-namespace Tomat.GameMaker.IFF.Chunks.Contexts;
+namespace Tomat.GameMaker.IFF.Chunks;
 
 /// <summary>
 ///     Represents a context for serializing data to a GameMaker IFF file.

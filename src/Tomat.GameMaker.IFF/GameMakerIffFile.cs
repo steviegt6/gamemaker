@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.Chunks.Contexts;
 using Tomat.GameMaker.IFF.Chunks.FORM;
 using Tomat.GameMaker.IFF.IO;
 
