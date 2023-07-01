@@ -20,13 +20,13 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
     private GameMakerPointerList<GameMakerExtensionFile>? files = null;
 
     public void Read(DeserializationContext context) {
-        EmptyString = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
-        Name = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
-        ClassName = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        EmptyString = context.ReadPointerAndObject<GameMakerString>();
+        Name = context.ReadPointerAndObject<GameMakerString>();
+        ClassName = context.ReadPointerAndObject<GameMakerString>();
 
         if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2022_6) {
-            filesPointer = context.ReadPointerAndObject<GameMakerPointerList<GameMakerExtensionFile>>(context.Reader.ReadInt32(), returnAfter: true);
-            Options = context.ReadPointerAndObject<GameMakerPointerList<GameMakerExtensionOption>>(context.Reader.ReadInt32(), returnAfter: true);
+            filesPointer = context.ReadPointerAndObject<GameMakerPointerList<GameMakerExtensionFile>>();
+            Options = context.ReadPointerAndObject<GameMakerPointerList<GameMakerExtensionOption>>();
         }
         else {
             files = new GameMakerPointerList<GameMakerExtensionFile>();

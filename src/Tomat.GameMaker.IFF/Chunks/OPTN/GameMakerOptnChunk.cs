@@ -50,9 +50,9 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
             Frequency = context.Reader.ReadUInt32();
             VertexSync = context.Reader.ReadUInt32();
             Priority = context.Reader.ReadUInt32();
-            SplashBackImage = context.ReadPointerAndObject<GameMakerTextureItem>(context.Reader.ReadInt32(), returnAfter: true);
-            SplashFrontImage = context.ReadPointerAndObject<GameMakerTextureItem>(context.Reader.ReadInt32(), returnAfter: true);
-            SplashLoadImage = context.ReadPointerAndObject<GameMakerTextureItem>(context.Reader.ReadInt32(), returnAfter: true);
+            SplashBackImage = context.ReadPointerAndObject<GameMakerTextureItem>();
+            SplashFrontImage = context.ReadPointerAndObject<GameMakerTextureItem>();
+            SplashLoadImage = context.ReadPointerAndObject<GameMakerTextureItem>();
             LoadAlpha = context.Reader.ReadUInt32();
         }
         else {
@@ -81,9 +81,9 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
             Priority = context.Reader.ReadUInt32();
             ReadOptionFlag(context, OptnOptionFlags.Freeze);
             ReadOptionFlag(context, OptnOptionFlags.ShowProgress);
-            SplashBackImage = context.ReadPointerAndObject<GameMakerTextureItem>(context.Reader.ReadInt32(), returnAfter: true);
-            SplashFrontImage = context.ReadPointerAndObject<GameMakerTextureItem>(context.Reader.ReadInt32(), returnAfter: true);
-            SplashLoadImage = context.ReadPointerAndObject<GameMakerTextureItem>(context.Reader.ReadInt32(), returnAfter: true);
+            SplashBackImage = context.ReadPointerAndObject<GameMakerTextureItem>();
+            SplashFrontImage = context.ReadPointerAndObject<GameMakerTextureItem>();
+            SplashLoadImage = context.ReadPointerAndObject<GameMakerTextureItem>();
             ReadOptionFlag(context, OptnOptionFlags.LoadTransparent);
             LoadAlpha = context.Reader.ReadUInt32();
             ReadOptionFlag(context, OptnOptionFlags.ScaleProgress);

@@ -14,9 +14,9 @@ public sealed class GameMakerExtensionFile : IGameMakerSerializable {
     public GameMakerPointerList<GameMakerExtensionFunction>? Functions { get; set; }
 
     public void Read(DeserializationContext context) {
-        FileName = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
-        FinalFunction = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
-        InitFunction = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        FileName = context.ReadPointerAndObject<GameMakerString>();
+        FinalFunction = context.ReadPointerAndObject<GameMakerString>();
+        InitFunction = context.ReadPointerAndObject<GameMakerString>();
         ExtensionKind = (GameMakerExtensionKind)context.Reader.ReadUInt32();
         Functions = new GameMakerPointerList<GameMakerExtensionFunction>();
         Functions.Read(context);

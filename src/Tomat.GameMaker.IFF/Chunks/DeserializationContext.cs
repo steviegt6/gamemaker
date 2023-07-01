@@ -16,9 +16,13 @@ namespace Tomat.GameMaker.IFF.Chunks;
 public sealed record DeserializationContext(GameMakerIffReader Reader, GameMakerIffFile IffFile, GameMakerVersionInfo VersionInfo);
 
 public static class DeserializationContextExtensions {
-    public static GameMakerPointer<T> ReadPointerAndObject<T>(this DeserializationContext context, int addr, bool returnAfter, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
+    public static GameMakerPointer<T> ReadPointerAndObject<T>(this DeserializationContext context, int addr, bool returnAfter = true, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
         var ptr = context.Reader.ReadPointer<T>(addr, useTypeOffset);
         ptr.ReadObject(context, returnAfter);
         return ptr;
+    }
+    
+    public static GameMakerPointer<T> ReadPointerAndObject<T>(this DeserializationContext context, bool returnAfter = true, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
+        return context.ReadPointerAndObject<T>(context.Reader.ReadInt32(), returnAfter, useTypeOffset);
     }
 }

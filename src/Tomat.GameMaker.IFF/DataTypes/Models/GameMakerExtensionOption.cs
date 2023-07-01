@@ -10,8 +10,8 @@ public sealed class GameMakerExtensionOption : IGameMakerSerializable {
     public GameMakerExtensionOptionKind OptionKind { get; set; }
 
     public void Read(DeserializationContext context) {
-        Name = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
-        Value = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        Name = context.ReadPointerAndObject<GameMakerString>();
+        Value = context.ReadPointerAndObject<GameMakerString>();
         OptionKind = (GameMakerExtensionOptionKind)context.Reader.ReadUInt32();
     }
 

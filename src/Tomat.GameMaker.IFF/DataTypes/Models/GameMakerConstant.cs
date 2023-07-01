@@ -8,8 +8,8 @@ public sealed class GameMakerConstant : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> Value { get; set; }
 
     public void Read(DeserializationContext context) {
-        Name = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
-        Value = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        Name = context.ReadPointerAndObject<GameMakerString>();
+        Value = context.ReadPointerAndObject<GameMakerString>();
     }
 
     public void Write(SerializationContext context) {

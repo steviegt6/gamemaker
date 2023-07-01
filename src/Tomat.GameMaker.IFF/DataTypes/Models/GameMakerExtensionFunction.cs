@@ -17,11 +17,11 @@ public sealed class GameMakerExtensionFunction : IGameMakerSerializable {
     public List<GameMakerExtensionValueType>? ArgumentTypes { get; set; }
 
     public void Read(DeserializationContext context) {
-        Name = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        Name = context.ReadPointerAndObject<GameMakerString>();
         Id = context.Reader.ReadInt32();
         FunctionKind = context.Reader.ReadInt32();
         ReturnType = (GameMakerExtensionValueType)context.Reader.ReadInt32();
-        ExternalName = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        ExternalName = context.ReadPointerAndObject<GameMakerString>();
         
         ArgumentTypes = new List<GameMakerExtensionValueType>();
         var argumentCount = context.Reader.ReadInt32();

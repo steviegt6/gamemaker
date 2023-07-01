@@ -35,10 +35,10 @@ public sealed class GameMakerSound : IGameMakerSerializable {
     public bool Preload { get; set; }
 
     public void Read(DeserializationContext context) {
-        Name = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        Name = context.ReadPointerAndObject<GameMakerString>();
         AudioEntryFlags = (GameMakerSoundAudioEntryFlags)context.Reader.ReadUInt32();
-        AudioType = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
-        AudioFileName = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        AudioType = context.ReadPointerAndObject<GameMakerString>();
+        AudioFileName = context.ReadPointerAndObject<GameMakerString>();
         AudioEffects = context.Reader.ReadUInt32();
         Volume = context.Reader.ReadSingle();
         Pitch = context.Reader.ReadSingle();

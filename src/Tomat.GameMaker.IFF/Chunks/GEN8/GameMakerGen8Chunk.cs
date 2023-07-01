@@ -75,13 +75,13 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         DisableDebug = context.Reader.ReadBoolean(wide: false);
         context.VersionInfo.FormatId = FormatId = context.Reader.ReadByte();
         UnknownInt16 = context.Reader.ReadInt16();
-        FileName = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
-        Config = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        FileName = context.ReadPointerAndObject<GameMakerString>();
+        Config = context.ReadPointerAndObject<GameMakerString>();
         LastObjectId = context.Reader.ReadInt32();
         LastTileId = context.Reader.ReadInt32();
         GameId = context.Reader.ReadInt32();
         LegacyGuid = context.Reader.ReadGuid();
-        GameName = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        GameName = context.ReadPointerAndObject<GameMakerString>();
         MajorVersion = context.Reader.ReadInt32();
         MinorVersion = context.Reader.ReadInt32();
         ReleaseVersion = context.Reader.ReadInt32();
@@ -93,7 +93,7 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         LicenseCrc32 = context.Reader.ReadInt32();
         LicenseMd5 = context.Reader.ReadBytes(16);
         Timestamp = context.Reader.ReadInt64();
-        DisplayName = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        DisplayName = context.ReadPointerAndObject<GameMakerString>();
         ActiveTargets = context.Reader.ReadInt64();
         FunctionClassifications = (Gen8FunctionClassification)context.Reader.ReadInt64();
         SteamAppId = context.Reader.ReadInt32();

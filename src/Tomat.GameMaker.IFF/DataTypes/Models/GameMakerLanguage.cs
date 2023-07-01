@@ -17,12 +17,12 @@ public sealed class GameMakerLanguage : IGameMakerSerializable {
     }
 
     public void Read(DeserializationContext context) {
-        Name = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
-        Region = context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true);
+        Name = context.ReadPointerAndObject<GameMakerString>();
+        Region = context.ReadPointerAndObject<GameMakerString>();
 
         Entries = new List<GameMakerPointer<GameMakerString>>();
         for (var i = 0; i < entryCount; i++)
-            Entries.Add(context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true));
+            Entries.Add(context.ReadPointerAndObject<GameMakerString>());
     }
 
     public void Write(SerializationContext context) {

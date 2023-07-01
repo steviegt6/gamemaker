@@ -26,7 +26,7 @@ public sealed class GameMakerLangChunk : AbstractChunk {
 
         EntryIds = new List<GameMakerPointer<GameMakerString>>();
         for (var i = 0; i < EntryCount; i++)
-            EntryIds.Add(context.ReadPointerAndObject<GameMakerString>(context.Reader.ReadInt32(), returnAfter: true));
+            EntryIds.Add(context.ReadPointerAndObject<GameMakerString>());
 
         Languages = new List<GameMakerLanguage>();
 

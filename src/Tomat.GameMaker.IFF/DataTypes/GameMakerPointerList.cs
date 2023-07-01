@@ -18,7 +18,7 @@ public sealed class GameMakerPointerList<T> : List<GameMakerPointer<T>>,
     }
 
     public void Read(DeserializationContext context, ListRead? beforeRead = null, ListRead? afterRead = null, ListElementRead? elementReader = null) {
-        elementReader ??= (ctx, _) => ctx.ReadPointerAndObject<T>(ctx.Reader.ReadInt32(), returnAfter: true);
+        elementReader ??= (ctx, _) => ctx.ReadPointerAndObject<T>();
 
         var count = context.Reader.ReadInt32();
         Capacity = count;
