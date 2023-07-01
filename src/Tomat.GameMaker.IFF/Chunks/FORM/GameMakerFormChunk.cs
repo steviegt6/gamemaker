@@ -7,6 +7,7 @@ using Tomat.GameMaker.IFF.Chunks.GEN8;
 using Tomat.GameMaker.IFF.Chunks.LANG;
 using Tomat.GameMaker.IFF.Chunks.OPTN;
 using Tomat.GameMaker.IFF.Chunks.SOND;
+using Tomat.GameMaker.IFF.Chunks.SPRT;
 using Tomat.GameMaker.IFF.Chunks.STRG;
 using Tomat.GameMaker.IFF.IO;
 
@@ -41,7 +42,7 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
             { GameMakerExtnChunk.NAME, (c, s) => new GameMakerExtnChunk(c, s) },
             { GameMakerSondChunk.NAME, (c, s) => new GameMakerSondChunk(c, s) },
             { GameMakerAgrpChunk.NAME, (c, s) => new GameMakerAgrpChunk(c, s) },
-            // SPRT
+            { GameMakerSprtChunk.NAME, (c, s) => new GameMakerSprtChunk(c, s) },
             // BGND
             // PATH
             // SCPT

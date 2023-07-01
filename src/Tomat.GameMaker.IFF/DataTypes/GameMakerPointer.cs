@@ -11,6 +11,8 @@ namespace Tomat.GameMaker.IFF.DataTypes;
 /// </summary>
 /// <typeparam name="T">The GameMaker object type.</typeparam>
 public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
+    public static readonly GameMakerPointer<T> NULL = new();
+
     /// <summary>
     ///     The offset of the pointer. This is currently only used by GameMaker
     ///     strings (<see cref="GameMakerString"/>), which are offset by four
