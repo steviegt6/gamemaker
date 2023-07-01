@@ -118,6 +118,13 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
     }
 
     public GameMakerPointer<T> ReadPointer<T>(int addr, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
+        // FIX: If address is zero (null), just return a default (null) pointer.
+        // This placement is only particularly important for GameMaker objects
+        // with expected pointer offsets (e.g. GameMakerString), the original
+        // check further below would have worked fine for other objects.
+        if (addr == 0)
+            return new GameMakerPointer<T>();
+        
         if (useTypeOffset)
             addr -= GameMakerPointer.GetPointerOffset(typeof(T));
 
@@ -125,8 +132,8 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
             Address = addr,
         };
 
-        if (addr == 0)
-            return ptr;
+        // if (addr == 0)
+        //     return ptr;
 
         if (Pointers.TryGetValue(addr, out var obj)) {
             ptr.Object = (T)obj;

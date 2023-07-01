@@ -29,6 +29,11 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
     ///     <see cref="ReadObject"/> has been called.
     /// </summary>
     public T? Object { get; set; }
+    
+    /// <summary>
+    ///     Whether the pointer is null.
+    /// </summary>
+    public bool IsNull => Address == 0;
 
     public void ReadObject(DeserializationContext context, bool returnAfter) {
         if (Address == 0) {
