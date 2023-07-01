@@ -36,7 +36,7 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
     public bool IsNull => Address == 0;
 
     public void ReadObject(DeserializationContext context, bool returnAfter) {
-        if (Address == 0) {
+        if (IsNull) {
             Object = default;
             return;
         }
