@@ -19,7 +19,7 @@ public sealed record DeserializationContext(GameMakerIffReader Reader, GameMaker
 public static class DeserializationContextExtensions {
     public delegate void ListRead(DeserializationContext context, int index, int count);
 
-    public delegate GameMakerPointer<T> ListElementRead<T>(DeserializationContext context, bool notLast) where T : IGameMakerSerializable, new();
+    public delegate T ListElementRead<T>(DeserializationContext context, bool notLast);
 
     public static GameMakerPointer<T> ReadPointerAndObject<T>(this DeserializationContext context, int addr, bool returnAfter, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
         var ptr = context.Reader.ReadPointer<T>(addr, useTypeOffset);
@@ -27,7 +27,32 @@ public static class DeserializationContextExtensions {
         return ptr;
     }
 
-    public static List<GameMakerPointer<T>> ReadPointerList<T>(this DeserializationContext context, ListRead? beforeRead = null, ListRead? afterRead = null, ListElementRead<T>? elementReader = null)
+    public static List<T> ReadList<T>(this DeserializationContext context, ListRead? beforeRead = null, ListRead? afterRead = null, ListElementRead<T>? elementReader = null) where T : IGameMakerSerializable, new() {
+        var count = context.Reader.ReadInt32();
+        var list = new List<T>(count);
+
+        for (var i = 0; i < count; i++) {
+            beforeRead?.Invoke(context, i, count);
+
+            T elem;
+
+            if (elementReader is null) {
+                elem = new T();
+                elem.Read(context);
+            }
+            else {
+                elem = elementReader(context, i != count - 1);
+            }
+
+            list.Add(elem);
+
+            afterRead?.Invoke(context, i, count);
+        }
+        
+        return list;
+    }
+
+    public static List<GameMakerPointer<T>> ReadPointerList<T>(this DeserializationContext context, ListRead? beforeRead = null, ListRead? afterRead = null, ListElementRead<GameMakerPointer<T>>? elementReader = null)
         where T : IGameMakerSerializable, new() {
         elementReader ??= (ctx, _) => ctx.ReadPointerAndObject<T>(ctx.Reader.ReadInt32(), returnAfter: true);
 

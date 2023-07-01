@@ -19,15 +19,30 @@ public sealed record SerializationContext(GameMakerIffWriter Writer, GameMakerIf
 public static class SerializationContextExtensions {
     public delegate void ListWrite(SerializationContext context, int index, int count);
 
-    public delegate void ListElementWrite<T>(SerializationContext context, GameMakerPointer<T> element) where T : IGameMakerSerializable, new();
+    public delegate void ListElementWrite<T>(SerializationContext context, T element);
+
+    public static void WriteList<T>(this SerializationContext context, List<T> list, ListWrite? beforeWrite = null, ListWrite? afterWrite = null, ListElementWrite<T>? elementWriter = null) where T : IGameMakerSerializable, new() {
+        context.Writer.Write(list.Count);
+
+        for (var i = 0; i < list.Count; i++) {
+            beforeWrite?.Invoke(context, i, list.Count);
+
+            if (elementWriter is null)
+                list[i].Write(context);
+            else
+                elementWriter.Invoke(context, list[i]);
+
+            afterWrite?.Invoke(context, i, list.Count);
+        }
+    }
 
     public static void WritePointerList<T>(
         this SerializationContext context,
         List<GameMakerPointer<T>> list,
         ListWrite? beforeWriter = null,
         ListWrite? afterWriter = null,
-        ListElementWrite<T>? elementWriter = null,
-        ListElementWrite<T>? elementPointerWriter = null
+        ListElementWrite<GameMakerPointer<T>>? elementWriter = null,
+        ListElementWrite<GameMakerPointer<T>>? elementPointerWriter = null
     ) where T : IGameMakerSerializable, new() {
         context.Writer.Write(list.Count);
 
