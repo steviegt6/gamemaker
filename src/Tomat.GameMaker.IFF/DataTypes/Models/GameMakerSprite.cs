@@ -277,7 +277,7 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
 
         // Pad to 4 bytes.
         if (total % 4 != 0)
-            context.Writer.Pad(4 - (total % 4));
+            total += 4 - (total % 4);
         context.Writer.Pad(4);
 
         var totalBits = (Width + 7) / 8 * 8 * Height * CollisionMasks.Count;
