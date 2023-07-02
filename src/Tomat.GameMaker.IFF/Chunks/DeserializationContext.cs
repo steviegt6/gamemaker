@@ -18,7 +18,7 @@ public sealed record DeserializationContext(GameMakerIffReader Reader, GameMaker
 public static class DeserializationContextExtensions {
     public static GameMakerPointer<T> ReadPointerAndObject<T>(this DeserializationContext context, int addr, bool returnAfter = true, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
         var ptr = context.Reader.ReadPointer<T>(addr, useTypeOffset);
-        ptr.ReadObject(context, returnAfter);
+        ptr.ReadPointer(context, returnAfter);
         return ptr;
     }
 

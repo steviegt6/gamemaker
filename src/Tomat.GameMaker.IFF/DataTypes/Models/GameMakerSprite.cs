@@ -230,14 +230,12 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
 
             if (Sequence is { IsNull: false, Object: { } }) {
                 context.Writer.Pad(4);
-                Sequence.WriteObject(context);
-                Sequence.Object.Write(context);
+                context.MarkPointerAndWriteObject(Sequence);
             }
 
             if (NineSlice is { IsNull: false, Object: { } }) {
                 context.Writer.Pad(4);
-                NineSlice.WriteObject(context);
-                NineSlice.Object.Write(context);
+                context.MarkPointerAndWriteObject(NineSlice);
             }
         }
         else {

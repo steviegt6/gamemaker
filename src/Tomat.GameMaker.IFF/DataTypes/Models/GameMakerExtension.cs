@@ -42,10 +42,8 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
         if (context.VersionInfo.IsAtLeast(GM_2022_6)) {
             context.Writer.Write(filesPointer!.Value);
             context.Writer.Write(Options);
-            filesPointer.Value.WriteObject(context);
-            filesPointer.Value.ExpectObject().Write(context);
-            Options.WriteObject(context);
-            Options.ExpectObject().Write(context);
+            context.MarkPointerAndWriteObject(filesPointer.Value);
+            context.MarkPointerAndWriteObject(Options);
         }
         else {
             Files!.Write(context);

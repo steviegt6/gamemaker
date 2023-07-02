@@ -49,13 +49,10 @@ public sealed class GameMakerPointerList<T> : List<GameMakerPointer<T>>,
         for (var i = 0; i < Count; i++) {
             beforeWriter?.Invoke(context, i, Count);
 
-            if (elementWriter is null) {
-                this[i].WriteObject(context);
-                this[i].ExpectObject().Write(context);
-            }
-            else {
+            if (elementWriter is null)
+                context.MarkPointerAndWriteObject(this[i]);
+            else
                 elementWriter.Invoke(context, this[i]);
-            }
 
             afterWriter?.Invoke(context, i, this.Count);
         }

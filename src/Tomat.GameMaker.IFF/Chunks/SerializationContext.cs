@@ -1,4 +1,6 @@
-﻿using Tomat.GameMaker.IFF.IO;
+﻿using System;
+using Tomat.GameMaker.IFF.DataTypes;
+using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks;
 
@@ -14,4 +16,15 @@ namespace Tomat.GameMaker.IFF.Chunks;
 /// </param>
 public sealed record SerializationContext(GameMakerIffWriter Writer, GameMakerIffFile IffFile, GameMakerVersionInfo VersionInfo);
 
-// public static class SerializationContextExtensions { }
+public static class SerializationContextExtensions {
+    public static void MarkPointerAndWriteObject<T>(this SerializationContext context, GameMakerPointer<T> pointer) where T : IGameMakerSerializable, new() {
+        if (pointer.IsNull)
+            throw new InvalidOperationException("Pointer is null.");
+
+        if (pointer.Object is null)
+            throw new InvalidOperationException("Pointer has not been read or its object was incorrectly set to null.");
+
+        pointer.WriteObject(context);
+        pointer.ExpectObject().Write(context);
+    }
+}
