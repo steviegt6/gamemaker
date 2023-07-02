@@ -19,7 +19,7 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
     ///     bytes since the game points directly to the string contents,
     ///     skipping the 4-byte integer denoting its length.
     /// </summary>
-    public int PointerOffset => GameMakerPointer.GetPointerOffset(typeof(T));
+    public int PointerOffset => GameMakerPointerExtensions.GetPointerOffset(typeof(T));
 
     /// <summary>
     ///     The address of the object in the GameMaker IFF file.
@@ -68,8 +68,18 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
     }
 }
 
-public static class GameMakerPointer {
+public static class GameMakerPointerExtensions {
     public static int GetPointerOffset(Type type) {
         return type == typeof(GameMakerString) ? 4 : 0;
+    }
+    
+    public static T ExpectObject<T>(this GameMakerPointer<T> pointer) where T : IGameMakerSerializable, new() {
+        if (pointer.IsNull)
+            throw new InvalidOperationException("Pointer is null.");
+        
+        if (pointer.Object is null)
+            throw new InvalidOperationException("Pointer has not been read.");
+
+        return pointer.Object;
     }
 }

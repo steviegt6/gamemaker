@@ -47,7 +47,7 @@ public sealed class GameMakerTrack : IGameMakerSerializable {
             var str = context.ReadPointerAndObject<GameMakerString>();
             OwnedResourceTypes.Add(str);
 
-            switch (str.Object!.Value) {
+            switch (str.ExpectObject().Value) {
                 case "GMAnimCurve":
                     var curve = new GameMakerAnimationCurve();
                     curve.Read(context);
@@ -55,7 +55,7 @@ public sealed class GameMakerTrack : IGameMakerSerializable {
                     break;
 
                 default:
-                    throw new InvalidDataException("Unknown owned resource type: " + str.Object!.Value);
+                    throw new InvalidDataException("Unknown owned resource type: " + str.ExpectObject().Value);
             }
         }
 
@@ -67,7 +67,7 @@ public sealed class GameMakerTrack : IGameMakerSerializable {
             Tracks.Add(track);
         }
 
-        switch (ModelName.Object!.Value) {
+        switch (ModelName.ExpectObject().Value) {
             case "GMAudioTrack":
                 var keyframes = new GameMakerTrackAudioKeyframes();
                 keyframes.Read(context);
@@ -107,7 +107,7 @@ public sealed class GameMakerTrack : IGameMakerSerializable {
                 break;
 
             default:
-                throw new InvalidDataException("Unknown track type: " + ModelName.Object!.Value);
+                throw new InvalidDataException("Unknown track type: " + ModelName.ExpectObject().Value);
         }
     }
 
@@ -133,7 +133,7 @@ public sealed class GameMakerTrack : IGameMakerSerializable {
         foreach (var track in Tracks)
             track.Write(context);
 
-        switch (ModelName.Object!.Value) {
+        switch (ModelName.ExpectObject().Value) {
             case "GMAudioTrack":
             //
             case "GMInstanceTrack":
@@ -155,7 +155,7 @@ public sealed class GameMakerTrack : IGameMakerSerializable {
                 break;
 
             default:
-                throw new InvalidDataException("Unknown track type: " + ModelName.Object!.Value);
+                throw new InvalidDataException("Unknown track type: " + ModelName.ExpectObject().Value);
         }
     }
 }

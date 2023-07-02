@@ -41,7 +41,7 @@ public sealed class GameMakerTexturePage : IGameMakerSerializable {
             context.Writer.Write(GeneratedMips);
 
         if (context.VersionInfo.IsAtLeast(GM_2022_3)) {
-            TextureData.Object!.LengthOffset = context.Writer.Position;
+            TextureData.ExpectObject().LengthOffset = context.Writer.Position;
             context.Writer.Write(0); // Skip data length.
         }
         

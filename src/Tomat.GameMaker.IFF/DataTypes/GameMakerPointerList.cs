@@ -51,7 +51,7 @@ public sealed class GameMakerPointerList<T> : List<GameMakerPointer<T>>,
 
             if (elementWriter is null) {
                 this[i].WriteObject(context);
-                this[i].Object!.Write(context);
+                this[i].ExpectObject().Write(context);
             }
             else {
                 elementWriter.Invoke(context, this[i]);

@@ -21,7 +21,7 @@ public sealed class GameMakerExtnChunk : AbstractChunk {
             return;
 
         foreach (var extension in Extensions)
-            extension.Object!.ProductId = context.Reader.ReadGuid();
+            extension.ExpectObject().ProductId = context.Reader.ReadGuid();
     }
 
     public override void Write(SerializationContext context) {

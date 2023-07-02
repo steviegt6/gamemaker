@@ -22,7 +22,7 @@ public sealed class GameMakerTxtrChunk : AbstractChunk {
     public override void Write(SerializationContext context) {
         TexturePages!.Write(context);
         foreach (var page in TexturePages)
-            page.Object!.TextureData.Object!.Write(context);
+            page.ExpectObject().TextureData.ExpectObject().Write(context);
 
         context.Writer.Pad(4);
     }

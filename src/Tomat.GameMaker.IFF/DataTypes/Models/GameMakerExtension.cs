@@ -43,9 +43,9 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
             context.Writer.Write(filesPointer!.Value);
             context.Writer.Write(Options);
             filesPointer.Value.WriteObject(context);
-            filesPointer.Value.Object!.Write(context);
+            filesPointer.Value.ExpectObject().Write(context);
             Options.WriteObject(context);
-            Options.Object!.Write(context);
+            Options.ExpectObject().Write(context);
         }
         else {
             Files!.Write(context);

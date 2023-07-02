@@ -161,7 +161,7 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
             kvp => {
                 if (Pointers.TryGetValue(kvp.Key, out var ptr)) {
                     foreach (var addr in kvp.Value)
-                        this.WriteAt(addr.Item1, ptr + (addr.Item2 ? GameMakerPointer.GetPointerOffset(kvp.Key.GetType()) : 0));
+                        this.WriteAt(addr.Item1, ptr + (addr.Item2 ? GameMakerPointerExtensions.GetPointerOffset(kvp.Key.GetType()) : 0));
                 }
                 else {
                     foreach (var addr in kvp.Value)

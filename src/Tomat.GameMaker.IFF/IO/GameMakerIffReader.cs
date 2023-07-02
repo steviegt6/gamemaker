@@ -126,7 +126,7 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
             return new GameMakerPointer<T>();
         
         if (useTypeOffset)
-            addr -= GameMakerPointer.GetPointerOffset(typeof(T));
+            addr -= GameMakerPointerExtensions.GetPointerOffset(typeof(T));
 
         var ptr = new GameMakerPointer<T> {
             Address = addr,
