@@ -35,4 +35,8 @@ public sealed class GameMakerString : IGameMakerSerializable {
         context.Writer.Write(context.Writer.Encoding.GetBytes(Value));
         context.Writer.Write((byte)0); // Null terminator.
     }
+
+    public override string? ToString() {
+        return Value;
+    }
 }
