@@ -17,17 +17,7 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
 
     public byte[] Data { get; }
 
-    public int Position {
-        get => pos;
-
-        set {
-            pos = value;
-            if (value is >= 604 and < 608)
-                ;
-        }
-    }
-
-    private int pos;
+    public int Position { get; set; }
 
     public int Length => Data.Length;
 
