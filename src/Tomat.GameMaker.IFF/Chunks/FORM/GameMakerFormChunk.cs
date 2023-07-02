@@ -9,6 +9,7 @@ using Tomat.GameMaker.IFF.Chunks.OPTN;
 using Tomat.GameMaker.IFF.Chunks.SOND;
 using Tomat.GameMaker.IFF.Chunks.SPRT;
 using Tomat.GameMaker.IFF.Chunks.STRG;
+using Tomat.GameMaker.IFF.Chunks.TXTR;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.FORM;
@@ -65,7 +66,7 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
             // FUNC
             // FEAT
             { GameMakerStrgChunk.NAME, (c, s) => new GameMakerStrgChunk(c, s) },
-            // TXTR
+            { GameMakerTxtrChunk.NAME, (c, s) => new GameMakerTxtrChunk(c, s) },
             { GameMakerAudoChunk.NAME, (c, s) => new GameMakerAudoChunk(c, s) },
         };
         DefaultChunkFactory = (c, s) => new GameMakerUnknownChunk(c, s);
