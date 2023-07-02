@@ -66,6 +66,10 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
 
         context.Writer.Pointers[Object] = context.Writer.Position;
     }
+
+    public override string? ToString() {
+        return Object is null ? "<null object>" : Object.ToString();
+    }
 }
 
 public static class GameMakerPointerExtensions {
