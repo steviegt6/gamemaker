@@ -6,7 +6,7 @@ namespace Tomat.GameMaker.Tests.IFF.DataTypes;
 public static class Int24Tests {
     // TODO: Figure out a clean way to check if these values remain equal in the
     // event of an overflow.
-    
+
     [TestCase(Int24.MIN_VALUE)]
     [TestCase(-1)]
     [TestCase((int)UInt24.MIN_VALUE)]

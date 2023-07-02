@@ -4,7 +4,7 @@ using Tomat.GameMaker.IFF.Chunks;
 namespace Tomat.GameMaker.IFF.DataTypes;
 
 public sealed class GameMakerRemotePointerList<T> : List<GameMakerPointer<T>>,
-                                              IGameMakerSerializable where T : IGameMakerSerializable, new() {
+                                                    IGameMakerSerializable where T : IGameMakerSerializable, new() {
     public delegate void ListRead(DeserializationContext context, int index, int count);
 
     public delegate GameMakerPointer<T> ListElementRead(DeserializationContext context, bool notLast);

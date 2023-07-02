@@ -36,7 +36,7 @@ public sealed class GameMakerTexturePage : IGameMakerSerializable {
 
     public void Write(SerializationContext context) {
         context.Writer.Write(Scaled);
-        
+
         if (context.VersionInfo.IsAtLeast(GM_2))
             context.Writer.Write(GeneratedMips);
 
@@ -44,13 +44,13 @@ public sealed class GameMakerTexturePage : IGameMakerSerializable {
             TextureData.ExpectObject().LengthOffset = context.Writer.Position;
             context.Writer.Write(0); // Skip data length.
         }
-        
+
         if (context.VersionInfo.IsAtLeast(GM_2022_9)) {
             context.Writer.Write(TextureWidth);
             context.Writer.Write(TextureHeight);
             context.Writer.Write(IndexInGroup);
         }
-        
+
         context.Writer.Write(TextureData);
     }
 }

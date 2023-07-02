@@ -2,6 +2,9 @@
 
 namespace Tomat.GameMaker.IFF;
 
+/// <summary>
+///     Well-known GameMaker versions.
+/// </summary>
 public enum GameMakerWellKnownVersion {
     GM_1_0_0_9999,
     GM_2,

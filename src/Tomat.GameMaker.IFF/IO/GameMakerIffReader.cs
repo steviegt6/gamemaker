@@ -124,7 +124,7 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
         // check further below would have worked fine for other objects.
         if (addr == 0)
             return new GameMakerPointer<T>();
-        
+
         if (useTypeOffset)
             addr -= GameMakerPointerExtensions.GetPointerOffset(typeof(T));
 

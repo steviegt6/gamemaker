@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Tomat.GameMaker.IFF.Chunks;
 
-namespace Tomat.GameMaker.IFF.DataTypes.Models; 
+namespace Tomat.GameMaker.IFF.DataTypes.Models;
 
 public sealed class GameMakerExtensionFunction : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> Name { get; set; }
@@ -22,7 +22,7 @@ public sealed class GameMakerExtensionFunction : IGameMakerSerializable {
         FunctionKind = context.Reader.ReadInt32();
         ReturnType = (GameMakerExtensionValueType)context.Reader.ReadInt32();
         ExternalName = context.ReadPointerAndObject<GameMakerString>();
-        
+
         ArgumentTypes = new List<GameMakerExtensionValueType>();
         var argumentCount = context.Reader.ReadInt32();
         for (var i = 0; i < argumentCount; i++)
@@ -35,7 +35,7 @@ public sealed class GameMakerExtensionFunction : IGameMakerSerializable {
         context.Writer.Write(FunctionKind);
         context.Writer.Write((int)ReturnType);
         context.Writer.Write(ExternalName);
-        
+
         context.Writer.Write(ArgumentTypes!.Count);
         foreach (var argumentType in ArgumentTypes)
             context.Writer.Write((uint)argumentType);

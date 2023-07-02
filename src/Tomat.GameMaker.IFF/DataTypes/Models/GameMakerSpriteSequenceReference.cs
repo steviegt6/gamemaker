@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Tomat.GameMaker.IFF.Chunks;
 
-namespace Tomat.GameMaker.IFF.DataTypes.Models; 
+namespace Tomat.GameMaker.IFF.DataTypes.Models;
 
 public sealed class GameMakerSpriteSequenceReference : IGameMakerSerializable {
     public int Version { get; set; }
@@ -12,7 +12,7 @@ public sealed class GameMakerSpriteSequenceReference : IGameMakerSerializable {
         Version = context.Reader.ReadInt32();
         if (Version != 1)
             throw new InvalidDataException($"Expected version 1, got {Version}.");
-        
+
         Sequence = new GameMakerSequence();
         Sequence.Read(context);
     }

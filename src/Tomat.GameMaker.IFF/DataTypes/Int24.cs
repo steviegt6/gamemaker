@@ -22,7 +22,7 @@ public readonly struct Int24  {
     ///     Represents the minimum value of the data type.
     /// </summary>
     public static Int24 MinValue => MIN_VALUE;
-    
+
     public const int MAX_VALUE = 8388607;
     public const int MIN_VALUE = -8388608;
 

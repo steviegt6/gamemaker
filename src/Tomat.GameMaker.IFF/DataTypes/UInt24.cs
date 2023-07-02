@@ -22,7 +22,7 @@ public readonly struct UInt24  {
     ///     Represents the minimum value of the data type.
     /// </summary>
     public static UInt24 MinValue => MIN_VALUE;
-    
+
     public const uint MAX_VALUE = 16777215;
     public const uint MIN_VALUE = 0;
 

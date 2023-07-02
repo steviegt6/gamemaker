@@ -6,7 +6,7 @@ namespace Tomat.GameMaker.IFF.Chunks.LANG;
 
 public sealed class GameMakerLangChunk : AbstractChunk {
     public const string NAME = "LANG";
-    
+
     public int UnknownInt32 { get; set; }
 
     public int LanguageCount { get; set; }

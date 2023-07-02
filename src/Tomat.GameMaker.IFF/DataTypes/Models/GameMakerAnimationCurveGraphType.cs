@@ -1,4 +1,4 @@
-﻿namespace Tomat.GameMaker.IFF.DataTypes.Models; 
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models;
 
 public enum GameMakerAnimationCurveGraphType : uint {
     Unknown1 = 0,

@@ -3,10 +3,18 @@ using System.Collections.Generic;
 
 namespace Tomat.GameMaker.IFF;
 
+/// <summary>
+///     Information about the version of the IDE that built a given IFF file,
+///     along with some other useful IDE-varying information.
+/// </summary>
 public sealed class GameMakerVersionInfo {
     // public static readonly Version VERSION_UNKNOWN = NormalizeVersion(new Version());
     public static readonly Version VERSION_DEFAULT = NormalizeVersion(new Version(1, 0));
 
+    /// <summary>
+    ///     A map between well-known versions and their literal
+    ///     <see cref="System.Version"/> counterparts.
+    /// </summary>
     public static readonly Dictionary<GameMakerWellKnownVersion, Version> WELL_KNOWN_VERSIONS = new() {
         { GM_1_0_0_9999, NormalizeVersion(new Version(1, 0, 0, 9999)) },
         { GM_2, NormalizeVersion(new Version(2, 0)) },

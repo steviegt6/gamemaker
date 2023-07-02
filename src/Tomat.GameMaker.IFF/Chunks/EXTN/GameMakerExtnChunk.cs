@@ -6,7 +6,7 @@ namespace Tomat.GameMaker.IFF.Chunks.EXTN;
 
 public sealed class GameMakerExtnChunk : AbstractChunk {
     public const string NAME = "EXTN";
-    
+
     public GameMakerPointerList<GameMakerExtension>? Extensions { get; set; }
 
     public GameMakerExtnChunk(string name, int size) : base(name, size) { }

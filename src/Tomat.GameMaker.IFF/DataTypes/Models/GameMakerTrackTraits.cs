@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tomat.GameMaker.IFF.DataTypes.Models; 
+namespace Tomat.GameMaker.IFF.DataTypes.Models;
 
 [Flags]
 public enum GameMakerTrackTraits {

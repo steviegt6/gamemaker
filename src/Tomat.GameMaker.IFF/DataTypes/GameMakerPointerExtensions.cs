@@ -31,7 +31,7 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
     ///     <see cref="ReadObject"/> has been called.
     /// </summary>
     public T? Object { get; set; }
-    
+
     /// <summary>
     ///     Whether the pointer is null.
     /// </summary>
@@ -72,11 +72,11 @@ public static class GameMakerPointerExtensions {
     public static int GetPointerOffset(Type type) {
         return type == typeof(GameMakerString) ? 4 : 0;
     }
-    
+
     public static T ExpectObject<T>(this GameMakerPointer<T> pointer) where T : IGameMakerSerializable, new() {
         if (pointer.IsNull)
             throw new InvalidOperationException("Pointer is null.");
-        
+
         if (pointer.Object is null)
             throw new InvalidOperationException("Pointer has not been read.");
 

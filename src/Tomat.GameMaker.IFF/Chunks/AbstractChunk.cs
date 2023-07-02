@@ -1,10 +1,10 @@
-﻿namespace Tomat.GameMaker.IFF.Chunks; 
+﻿namespace Tomat.GameMaker.IFF.Chunks;
 
 public abstract class AbstractChunk : IGameMakerChunk {
     public string Name { get; }
 
     public int Size { get; }
-    
+
     protected AbstractChunk(string name, int size) {
         Name = name;
         Size = size;

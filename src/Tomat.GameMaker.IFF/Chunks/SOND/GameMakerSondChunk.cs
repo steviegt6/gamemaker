@@ -1,7 +1,7 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models;
 
-namespace Tomat.GameMaker.IFF.Chunks.SOND; 
+namespace Tomat.GameMaker.IFF.Chunks.SOND;
 
 public sealed class GameMakerSondChunk : AbstractChunk {
     public const string NAME = "SOND";

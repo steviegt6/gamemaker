@@ -21,7 +21,7 @@ public static class DeserializationContextExtensions {
         ptr.ReadObject(context, returnAfter);
         return ptr;
     }
-    
+
     public static GameMakerPointer<T> ReadPointerAndObject<T>(this DeserializationContext context, bool returnAfter = true, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
         return context.ReadPointerAndObject<T>(context.Reader.ReadInt32(), returnAfter, useTypeOffset);
     }

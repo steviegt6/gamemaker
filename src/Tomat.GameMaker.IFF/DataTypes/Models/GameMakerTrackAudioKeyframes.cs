@@ -1,6 +1,6 @@
 ﻿using Tomat.GameMaker.IFF.Chunks;
 
-namespace Tomat.GameMaker.IFF.DataTypes.Models; 
+namespace Tomat.GameMaker.IFF.DataTypes.Models;
 
 public sealed class GameMakerTrackAudioKeyframes : GameMakerTrackKeyframes {
     public GameMakerList<GameMakerKeyframe<GameMakerTrackAudioKeyframeData>>? Keyframes { get; set; }
