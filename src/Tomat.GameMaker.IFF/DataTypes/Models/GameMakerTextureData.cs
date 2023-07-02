@@ -40,13 +40,13 @@ public sealed class GameMakerTextureData : IGameMakerSerializable {
                 QoiWidth = context.Reader.ReadInt16();
                 QoiHeight = context.Reader.ReadInt16();
 
-                if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2022_5)
+                if (context.VersionInfo.IsAtLeast(GM_2022_5))
                     QoiLength = context.Reader.ReadUInt32();
 
                 // TODO: Queue data to be decompressed instead of doing it here.
                 Data = Decompress(context);
 
-                context.VersionInfo.Update(GameMakerVersionInfo.GM_2022_1);
+                context.VersionInfo.UpdateTo(GM_2022_1);
             }
             else if (header.Take(4).SequenceEqual(QOI_HEADER)) {
                 IsQoi = true;
@@ -57,7 +57,7 @@ public sealed class GameMakerTextureData : IGameMakerSerializable {
                 context.Reader.Position = dataBegin;
                 Data = context.Reader.ReadBytes(length + 12).ToArray();
 
-                context.VersionInfo.Update(GameMakerVersionInfo.GM_2022_1);
+                context.VersionInfo.UpdateTo(GM_2022_1);
             }
             else
                 throw new InvalidDataException("Invalid texture data header.");
@@ -87,7 +87,7 @@ public sealed class GameMakerTextureData : IGameMakerSerializable {
             context.Writer.Write(QOI_BZIP2_HEADER);
             context.Writer.Write(QoiWidth);
             context.Writer.Write(QoiHeight);
-            if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2022_5)
+            if (context.VersionInfo.IsAtLeast(GM_2022_5))
                 context.Writer.Write(QoiLength);
             using var input = new MemoryStream(Data.ToArray());
             using var output = new MemoryStream(1024);
@@ -103,7 +103,7 @@ public sealed class GameMakerTextureData : IGameMakerSerializable {
     }
 
     private void WriteLength(SerializationContext context, int length) {
-        if (context.VersionInfo.Version < GameMakerVersionInfo.GM_2022_3)
+        if (!context.VersionInfo.IsAtLeast(GM_2022_3))
             return;
 
         var begin = context.Writer.Position;

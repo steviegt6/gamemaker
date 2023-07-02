@@ -28,10 +28,10 @@ public sealed class GameMakerTxtrChunk : AbstractChunk {
     }
 
     private static void DoFormatCheck(DeserializationContext context) {
-        if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2_3) {
+        if (context.VersionInfo.IsAtLeast(GM_2_3)) {
             var begin = context.Reader.Position;
 
-            if (context.VersionInfo.Version < GameMakerVersionInfo.GM_2022_3) {
+            if (!context.VersionInfo.IsAtLeast(GM_2022_3)) {
                 // Check for 2022.3+
                 var textureCount = context.Reader.ReadInt32();
 
@@ -41,7 +41,7 @@ public sealed class GameMakerTxtrChunk : AbstractChunk {
                     // where alignment padding used to always be).
                     context.Reader.Position += 16;
                     if (context.Reader.ReadInt32() != 0)
-                        context.VersionInfo.Update(GameMakerVersionInfo.GM_2022_3);
+                        context.VersionInfo.UpdateTo(GM_2022_3);
                 }
                 else if (textureCount >= 2) {
                     // If the difference between the first two pointers is
@@ -49,12 +49,12 @@ public sealed class GameMakerTxtrChunk : AbstractChunk {
                     var firstPointer = context.Reader.ReadInt32();
                     var secondPointer = context.Reader.ReadInt32();
                     if (secondPointer - firstPointer == 16)
-                        context.VersionInfo.Update(GameMakerVersionInfo.GM_2022_3);
+                        context.VersionInfo.UpdateTo(GM_2022_3);
                 }
             }
 
             // Check for 2022.5+ by looking for discrepancies in the Bz2 format.
-            if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2022_3 && context.VersionInfo.Version < GameMakerVersionInfo.GM_2022_5) {
+            if (context.VersionInfo.IsAtLeast(GM_2022_3) && !context.VersionInfo.IsAtLeast(GM_2022_5)) {
                 context.Reader.Position = begin;
                 var textureCount = context.Reader.ReadInt32();
 
@@ -72,7 +72,7 @@ public sealed class GameMakerTxtrChunk : AbstractChunk {
 
                         // Now check actual Bz2 headers.
                         if (context.Reader.ReadByte() != 'B' || context.Reader.ReadByte() != 'Z' || context.Reader.ReadByte() != 'h') {
-                            context.VersionInfo.Update(GameMakerVersionInfo.GM_2022_5);
+                            context.VersionInfo.UpdateTo(GM_2022_5);
                             break;
                         }
 
@@ -80,9 +80,9 @@ public sealed class GameMakerTxtrChunk : AbstractChunk {
 
                         // Block header is the starting digits of pi.
                         if (context.Reader.ReadUInt24() != 0x594131)
-                            context.VersionInfo.Update(GameMakerVersionInfo.GM_2022_5);
+                            context.VersionInfo.UpdateTo(GM_2022_5);
                         else if (context.Reader.ReadUInt24() != 0x595326)
-                            context.VersionInfo.Update(GameMakerVersionInfo.GM_2022_5);
+                            context.VersionInfo.UpdateTo(GM_2022_5);
 
                         // All we needed to do is check a single QoI+BZ2
                         // texture.

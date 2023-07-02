@@ -88,7 +88,7 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
             SpriteVersion = context.Reader.ReadInt32();
             SpriteType = (GameMakerSpriteType)context.Reader.ReadInt32();
 
-            if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2) {
+            if (context.VersionInfo.IsAtLeast(GM_2)) {
                 PlaybackSpeed = context.Reader.ReadSingle();
                 PlaybackSpeedType = (GameMakerSpritePlaybackSpeedType)context.Reader.ReadInt32();
 
@@ -96,7 +96,7 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
                     Sequence = context.ReadPointerAndObject<GameMakerSpriteSequenceReference>();
 
                     if (SpriteVersion >= 3) {
-                        context.VersionInfo.Update(GameMakerVersionInfo.GM_2_3_2);
+                        context.VersionInfo.UpdateTo(GM_2_3_2);
                         NineSlice = context.ReadPointerAndObject<GameMakerNineSlice>();
                     }
                 }
@@ -186,22 +186,22 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
 
         if (SpecialOrGm2) {
             context.Writer.Write(-1);
-            if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2_3_2)
+            if (context.VersionInfo.IsAtLeast(GM_2_3_2))
                 context.Writer.Write(3);
-            else if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2_3)
+            else if (context.VersionInfo.IsAtLeast(GM_2_3))
                 context.Writer.Write(2);
             else
                 context.Writer.Write(1);
             context.Writer.Write((int)SpriteType);
 
-            if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2) {
+            if (context.VersionInfo.IsAtLeast(GM_2)) {
                 context.Writer.Write(PlaybackSpeed);
                 context.Writer.Write((int)PlaybackSpeedType);
 
-                if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2_3) {
+                if (context.VersionInfo.IsAtLeast(GM_2_3)) {
                     context.Writer.Write(Sequence);
 
-                    if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2_3_2)
+                    if (context.VersionInfo.IsAtLeast(GM_2_3_2))
                         context.Writer.Write(NineSlice);
                 }
             }

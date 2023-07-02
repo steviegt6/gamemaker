@@ -86,7 +86,7 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         MinorVersion = context.Reader.ReadInt32();
         ReleaseVersion = context.Reader.ReadInt32();
         BuildVersion = context.Reader.ReadInt32();
-        context.VersionInfo.Update(new Version(MajorVersion, MinorVersion, ReleaseVersion, BuildVersion));
+        context.VersionInfo.UpdateTo(new Version(MajorVersion, MinorVersion, ReleaseVersion, BuildVersion));
         DefaultWindowWidth = context.Reader.ReadInt32();
         DefaultWindowHeight = context.Reader.ReadInt32();
         Info = (Gen8InfoFlags)context.Reader.ReadInt32();
@@ -106,7 +106,7 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         for (var i = 0; i < roomCount; i++)
             RoomOrder.Add(context.Reader.ReadInt32());
 
-        if (context.VersionInfo.Version < GameMakerVersionInfo.GM_2)
+        if (!context.VersionInfo.IsAtLeast(GM_2))
             return;
 
         GameMaker2RandomUid = ReadRandomUid(context);
@@ -130,7 +130,7 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         context.Writer.Write(MinorVersion);
         context.Writer.Write(ReleaseVersion);
         context.Writer.Write(BuildVersion);
-        context.VersionInfo.Update(new Version(MajorVersion, MinorVersion, ReleaseVersion, BuildVersion));
+        context.VersionInfo.UpdateTo(new Version(MajorVersion, MinorVersion, ReleaseVersion, BuildVersion));
         context.Writer.Write(DefaultWindowWidth);
         context.Writer.Write(DefaultWindowHeight);
         context.Writer.Write((int)Info);
@@ -145,7 +145,7 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         if (FormatId >= 14)
             context.Writer.Write(DebuggerPort);
 
-        if (context.VersionInfo.Version < GameMakerVersionInfo.GM_2)
+        if (!context.VersionInfo.IsAtLeast(GM_2))
             return;
 
         context.Writer.Write(RoomOrder!.Count);

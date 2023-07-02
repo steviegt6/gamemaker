@@ -22,18 +22,18 @@ public sealed class GameMakerPoint : IGameMakerSerializable {
         // In 2.3, an int32 with a value of zero would be set here. It cannot be
         // version 2.3 if this value isn't zero.
         if (context.Reader.ReadUInt32() != 0) {
-            context.VersionInfo.Update(GameMakerVersionInfo.GM_2_3_1);
+            context.VersionInfo.UpdateTo(GM_2_3_1);
             context.Reader.Position -= sizeof(uint);
         }
         else {
             // If BezierX0 equals zero (above), then BezierY0 equals zero as
             // well.
             if (context.Reader.ReadUInt32() == 0)
-                context.VersionInfo.Update(GameMakerVersionInfo.GM_2_3_1);
+                context.VersionInfo.UpdateTo(GM_2_3_1);
             context.Reader.Position -= sizeof(uint) * 2;
         }
 
-        if (context.VersionInfo.Version >= GameMakerVersionInfo.GM_2_3_1) {
+        if (context.VersionInfo.IsAtLeast(GM_2_3_1)) {
             BezierX0 = context.Reader.ReadSingle();
             BezierY0 = context.Reader.ReadSingle();
             BezierX1 = context.Reader.ReadSingle();

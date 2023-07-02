@@ -17,7 +17,7 @@ public sealed class GameMakerExtnChunk : AbstractChunk {
 
         CheckFormatAndUpdateVersion(context);
 
-        if (context.VersionInfo.Version < GameMakerVersionInfo.GM_1_0_0_9999)
+        if (!context.VersionInfo.IsAtLeast(GM_1_0_0_9999))
             return;
 
         foreach (var extension in Extensions)
@@ -34,7 +34,7 @@ public sealed class GameMakerExtnChunk : AbstractChunk {
     }
 
     private void CheckFormatAndUpdateVersion(DeserializationContext context) {
-        if (context.VersionInfo.Version < GameMakerVersionInfo.GM_2_3 || context.VersionInfo.Version >= GameMakerVersionInfo.GM_2022_6) {
+        if (!context.VersionInfo.IsAtLeast(GM_2_3) || context.VersionInfo.IsAtLeast(GM_2022_6)) {
             return;
         }
 
@@ -94,6 +94,6 @@ public sealed class GameMakerExtnChunk : AbstractChunk {
         context.Reader.Position = oldPos;
 
         if (is20226)
-            context.VersionInfo.Update(GameMakerVersionInfo.GM_2022_6);
+            context.VersionInfo.UpdateTo(GM_2022_6);
     }
 }

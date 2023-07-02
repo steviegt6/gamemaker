@@ -83,11 +83,11 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
             context.Reader.Position += chunkSize;
 
             if (chunkName == "SEQN")
-                context.VersionInfo.Update(GameMakerVersionInfo.GM_2_3);
+                context.VersionInfo.UpdateTo(GM_2_3);
             else if (chunkName == "FEDS")
-                context.VersionInfo.Update(GameMakerVersionInfo.GM_2_3_6);
+                context.VersionInfo.UpdateTo(GM_2_3_6);
             else if (chunkName == "FEAT")
-                context.VersionInfo.Update(GameMakerVersionInfo.GM_2022_8);
+                context.VersionInfo.UpdateTo(GM_2022_8);
 
             // Final chunk isn't aligned, which we can infer by whether the end
             // of the chunk is also the end of the file.

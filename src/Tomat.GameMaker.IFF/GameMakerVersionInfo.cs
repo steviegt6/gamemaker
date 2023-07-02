@@ -1,26 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Tomat.GameMaker.IFF;
 
 public sealed class GameMakerVersionInfo {
-    public static readonly Version VERSION_UNKNOWN = NormalizeVersion(new Version());
+    // public static readonly Version VERSION_UNKNOWN = NormalizeVersion(new Version());
     public static readonly Version VERSION_DEFAULT = NormalizeVersion(new Version(1, 0));
 
-    public static readonly Version GM_1_0_0_9999 = NormalizeVersion(new Version(1, 0, 0, 9999));
-    public static readonly Version GM_2 = NormalizeVersion(new Version(2, 0));
-    public static readonly Version GM_2_2_2_302 = NormalizeVersion(new Version(2, 2, 2, 302));
-    public static readonly Version GM_2_3 = NormalizeVersion(new Version(2, 3));
-    public static readonly Version GM_2_3_1 = NormalizeVersion(new Version(2, 3, 1));
-    public static readonly Version GM_2_3_2 = NormalizeVersion(new Version(2, 3, 2));
-    public static readonly Version GM_2_3_6 = NormalizeVersion(new Version(2, 3, 6));
-    public static readonly Version GM_2022_1 = NormalizeVersion(new Version(22022, 1));
-    public static readonly Version GM_2022_2 = NormalizeVersion(new Version(22022, 2));
-    public static readonly Version GM_2022_3 = NormalizeVersion(new Version(22022, 3));
-    public static readonly Version GM_2022_5 = NormalizeVersion(new Version(22022, 5));
-    public static readonly Version GM_2022_6 = NormalizeVersion(new Version(22022, 6));
-    public static readonly Version GM_2022_8 = NormalizeVersion(new Version(22022, 8));
-    public static readonly Version GM_2022_9 = NormalizeVersion(new Version(2022, 9));
-    public static readonly Version GM_2023_1 = NormalizeVersion(new Version(2023, 1));
+    public static readonly Dictionary<GameMakerWellKnownVersion, Version> WELL_KNOWN_VERSIONS = new() {
+        { GM_1_0_0_9999, NormalizeVersion(new Version(1, 0, 0, 9999)) },
+        { GM_2, NormalizeVersion(new Version(2, 0)) },
+        { GM_2_2_2_302, NormalizeVersion(new Version(2, 2, 2, 302)) },
+        { GM_2_3, NormalizeVersion(new Version(2, 3)) },
+        { GM_2_3_1, NormalizeVersion(new Version(2, 3, 1)) },
+        { GM_2_3_2, NormalizeVersion(new Version(2, 3, 2)) },
+        { GM_2_3_6, NormalizeVersion(new Version(2, 3, 6)) },
+        { GM_2022_1, NormalizeVersion(new Version(22022, 1)) },
+        { GM_2022_2, NormalizeVersion(new Version(22022, 2)) },
+        { GM_2022_3, NormalizeVersion(new Version(22022, 3)) },
+        { GM_2022_5, NormalizeVersion(new Version(22022, 5)) },
+        { GM_2022_6, NormalizeVersion(new Version(22022, 6)) },
+        { GM_2022_8, NormalizeVersion(new Version(22022, 8)) },
+        { GM_2022_9, NormalizeVersion(new Version(2022, 9)) },
+        { GM_2023_1, NormalizeVersion(new Version(2023, 1)) },
+    };
 
     private Version backingVersion = VERSION_DEFAULT;
 
@@ -46,7 +49,7 @@ public sealed class GameMakerVersionInfo {
     /// <summary>
     ///     What number chunks are aligned to.
     /// </summary>
-    public int ChunkAlignment => Version >= GM_2_3 ? 16 : 4;
+    public int ChunkAlignment => IsAtLeast(GM_2_3) ? 16 : 4;
 
     /// <summary>
     ///     What number strings are aligned to.
@@ -56,7 +59,7 @@ public sealed class GameMakerVersionInfo {
     /// <summary>
     ///     What number backgrounds are aligned to.
     /// </summary>
-    public int BackgroundAlignment => Version >= GM_2_3 ? 8 : 0;
+    public int BackgroundAlignment => IsAtLeast(GM_2_3) ? 8 : 0;
 
     /// <summary>
     ///     Whether rooms and objects use pre-create events.
@@ -95,9 +98,38 @@ public sealed class GameMakerVersionInfo {
     ///     <paramref name="version"/> is greater than <see cref="Version"/>.
     /// </summary>
     /// <param name="version">The new version to update to.</param>
-    public void Update(Version version) {
+    public void UpdateTo(Version version) {
         if (Version < version)
             Version = version;
+    }
+
+    /// <summary>
+    ///     Updates <see cref="Version"/> to <paramref name="wellKnownVersion"/>
+    ///     if <paramref name="wellKnownVersion"/> is greater than
+    ///     <see cref="Version"/>.
+    /// </summary>
+    /// <param name="wellKnownVersion">
+    ///     The well-known version to update to.
+    /// </param>
+    public void UpdateTo(GameMakerWellKnownVersion wellKnownVersion) {
+        var version = WELL_KNOWN_VERSIONS[wellKnownVersion];
+        if (Version < version)
+            Version = version;
+    }
+
+    /// <summary>
+    ///     Returns whether <see cref="Version"/> is at least
+    ///     <paramref name="wellKnownVersion"/>.
+    /// </summary>
+    /// <param name="wellKnownVersion">
+    ///     The well-known version to check against.
+    /// </param>
+    /// <returns>
+    ///     Whether the current <see cref="Version"/> is at least equal to
+    ///     <paramref name="wellKnownVersion"/>.
+    /// </returns>
+    public bool IsAtLeast(GameMakerWellKnownVersion wellKnownVersion) {
+        return Version >= WELL_KNOWN_VERSIONS[wellKnownVersion];
     }
 
     /// <summary>
