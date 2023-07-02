@@ -9,14 +9,14 @@ public sealed class GameMakerChannel : IGameMakerSerializable {
 
     public ushort Iterations { get; set; }
 
-    public GameMakerList<GameMakerPoint>? Points { get; set; }
+    public GameMakerList<GameMakerChannelPoint>? Points { get; set; }
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
         FunctionType = (GameMakerChannelFunctionType)context.Reader.ReadInt32();
         Iterations = (ushort)context.Reader.ReadUInt32(); // TODO: Uhh... okay?
 
-        Points = new GameMakerList<GameMakerPoint>();
+        Points = new GameMakerList<GameMakerChannelPoint>();
         Points.Read(context);
     }
 

@@ -2,7 +2,7 @@
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models;
 
-public sealed class GameMakerPoint : IGameMakerSerializable {
+public sealed class GameMakerChannelPoint : IGameMakerSerializable {
     public float X { get; set; }
 
     public float Value { get; set; }
