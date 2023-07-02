@@ -54,7 +54,7 @@ public sealed class GameMakerPointerList<T> : List<GameMakerPointer<T>>,
             else
                 elementWriter.Invoke(context, this[i]);
 
-            afterWriter?.Invoke(context, i, this.Count);
+            afterWriter?.Invoke(context, i, Count);
         }
     }
 }

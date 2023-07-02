@@ -20,7 +20,7 @@ public sealed class GameMakerExtensionFunction : IGameMakerSerializable {
         Name = context.ReadPointerAndObject<GameMakerString>();
         Id = context.Reader.ReadInt32();
         FunctionKind = context.Reader.ReadInt32();
-        ReturnType = (GameMakerExtensionValueType)context.Reader.ReadInt32();
+        ReturnType = (GameMakerExtensionValueType)context.Reader.ReadUInt32();
         ExternalName = context.ReadPointerAndObject<GameMakerString>();
 
         ArgumentTypes = new List<GameMakerExtensionValueType>();
@@ -33,7 +33,7 @@ public sealed class GameMakerExtensionFunction : IGameMakerSerializable {
         context.Writer.Write(Name);
         context.Writer.Write(Id);
         context.Writer.Write(FunctionKind);
-        context.Writer.Write((int)ReturnType);
+        context.Writer.Write((uint)ReturnType);
         context.Writer.Write(ExternalName);
 
         context.Writer.Write(ArgumentTypes!.Count);

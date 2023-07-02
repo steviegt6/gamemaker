@@ -7,7 +7,7 @@ namespace Tomat.GameMaker.IFF.DataTypes;
 /// <summary>
 ///     A pointer to a GameMaker object, storing an integer address to the
 ///     position of the object in the GameMaker IFF file, as well as (possibly)
-///     a reference to the object itself (set by <see cref="ReadPointer"/>).
+///     a reference to the object itself (set by <see cref="ReadObject"/>).
 /// </summary>
 /// <typeparam name="T">The GameMaker object type.</typeparam>
 public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
@@ -28,7 +28,7 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
 
     /// <summary>
     ///     The instance of the object being pointed to, if
-    ///     <see cref="ReadPointer"/> has been called.
+    ///     <see cref="ReadObject"/> has been called.
     /// </summary>
     public T? Object { get; set; }
 
@@ -37,7 +37,7 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
     /// </summary>
     public bool IsNull => Address == 0;
 
-    public void ReadPointer(DeserializationContext context, bool returnAfter) {
+    public void ReadObject(DeserializationContext context, bool returnAfter) {
         if (IsNull) {
             Object = default;
             return;

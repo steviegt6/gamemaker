@@ -15,7 +15,17 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
 
     public byte[] Data => data;
 
-    public int Position { get; set; }
+    public int Position {
+        get => pos;
+
+        set {
+            pos = value;
+            if (value is >= 604 and < 608)
+                ;
+        }
+    }
+
+    private int pos;
 
     public int Length { get; set; }
 
@@ -156,7 +166,17 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
     }
 
     public void FinalizePointers() {
-        Parallel.ForEach(
+        foreach (var kvp in PointerReferences) {
+            if (Pointers.TryGetValue(kvp.Key, out var ptr)) {
+                foreach (var addr in kvp.Value)
+                    this.WriteAt(addr.Item1, ptr + (addr.Item2 ? GameMakerPointerExtensions.GetPointerOffset(kvp.Key.GetType()) : 0));
+            }
+            else {
+                foreach (var addr in kvp.Value)
+                    this.WriteAt(addr.Item1, 0);
+            }
+        }
+        /*Parallel.ForEach(
             PointerReferences,
             kvp => {
                 if (Pointers.TryGetValue(kvp.Key, out var ptr)) {
@@ -168,7 +188,7 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
                         this.WriteAt(addr.Item1, 0);
                 }
             }
-        );
+        );*/
     }
 }
 
