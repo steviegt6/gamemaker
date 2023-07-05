@@ -11,6 +11,7 @@ using Tomat.GameMaker.IFF.Chunks.LANG;
 using Tomat.GameMaker.IFF.Chunks.OPTN;
 using Tomat.GameMaker.IFF.Chunks.PATH;
 using Tomat.GameMaker.IFF.Chunks.SCPT;
+using Tomat.GameMaker.IFF.Chunks.SHDR;
 using Tomat.GameMaker.IFF.Chunks.SOND;
 using Tomat.GameMaker.IFF.Chunks.SPRT;
 using Tomat.GameMaker.IFF.Chunks.STRG;
@@ -53,22 +54,22 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
             { GameMakerPathChunk.NAME, (c, s) => new GameMakerPathChunk(c, s) },
             { GameMakerScptChunk.NAME, (c, s) => new GameMakerScptChunk(c, s) },
             { GameMakerGlobChunk.NAME, (c, s) => new GameMakerGlobChunk(c, s) },
-            // SHDR
-            // FONT
-            // TMLN
-            // OBJT
-            // FEDS
-            // ACRV
-            // SEQN
-            // TAGS
-            // ROOM
-            // DAFL
-            // EMBI
-            // TPAG
-            // TGIN
-            // CODE
-            // VARI
-            // FUNC
+            { GameMakerShdrChunk.NAME, (c, s) => new GameMakerShdrChunk(c, s) },
+            // { GameMakerFontChunk.NAME, (c, s) => new GameMakerFontChunk(c, s) },
+            // { GameMakerTmlnChunk.NAME, (c, s) => new GameMakerTmlnChunk(c, s) },
+            // { GameMakerObjtChunk.NAME, (c, s) => new GameMakerObjtChunk(c, s) },
+            // { GameMakerFedsChunk.NAME, (c, s) => new GameMakerFedsChunk(c, s) },
+            // { GameMakerAcrvChunk.NAME, (c, s) => new GameMakerAcrvChunk(c, s) },
+            // { GameMakerSeqnChunk.NAME, (c, s) => new GameMakerSeqnChunk(c, s) },
+            // { GameMakerTagsChunk.NAME, (c, s) => new GameMakerTagsChunk(c, s) },
+            // { GameMakerRoomChunk.NAME, (c, s) => new GameMakerRoomChunk(c, s) },
+            // { GameMakerDaflChunk.NAME, (c, s) => new GameMakerDaflChunk(c, s) },
+            // { GameMakerEmbiChunk.NAME, (c, s) => new GameMakerEmbiChunk(c, s) },
+            // { GameMakerTpagChunk.NAME, (c, s) => new GameMakerTpagChunk(c, s) },
+            // { GameMakerTginChunk.NAME, (c, s) => new GameMakerTginChunk(c, s) },
+            // { GameMakerCodeChunk.NAME, (c, s) => new GameMakerCodeChunk(c, s) },
+            // { GameMakerVariChunk.NAME, (c, s) => new GameMakerVariChunk(c, s) },
+            // { GameMakerFuncChunk.NAME, (c, s) => new GameMakerFuncChunk(c, s) },
             { GameMakerFeatChunk.NAME, (c, s) => new GameMakerFeatChunk(c, s) },
             { GameMakerStrgChunk.NAME, (c, s) => new GameMakerStrgChunk(c, s) },
             { GameMakerTxtrChunk.NAME, (c, s) => new GameMakerTxtrChunk(c, s) },

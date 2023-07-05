@@ -190,4 +190,8 @@ public static class GameMakerIffReaderExtensions {
 
         reader.Position += align - pad;
     }
+
+    public static GameMakerPointer<T> ReadPointer<T>(this GameMakerIffReader reader, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
+        return reader.ReadPointer<T>(reader.ReadInt32(), useTypeOffset);
+    }
 }
