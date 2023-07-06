@@ -1,5 +1,6 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models;
+using Tomat.GameMaker.IFF.DataTypes.Models.Timeline;
 
 namespace Tomat.GameMaker.IFF.Chunks.TMLN; 
 

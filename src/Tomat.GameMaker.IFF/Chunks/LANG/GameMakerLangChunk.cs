@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models;
+using Tomat.GameMaker.IFF.DataTypes.Models.Language;
+using Tomat.GameMaker.IFF.DataTypes.Models.String;
 
 namespace Tomat.GameMaker.IFF.Chunks.LANG;
 

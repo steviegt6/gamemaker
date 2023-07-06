@@ -1,5 +1,6 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models;
+using Tomat.GameMaker.IFF.DataTypes.Models.Audio;
 
 namespace Tomat.GameMaker.IFF.Chunks.AGRP;
 

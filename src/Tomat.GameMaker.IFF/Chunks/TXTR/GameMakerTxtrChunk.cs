@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models;
+using Tomat.GameMaker.IFF.DataTypes.Models.Texture;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.TXTR;

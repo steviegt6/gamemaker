@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Tomat.GameMaker.IFF.DataTypes.Models;
+using Tomat.GameMaker.IFF.DataTypes.Models.Shader;
 
 namespace Tomat.GameMaker.IFF.Chunks.SHDR; 
 

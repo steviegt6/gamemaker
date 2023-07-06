@@ -1,5 +1,7 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models;
+using Tomat.GameMaker.IFF.DataTypes.Models.Constant;
+using Tomat.GameMaker.IFF.DataTypes.Models.Texture;
 
 namespace Tomat.GameMaker.IFF.Chunks.OPTN;
 
