@@ -12,7 +12,7 @@ namespace Tomat.GameMaker.IFF.IO;
 /// <summary>
 ///     Responsible for reading data from a GameMaker IFF file.
 /// </summary>
-public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
+public sealed class GameMakerIffReader : IGameMakerIffReader {
     public Encoding Encoding { get; }
 
     public byte[] Data { get; }
@@ -77,12 +77,12 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
         return ReadGenericStruct<ushort>();
     }
 
-    public unsafe int ReadInt24() {
+    public unsafe Int24 ReadInt24() {
         Debug.Assert(Position >= 0 && Position + sizeof(Int24) <= Length);
         return ReadGenericStruct<Int24>();
     }
 
-    public unsafe uint ReadUInt24() {
+    public unsafe UInt24 ReadUInt24() {
         Debug.Assert(Position >= 0 && Position + sizeof(UInt24) <= Length);
         return ReadGenericStruct<UInt24>();
     }
@@ -175,23 +175,5 @@ public sealed class GameMakerIffReader : IGameMakerIffDataHandler {
             throw new IOException($"Expected to read {data.Length} bytes, but only read {dataLength} bytes.");
 
         return new GameMakerIffReader(data);
-    }
-}
-
-public static class GameMakerIffReaderExtensions {
-    public static Guid ReadGuid(this GameMakerIffReader reader) {
-        return new Guid(reader.ReadBytes(16).Span);
-    }
-
-    public static void Pad(this GameMakerIffReader reader, int align) {
-        var pad = reader.Position % align;
-        if (pad == 0)
-            return;
-
-        reader.Position += align - pad;
-    }
-
-    public static GameMakerPointer<T> ReadPointer<T>(this GameMakerIffReader reader, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
-        return reader.ReadPointer<T>(reader.ReadInt32(), useTypeOffset);
     }
 }

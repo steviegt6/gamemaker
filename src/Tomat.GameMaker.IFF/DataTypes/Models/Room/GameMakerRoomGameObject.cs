@@ -30,44 +30,44 @@ public sealed class GameMakerRoomGameObject : IGameMakerSerializable {
     public int ImageIndex { get; set; }
 
     public void Read(DeserializationContext context) {
-        X = context.Reader.ReadInt32();
-        Y = context.Reader.ReadInt32();
-        ObjectId = context.Reader.ReadInt32();
-        InstanceId = context.Reader.ReadInt32();
-        CreationCodeId = context.Reader.ReadInt32();
-        ScaleX = context.Reader.ReadSingle();
-        ScaleY = context.Reader.ReadSingle();
+        X = context.ReadInt32();
+        Y = context.ReadInt32();
+        ObjectId = context.ReadInt32();
+        InstanceId = context.ReadInt32();
+        CreationCodeId = context.ReadInt32();
+        ScaleX = context.ReadSingle();
+        ScaleY = context.ReadSingle();
 
         if (context.VersionInfo.IsAtLeast(GM_2_2_2_302)) {
-            ImageSpeed = context.Reader.ReadSingle();
-            ImageIndex = context.Reader.ReadInt32();
+            ImageSpeed = context.ReadSingle();
+            ImageIndex = context.ReadInt32();
         }
 
-        Color = context.Reader.ReadInt32();
-        Angle = context.Reader.ReadSingle();
+        Color = context.ReadInt32();
+        Angle = context.ReadSingle();
 
         if (context.VersionInfo.RoomsAndObjectsUsePreCreate)
-            PreCreateCodeId = context.Reader.ReadInt32();
+            PreCreateCodeId = context.ReadInt32();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(X);
-        context.Writer.Write(Y);
-        context.Writer.Write(ObjectId);
-        context.Writer.Write(InstanceId);
-        context.Writer.Write(CreationCodeId);
-        context.Writer.Write(ScaleX);
-        context.Writer.Write(ScaleY);
+        context.Write(X);
+        context.Write(Y);
+        context.Write(ObjectId);
+        context.Write(InstanceId);
+        context.Write(CreationCodeId);
+        context.Write(ScaleX);
+        context.Write(ScaleY);
 
         if (context.VersionInfo.IsAtLeast(GM_2_2_2_302)) {
-            context.Writer.Write(ImageSpeed);
-            context.Writer.Write(ImageIndex);
+            context.Write(ImageSpeed);
+            context.Write(ImageIndex);
         }
 
-        context.Writer.Write(Color);
-        context.Writer.Write(Angle);
+        context.Write(Color);
+        context.Write(Angle);
 
         if (context.VersionInfo.RoomsAndObjectsUsePreCreate)
-            context.Writer.Write(PreCreateCodeId);
+            context.Write(PreCreateCodeId);
     }
 }

@@ -18,7 +18,7 @@ public sealed class GameMakerList<T> : List<T>,
     }
 
     public void Read(DeserializationContext context, ListRead? beforeRead = null, ListRead? afterRead = null, ListElementRead? elementReader = null) {
-        var count = context.Reader.ReadInt32();
+        var count = context.ReadInt32();
         Capacity = count;
 
         for (var i = 0; i < count; i++) {
@@ -45,7 +45,7 @@ public sealed class GameMakerList<T> : List<T>,
     }
 
     public void Write(SerializationContext context, ListWrite? beforeWrite = null, ListWrite? afterWrite = null, ListElementWrite? elementWriter = null) {
-        context.Writer.Write(Count);
+        context.Write(Count);
 
         for (var i = 0; i < Count; i++) {
             beforeWrite?.Invoke(context, i, Count);

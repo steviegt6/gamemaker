@@ -8,7 +8,7 @@ using Tomat.GameMaker.IFF.DataTypes;
 
 namespace Tomat.GameMaker.IFF.IO;
 
-public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
+public sealed class GameMakerIffWriter : IGameMakerIffWriter {
     public const int DEFAULT_CAPACITY = 1024 * 1024 * 10; // 10 MB
 
     public Encoding Encoding { get; }
@@ -103,11 +103,11 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
         WriteGenericStruct(value);
     }
 
-    public unsafe void Write(Int24 value) {
+    public void Write(Int24 value) {
         WriteGenericStruct(value);
     }
 
-    public unsafe void Write(UInt24 value) {
+    public void Write(UInt24 value) {
         WriteGenericStruct(value);
     }
 
@@ -179,34 +179,5 @@ public sealed class GameMakerIffWriter : IGameMakerIffDataHandler {
                 }
             }
         );*/
-    }
-}
-
-public static class GameMakerIffWriterExtensions {
-    public static void Pad(this GameMakerIffWriter writer, int align) {
-        var pad = writer.Position % align;
-        if (pad == 0)
-            return;
-
-        writer.Write(new byte[align - pad]);
-    }
-
-    public static void WriteAt(this GameMakerIffWriter writer, int position, int value) {
-        var oldPos = writer.Position;
-        writer.Position = position;
-        writer.Write(value);
-        writer.Position = oldPos;
-    }
-
-    public static int BeginLength(this GameMakerIffWriter writer) {
-        writer.Write(0);
-        return writer.Position;
-    }
-
-    public static void EndLength(this GameMakerIffWriter writer, int beginPos) {
-        var pos = writer.Position;
-        writer.Position = beginPos - 4;
-        writer.Write(pos - beginPos);
-        writer.Position = pos;
     }
 }

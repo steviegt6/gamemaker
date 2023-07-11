@@ -89,14 +89,14 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
     }
 
     public void Read(DeserializationContext context) {
-        var startPosition = context.Reader.Position;
+        var startPosition = context.Position;
         var foundChunks = new Dictionary<(string, int), int>();
 
-        while (context.Reader.Position < startPosition + Size) {
-            var chunkName = new string(context.Reader.ReadChars(IGameMakerChunk.NAME_LENGTH));
-            var chunkSize = context.Reader.ReadInt32();
-            foundChunks.Add((chunkName, chunkSize), context.Reader.Position);
-            context.Reader.Position += chunkSize;
+        while (context.Position < startPosition + Size) {
+            var chunkName = new string(context.ReadChars(IGameMakerChunk.NAME_LENGTH));
+            var chunkSize = context.ReadInt32();
+            foundChunks.Add((chunkName, chunkSize), context.Position);
+            context.Position += chunkSize;
 
             if (chunkName == "SEQN")
                 context.VersionInfo.UpdateTo(GM_2_3);
@@ -107,14 +107,14 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
 
             // Final chunk isn't aligned, which we can infer by whether the end
             // of the chunk is also the end of the file.
-            if (context.Reader.Position % context.VersionInfo.ChunkAlignment != 0 && context.Reader.Position < context.Reader.Length)
+            if (context.Position % context.VersionInfo.ChunkAlignment != 0 && context.Position < context.Length)
                 throw new IOException("Chunk alignment setting does not match actual chunk alignment!");
         }
 
         Chunks = new Dictionary<string, IGameMakerChunk>();
 
         foreach (var ((chunkName, chunkLength), chunkPos) in foundChunks) {
-            context.Reader.Position = chunkPos;
+            context.Position = chunkPos;
             Chunks[chunkName] = ChunkFactories.TryGetValue(chunkName, out var factory)
                 ? factory(chunkName, chunkLength)
                 : DefaultChunkFactory(chunkName, chunkLength);
@@ -129,14 +129,14 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
         var i = 0;
 
         foreach (var chunk in Chunks.Values) {
-            context.Writer.Write(chunk.Name.ToCharArray());
-            var chunkLengthPosition = context.Writer.BeginLength();
+            context.Write(chunk.Name.ToCharArray());
+            var chunkLengthPosition = context.BeginLength();
             chunk.Write(context);
 
             if (i != Chunks.Count - 1)
-                context.Writer.Pad(context.VersionInfo.ChunkAlignment);
+                context.Pad(context.VersionInfo.ChunkAlignment);
 
-            context.Writer.EndLength(chunkLengthPosition);
+            context.EndLength(chunkLengthPosition);
             i++;
         }
     }

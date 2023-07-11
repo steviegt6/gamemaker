@@ -10,14 +10,14 @@ public sealed class GameMakerTrackAudioKeyframeData : IGameMakerSerializable {
     public int Mode { get; set; }
 
     public void Read(DeserializationContext context) {
-        Id = context.Reader.ReadInt32();
-        UnknownInt32 = context.Reader.ReadInt32();
-        Mode = context.Reader.ReadInt32();
+        Id = context.ReadInt32();
+        UnknownInt32 = context.ReadInt32();
+        Mode = context.ReadInt32();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Id);
-        context.Writer.Write(UnknownInt32);
-        context.Writer.Write(Mode);
+        context.Write(Id);
+        context.Write(UnknownInt32);
+        context.Write(Mode);
     }
 }

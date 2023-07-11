@@ -11,6 +11,6 @@ public sealed class GameMakerAudioGroup : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
+        context.Write(Name);
     }
 }

@@ -13,9 +13,9 @@ public sealed class GameMakerFedsChunk : AbstractChunk {
     public GameMakerFedsChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        context.Reader.Pad(4);
+        context.Pad(4);
 
-        var chunkVersion = context.Reader.ReadInt32();
+        var chunkVersion = context.ReadInt32();
         if (chunkVersion != 1)
             throw new InvalidDataException($"Expected chunk version 1, got {chunkVersion}.");
 
@@ -24,8 +24,8 @@ public sealed class GameMakerFedsChunk : AbstractChunk {
     }
 
     public override void Write(SerializationContext context) {
-        context.Writer.Pad(4);
-        context.Writer.Write(1);
+        context.Pad(4);
+        context.Write(1);
         FilterEffects!.Write(context);
     }
 }

@@ -17,9 +17,9 @@ public sealed class GameMakerStrgChunk : AbstractChunk {
         Strings.Read(
             context,
             elementReader: (ctx, _) => {
-                var addr = ctx.Reader.ReadInt32();
+                var addr = ctx.ReadInt32();
 
-                if (ctx.Reader.Position % ctx.VersionInfo.StringAlignment != 0)
+                if (ctx.Position % ctx.VersionInfo.StringAlignment != 0)
                     throw new System.Exception("String not aligned to expected string alignment.");
 
                 return ctx.ReadPointerAndObject<GameMakerString>(addr, useTypeOffset: false);
@@ -31,13 +31,13 @@ public sealed class GameMakerStrgChunk : AbstractChunk {
         Strings!.Write(
             context,
             beforeWriter: (ctx, _, _) => {
-                ctx.Writer.Pad(ctx.VersionInfo.StringAlignment);
+                ctx.Pad(ctx.VersionInfo.StringAlignment);
             },
             elementPointerWriter: (ctx, element) => {
-                ctx.Writer.Write(element, useTypeOffset: false);
+                ctx.Write(element, useTypeOffset: false);
             }
         );
 
-        context.Writer.Pad(128);
+        context.Pad(128);
     }
 }

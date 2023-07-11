@@ -12,7 +12,7 @@ public sealed class GameMakerScript : IGameMakerSerializable {
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
-        CodeId = context.Reader.ReadInt32();
+        CodeId = context.ReadInt32();
 
         // New GMS 2.3 constructor scripts.
         if (CodeId >= -1)
@@ -23,11 +23,11 @@ public sealed class GameMakerScript : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
+        context.Write(Name);
         
         if (Constructor)
-            context.Writer.Write((int)((uint)CodeId | 2147483648u));
+            context.Write((int)((uint)CodeId | 2147483648u));
         else
-            context.Writer.Write(CodeId);
+            context.Write(CodeId);
     }
 }

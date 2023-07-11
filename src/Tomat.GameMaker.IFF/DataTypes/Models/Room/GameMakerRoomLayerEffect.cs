@@ -15,7 +15,7 @@ public sealed class GameMakerRoomLayerEffect : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(EffectType);
+        context.Write(EffectType);
         Properties!.Write(context);
     }
 }

@@ -7,12 +7,12 @@ public sealed class GameMakerAudio : IGameMakerSerializable {
     public Memory<byte> Data { get; set; }
 
     public void Read(DeserializationContext context) {
-        var len = context.Reader.ReadInt32();
-        Data = context.Reader.ReadBytes(len);
+        var len = context.ReadInt32();
+        Data = context.ReadBytes(len);
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Data.Length);
-        context.Writer.Write(Data);
+        context.Write(Data.Length);
+        context.Write(Data);
     }
 }

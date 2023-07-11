@@ -20,7 +20,7 @@ public sealed class GameMakerRemotePointerList<T> : List<GameMakerPointer<T>>,
     public void Read(DeserializationContext context, ListRead? beforeRead = null, ListRead? afterRead = null, ListElementRead? elementReader = null) {
         elementReader ??= (ctx, _) => ctx.ReadPointerAndObject<T>();
 
-        var count = context.Reader.ReadInt32();
+        var count = context.ReadInt32();
         Capacity = count;
 
         for (var i = 0; i < count; i++) {
@@ -35,12 +35,12 @@ public sealed class GameMakerRemotePointerList<T> : List<GameMakerPointer<T>>,
     }
 
     public void Write(SerializationContext context, ListWrite? beforeWriter = null, ListWrite? afterWriter = null, ListElementWrite? elementPointerWriter = null) {
-        context.Writer.Write(Count);
+        context.Write(Count);
 
         // Write pointers.
         foreach (var item in this) {
             if (elementPointerWriter is null)
-                context.Writer.Write(item);
+                context.Write(item);
             else
                 elementPointerWriter.Invoke(context, item);
         }

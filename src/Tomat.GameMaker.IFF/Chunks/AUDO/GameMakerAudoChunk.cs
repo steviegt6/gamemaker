@@ -21,7 +21,7 @@ public sealed class GameMakerAudoChunk : AbstractChunk {
         Audio!.Write(
             context,
             beforeWriter: (ctx, _, _) => {
-                ctx.Writer.Pad(4);
+                ctx.Pad(4);
             }
         );
     }

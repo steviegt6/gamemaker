@@ -6,10 +6,10 @@ public sealed class GameMakerTrackValueKeyframeData : IGameMakerSerializable {
     public int Value { get; set; }
 
     public void Read(DeserializationContext context) {
-        Value = context.Reader.ReadInt32();
+        Value = context.ReadInt32();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Value);
+        context.Write(Value);
     }
 }

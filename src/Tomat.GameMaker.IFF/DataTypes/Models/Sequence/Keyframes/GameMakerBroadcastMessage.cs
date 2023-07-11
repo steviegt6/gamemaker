@@ -9,16 +9,16 @@ public sealed class GameMakerBroadcastMessage : IGameMakerSerializable {
 
     public void Read(DeserializationContext context) {
         Messages = new List<GameMakerPointer<GameMakerString>>();
-        var count = context.Reader.ReadInt32();
+        var count = context.ReadInt32();
 
         for (var i = 0; i < count; i++)
             Messages.Add(context.ReadPointerAndObject<GameMakerString>());
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Messages!.Count);
+        context.Write(Messages!.Count);
 
         foreach (var message in Messages)
-            context.Writer.Write(message);
+            context.Write(message);
     }
 }

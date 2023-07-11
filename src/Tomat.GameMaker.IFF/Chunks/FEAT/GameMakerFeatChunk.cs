@@ -14,19 +14,19 @@ public sealed class GameMakerFeatChunk : AbstractChunk {
     public GameMakerFeatChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        context.Reader.Pad(4);
+        context.Pad(4);
 
-        var count = context.Reader.ReadInt32();
+        var count = context.ReadInt32();
         FeatureFlags = new List<GameMakerPointer<GameMakerString>>(count);
         for (var i = 0; i < count; i++)
             FeatureFlags.Add(context.ReadPointerAndObject<GameMakerString>());
     }
 
     public override void Write(SerializationContext context) {
-        context.Writer.Pad(4);
+        context.Pad(4);
 
-        context.Writer.Write(FeatureFlags!.Count);
+        context.Write(FeatureFlags!.Count);
         foreach (var flag in FeatureFlags)
-            context.Writer.Write(flag);
+            context.Write(flag);
     }
 }

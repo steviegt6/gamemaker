@@ -17,40 +17,40 @@ public sealed class GameMakerTexturePage : IGameMakerSerializable {
     public int IndexInGroup { get; set; }
 
     public void Read(DeserializationContext context) {
-        Scaled = context.Reader.ReadUInt32();
+        Scaled = context.ReadUInt32();
 
         if (context.VersionInfo.IsAtLeast(GM_2))
-            GeneratedMips = context.Reader.ReadUInt32();
+            GeneratedMips = context.ReadUInt32();
 
         if (context.VersionInfo.IsAtLeast(GM_2022_3))
-            context.Reader.Position += sizeof(int); // Ignore data length.
+            context.Position += sizeof(int); // Ignore data length.
 
         if (context.VersionInfo.IsAtLeast(GM_2022_9)) {
-            TextureWidth = context.Reader.ReadInt32();
-            TextureHeight = context.Reader.ReadInt32();
-            IndexInGroup = context.Reader.ReadInt32();
+            TextureWidth = context.ReadInt32();
+            TextureHeight = context.ReadInt32();
+            IndexInGroup = context.ReadInt32();
         }
 
         TextureData = context.ReadPointerAndObject<GameMakerTextureData>();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Scaled);
+        context.Write(Scaled);
 
         if (context.VersionInfo.IsAtLeast(GM_2))
-            context.Writer.Write(GeneratedMips);
+            context.Write(GeneratedMips);
 
         if (context.VersionInfo.IsAtLeast(GM_2022_3)) {
-            TextureData.ExpectObject().LengthOffset = context.Writer.Position;
-            context.Writer.Write(0); // Skip data length.
+            TextureData.ExpectObject().LengthOffset = context.Position;
+            context.Write(0); // Skip data length.
         }
 
         if (context.VersionInfo.IsAtLeast(GM_2022_9)) {
-            context.Writer.Write(TextureWidth);
-            context.Writer.Write(TextureHeight);
-            context.Writer.Write(IndexInGroup);
+            context.Write(TextureWidth);
+            context.Write(TextureHeight);
+            context.Write(IndexInGroup);
         }
 
-        context.Writer.Write(TextureData);
+        context.Write(TextureData);
     }
 }

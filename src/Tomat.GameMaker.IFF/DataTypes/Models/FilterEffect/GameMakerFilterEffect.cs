@@ -14,7 +14,7 @@ public sealed class GameMakerFilterEffect : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write(Value);
+        context.Write(Name);
+        context.Write(Value);
     }
 }

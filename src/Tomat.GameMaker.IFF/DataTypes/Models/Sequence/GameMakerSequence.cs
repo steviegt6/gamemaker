@@ -34,13 +34,13 @@ public sealed class GameMakerSequence : IGameMakerSerializable {
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
-        PlaybackType = (GameMakerSequencePlaybackType)context.Reader.ReadUInt32();
-        PlaybackSpeed = context.Reader.ReadSingle();
-        PlaybackSpeedType = (GameMakerSpritePlaybackSpeedType)context.Reader.ReadInt32();
-        Length = context.Reader.ReadSingle();
-        OriginX = context.Reader.ReadInt32();
-        OriginY = context.Reader.ReadInt32();
-        Volume = context.Reader.ReadSingle();
+        PlaybackType = (GameMakerSequencePlaybackType)context.ReadUInt32();
+        PlaybackSpeed = context.ReadSingle();
+        PlaybackSpeedType = (GameMakerSpritePlaybackSpeedType)context.ReadInt32();
+        Length = context.ReadSingle();
+        OriginX = context.ReadInt32();
+        OriginY = context.ReadInt32();
+        Volume = context.ReadSingle();
 
         BroadcastMessages = new GameMakerList<GameMakerKeyframe<GameMakerBroadcastMessage>>();
         BroadcastMessages.Read(context);
@@ -48,11 +48,11 @@ public sealed class GameMakerSequence : IGameMakerSerializable {
         Tracks = new GameMakerList<GameMakerTrack>();
         Tracks.Read(context);
 
-        var functionIdCount = context.Reader.ReadInt32();
+        var functionIdCount = context.ReadInt32();
         FunctionIds = new Dictionary<int, GameMakerPointer<GameMakerString>>(functionIdCount);
 
         for (var i = 0; i < functionIdCount; i++) {
-            var functionId = context.Reader.ReadInt32();
+            var functionId = context.ReadInt32();
             var functionName = context.ReadPointerAndObject<GameMakerString>();
             FunctionIds.Add(functionId, functionName);
         }
@@ -62,24 +62,24 @@ public sealed class GameMakerSequence : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write((uint)PlaybackType);
-        context.Writer.Write(PlaybackSpeed);
-        context.Writer.Write((int)PlaybackSpeedType);
-        context.Writer.Write(Length);
-        context.Writer.Write(OriginX);
-        context.Writer.Write(OriginY);
-        context.Writer.Write(Volume);
+        context.Write(Name);
+        context.Write((uint)PlaybackType);
+        context.Write(PlaybackSpeed);
+        context.Write((int)PlaybackSpeedType);
+        context.Write(Length);
+        context.Write(OriginX);
+        context.Write(OriginY);
+        context.Write(Volume);
 
         BroadcastMessages!.Write(context);
 
         Tracks!.Write(context);
 
-        context.Writer.Write(FunctionIds!.Count);
+        context.Write(FunctionIds!.Count);
 
         foreach (var (functionId, functionName) in FunctionIds) {
-            context.Writer.Write(functionId);
-            context.Writer.Write(functionName);
+            context.Write(functionId);
+            context.Write(functionName);
         }
 
         Moments!.Write(context);

@@ -10,17 +10,17 @@ public sealed class GameMakerAssetTag : IGameMakerSerializable {
     public List<GameMakerPointer<GameMakerString>>? Tags { get; set; }
 
     public void Read(DeserializationContext context) {
-        Id = context.Reader.ReadInt32();
-        var count = context.Reader.ReadInt32();
+        Id = context.ReadInt32();
+        var count = context.ReadInt32();
         Tags = new List<GameMakerPointer<GameMakerString>>();
         for (var i = count; i > 0; i--)
             Tags.Add(context.ReadPointerAndObject<GameMakerString>());
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Id);
-        context.Writer.Write(Tags!.Count);
+        context.Write(Id);
+        context.Write(Tags!.Count);
         foreach (var tag in Tags)
-            context.Writer.Write(tag);
+            context.Write(tag);
     }
 }

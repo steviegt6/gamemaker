@@ -8,12 +8,12 @@ public sealed class GameMakerObjectPhysicsVertex : IGameMakerSerializable {
     public float Y { get; set; }
 
     public void Read(DeserializationContext context) {
-        X = context.Reader.ReadSingle();
-        Y = context.Reader.ReadSingle();
+        X = context.ReadSingle();
+        Y = context.ReadSingle();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(X);
-        context.Writer.Write(Y);
+        context.Write(X);
+        context.Write(Y);
     }
 }

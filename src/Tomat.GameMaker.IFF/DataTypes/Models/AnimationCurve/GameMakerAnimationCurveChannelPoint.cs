@@ -16,33 +16,33 @@ public sealed class GameMakerAnimationCurveChannelPoint : IGameMakerSerializable
     public float BezierY1 { get; set; }
 
     public void Read(DeserializationContext context) {
-        X = context.Reader.ReadSingle();
-        Value = context.Reader.ReadSingle();
+        X = context.ReadSingle();
+        Value = context.ReadSingle();
 
         // In 2.3, an int32 with a value of zero would be set here. It cannot be
         // version 2.3 if this value isn't zero.
-        if (context.Reader.ReadUInt32() != 0) {
+        if (context.ReadUInt32() != 0) {
             context.VersionInfo.UpdateTo(GM_2_3_1);
-            context.Reader.Position -= sizeof(uint);
+            context.Position -= sizeof(uint);
         }
         else {
             // If BezierX0 equals zero (above), then BezierY0 equals zero as
             // well.
-            if (context.Reader.ReadUInt32() == 0)
+            if (context.ReadUInt32() == 0)
                 context.VersionInfo.UpdateTo(GM_2_3_1);
-            context.Reader.Position -= sizeof(uint) * 2;
+            context.Position -= sizeof(uint) * 2;
         }
 
         if (context.VersionInfo.IsAtLeast(GM_2_3_1)) {
-            BezierX0 = context.Reader.ReadSingle();
-            BezierY0 = context.Reader.ReadSingle();
-            BezierX1 = context.Reader.ReadSingle();
-            BezierY1 = context.Reader.ReadSingle();
+            BezierX0 = context.ReadSingle();
+            BezierY0 = context.ReadSingle();
+            BezierX1 = context.ReadSingle();
+            BezierY1 = context.ReadSingle();
         }
         else {
             // Skip over the aforementioned should-be-zero int32 values on older
             // versions.
-            context.Reader.Position += sizeof(uint);
+            context.Position += sizeof(uint);
         }
     }
 

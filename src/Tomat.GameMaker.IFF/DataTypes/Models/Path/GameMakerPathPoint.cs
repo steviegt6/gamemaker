@@ -10,14 +10,14 @@ public sealed class GameMakerPathPoint : IGameMakerSerializable {
     public float Speed { get; set; }
 
     public void Read(DeserializationContext context) {
-        X = context.Reader.ReadSingle();
-        Y = context.Reader.ReadSingle();
-        Speed = context.Reader.ReadSingle();
+        X = context.ReadSingle();
+        Y = context.ReadSingle();
+        Speed = context.ReadSingle();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(X);
-        context.Writer.Write(Y);
-        context.Writer.Write(Speed);
+        context.Write(X);
+        context.Write(Y);
+        context.Write(Speed);
     }
 }

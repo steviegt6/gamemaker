@@ -69,31 +69,31 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
-        Width = context.Reader.ReadInt32();
-        Height = context.Reader.ReadInt32();
-        MarginLeft = context.Reader.ReadInt32();
-        MarginRight = context.Reader.ReadInt32();
-        MarginBottom = context.Reader.ReadInt32();
-        MarginTop = context.Reader.ReadInt32();
-        Transparent = context.Reader.ReadBoolean(wide: true);
-        Smooth = context.Reader.ReadBoolean(wide: true);
-        Preload = context.Reader.ReadBoolean(wide: true);
-        BBoxMode = context.Reader.ReadUInt32();
-        SeparationMaskTypes = (GameMakerSpriteSeparationMaskType)context.Reader.ReadUInt32();
-        OriginX = context.Reader.ReadInt32();
-        OriginY = context.Reader.ReadInt32();
+        Width = context.ReadInt32();
+        Height = context.ReadInt32();
+        MarginLeft = context.ReadInt32();
+        MarginRight = context.ReadInt32();
+        MarginBottom = context.ReadInt32();
+        MarginTop = context.ReadInt32();
+        Transparent = context.ReadBoolean(wide: true);
+        Smooth = context.ReadBoolean(wide: true);
+        Preload = context.ReadBoolean(wide: true);
+        BBoxMode = context.ReadUInt32();
+        SeparationMaskTypes = (GameMakerSpriteSeparationMaskType)context.ReadUInt32();
+        OriginX = context.ReadInt32();
+        OriginY = context.ReadInt32();
 
         TextureItems = new GameMakerRemotePointerList<GameMakerTextureItem>();
 
-        if (context.Reader.ReadInt32() == -1) {
+        if (context.ReadInt32() == -1) {
             SpecialOrGm2 = true;
 
-            SpriteVersion = context.Reader.ReadInt32();
-            SpriteType = (GameMakerSpriteType)context.Reader.ReadInt32();
+            SpriteVersion = context.ReadInt32();
+            SpriteType = (GameMakerSpriteType)context.ReadInt32();
 
             if (context.VersionInfo.IsAtLeast(GM_2)) {
-                PlaybackSpeed = context.Reader.ReadSingle();
-                PlaybackSpeedType = (GameMakerSpritePlaybackSpeedType)context.Reader.ReadInt32();
+                PlaybackSpeed = context.ReadSingle();
+                PlaybackSpeedType = (GameMakerSpritePlaybackSpeedType)context.ReadInt32();
 
                 if (SpriteVersion >= 2) {
                     Sequence = context.ReadPointerAndObject<GameMakerSpriteSequenceReference>();
@@ -114,49 +114,49 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
                     break;
 
                 case GameMakerSpriteType.Swf:
-                    if (context.Reader.ReadInt32() != 8)
+                    if (context.ReadInt32() != 8)
                         throw new InvalidDataException("Expected 8, SWF format incorrect.");
 
                     TextureItems.Read(context);
-                    context.Reader.Pad(4);
-                    begin = context.Reader.Position;
-                    var jpegTablesLength = context.Reader.ReadInt32();
-                    if (context.Reader.ReadInt32() != 8)
+                    context.Pad(4);
+                    begin = context.Position;
+                    var jpegTablesLength = context.ReadInt32();
+                    if (context.ReadInt32() != 8)
                         throw new InvalidDataException("Expected 8, SWF format incorrect.");
 
-                    context.Reader.Position += jpegTablesLength;
-                    context.Reader.Pad(4);
-                    context.Reader.Position += (context.Reader.ReadInt32() * 8) + 4;
-                    var frameCount = context.Reader.ReadInt32();
-                    context.Reader.Position += 16;
-                    var maskCount = context.Reader.ReadInt32();
-                    context.Reader.Position += 8;
+                    context.Position += jpegTablesLength;
+                    context.Pad(4);
+                    context.Position += (context.ReadInt32() * 8) + 4;
+                    var frameCount = context.ReadInt32();
+                    context.Position += 16;
+                    var maskCount = context.ReadInt32();
+                    context.Position += 8;
                     for (var i = 0; i < frameCount; i++)
-                        context.Reader.Position += (context.Reader.ReadInt32() * 100) + 16;
+                        context.Position += (context.ReadInt32() * 100) + 16;
 
                     for (var i = 0; i < maskCount; i++) {
-                        context.Reader.Position += context.Reader.ReadInt32();
-                        context.Reader.Pad(4);
+                        context.Position += context.ReadInt32();
+                        context.Pad(4);
                     }
 
-                    var swfDataLength = context.Reader.Position - begin;
-                    context.Reader.Position = begin;
-                    SpriteBuffer = context.Reader.ReadBytes(swfDataLength);
+                    var swfDataLength = context.Position - begin;
+                    context.Position = begin;
+                    SpriteBuffer = context.ReadBytes(swfDataLength);
                     break;
 
                 case GameMakerSpriteType.Spine:
-                    context.Reader.Pad(4);
+                    context.Pad(4);
 
-                    begin = context.Reader.Position;
-                    _ = context.Reader.ReadUInt32(); // Version number.
-                    var jsonLength = context.Reader.ReadInt32();
-                    var atlasLength = context.Reader.ReadInt32();
-                    var textureLength = context.Reader.ReadInt32();
-                    _ = context.Reader.ReadUInt32(); // Atlas texture width.
-                    _ = context.Reader.ReadUInt32(); // Atlas texture height.
-                    context.Reader.Position = begin;
+                    begin = context.Position;
+                    _ = context.ReadUInt32(); // Version number.
+                    var jsonLength = context.ReadInt32();
+                    var atlasLength = context.ReadInt32();
+                    var textureLength = context.ReadInt32();
+                    _ = context.ReadUInt32(); // Atlas texture width.
+                    _ = context.ReadUInt32(); // Atlas texture height.
+                    context.Position = begin;
 
-                    SpriteBuffer = context.Reader.ReadBytes((sizeof(uint) * 3) + (sizeof(int) * 3) + jsonLength + atlasLength + textureLength);
+                    SpriteBuffer = context.ReadBytes((sizeof(uint) * 3) + (sizeof(int) * 3) + jsonLength + atlasLength + textureLength);
                     break;
 
                 default:
@@ -165,47 +165,47 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
         }
         else {
             // Normal, GameMaker 1.4 sprite.
-            context.Reader.Position -= 4;
+            context.Position -= 4;
             TextureItems.Read(context);
             ParseMaskData(context);
         }
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write(Width);
-        context.Writer.Write(Height);
-        context.Writer.Write(MarginLeft);
-        context.Writer.Write(MarginRight);
-        context.Writer.Write(MarginBottom);
-        context.Writer.Write(MarginTop);
-        context.Writer.Write(Transparent, wide: true);
-        context.Writer.Write(Smooth, wide: true);
-        context.Writer.Write(Preload, wide: true);
-        context.Writer.Write(BBoxMode);
-        context.Writer.Write((uint)SeparationMaskTypes);
-        context.Writer.Write(OriginX);
-        context.Writer.Write(OriginY);
+        context.Write(Name);
+        context.Write(Width);
+        context.Write(Height);
+        context.Write(MarginLeft);
+        context.Write(MarginRight);
+        context.Write(MarginBottom);
+        context.Write(MarginTop);
+        context.Write(Transparent, wide: true);
+        context.Write(Smooth, wide: true);
+        context.Write(Preload, wide: true);
+        context.Write(BBoxMode);
+        context.Write((uint)SeparationMaskTypes);
+        context.Write(OriginX);
+        context.Write(OriginY);
 
         if (SpecialOrGm2) {
-            context.Writer.Write(-1);
+            context.Write(-1);
             if (context.VersionInfo.IsAtLeast(GM_2_3_2))
-                context.Writer.Write(3);
+                context.Write(3);
             else if (context.VersionInfo.IsAtLeast(GM_2_3))
-                context.Writer.Write(2);
+                context.Write(2);
             else
-                context.Writer.Write(1);
-            context.Writer.Write((int)SpriteType);
+                context.Write(1);
+            context.Write((int)SpriteType);
 
             if (context.VersionInfo.IsAtLeast(GM_2)) {
-                context.Writer.Write(PlaybackSpeed);
-                context.Writer.Write((int)PlaybackSpeedType);
+                context.Write(PlaybackSpeed);
+                context.Write((int)PlaybackSpeedType);
 
                 if (context.VersionInfo.IsAtLeast(GM_2_3)) {
-                    context.Writer.Write(Sequence);
+                    context.Write(Sequence);
 
                     if (context.VersionInfo.IsAtLeast(GM_2_3_2))
-                        context.Writer.Write(NineSlice);
+                        context.Write(NineSlice);
                 }
             }
 
@@ -216,15 +216,15 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
                     break;
 
                 case GameMakerSpriteType.Swf:
-                    context.Writer.Write(8);
+                    context.Write(8);
                     TextureItems!.Write(context);
-                    context.Writer.Pad(4);
-                    context.Writer.Write(SpriteBuffer);
+                    context.Pad(4);
+                    context.Write(SpriteBuffer);
                     break;
 
                 case GameMakerSpriteType.Spine:
-                    context.Writer.Pad(4);
-                    context.Writer.Write(SpriteBuffer);
+                    context.Pad(4);
+                    context.Write(SpriteBuffer);
                     break;
 
                 default:
@@ -232,12 +232,12 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
             }
 
             if (Sequence is { IsNull: false, Object: { } }) {
-                context.Writer.Pad(4);
+                context.Pad(4);
                 context.MarkPointerAndWriteObject(Sequence);
             }
 
             if (NineSlice is { IsNull: false, Object: { } }) {
-                context.Writer.Pad(4);
+                context.Pad(4);
                 context.MarkPointerAndWriteObject(NineSlice);
             }
         }
@@ -248,14 +248,14 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
     }
 
     private void ParseMaskData(DeserializationContext context) {
-        var maskCount = context.Reader.ReadInt32();
+        var maskCount = context.ReadInt32();
         var length = ((Width + 7) / 8) * Height;
 
         CollisionMasks = new List<Memory<byte>>();
         var total = 0;
 
         for (var i = 0; i < maskCount; i++) {
-            CollisionMasks.Add(context.Reader.ReadBytes(length));
+            CollisionMasks.Add(context.ReadBytes(length));
             total += length;
         }
 
@@ -270,18 +270,18 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
     }
 
     private void WriteMaskData(SerializationContext context) {
-        context.Writer.Write(CollisionMasks!.Count);
+        context.Write(CollisionMasks!.Count);
         var total = 0;
 
         foreach (var mask in CollisionMasks) {
-            context.Writer.Write(mask);
+            context.Write(mask);
             total += mask.Length;
         }
 
         // Pad to 4 bytes.
         if (total % 4 != 0)
             total += 4 - (total % 4);
-        context.Writer.Pad(4);
+        context.Pad(4);
 
         var totalBits = (Width + 7) / 8 * 8 * Height * CollisionMasks.Count;
         var totalBytes = ((totalBits + 31) / 32 * 32) / 8;

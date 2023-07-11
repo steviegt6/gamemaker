@@ -15,7 +15,7 @@ public sealed class GameMakerEmbeddedImage : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write(TextureItem);
+        context.Write(Name);
+        context.Write(TextureItem);
     }
 }

@@ -44,28 +44,28 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
             return;
         }
 
-        if (context.Reader.Pointers.TryGetValue(Address, out var obj)) {
+        if (context.Pointers.TryGetValue(Address, out var obj)) {
             Object = (T)obj;
         }
         else {
             Object = new T();
-            context.Reader.Pointers[Address] = Object;
+            context.Pointers[Address] = Object;
         }
 
-        var pos = context.Reader.Position;
-        context.Reader.Position = Address;
+        var pos = context.Position;
+        context.Position = Address;
 
         Object.Read(context);
 
         if (returnAfter)
-            context.Reader.Position = pos;
+            context.Position = pos;
     }
 
     public void WriteObject(SerializationContext context) {
         if (Object is null)
             throw new InvalidOperationException("Cannot write null object.");
 
-        context.Writer.Pointers[Object] = context.Writer.Position;
+        context.Pointers[Object] = context.Position;
     }
 
     public override string? ToString() {

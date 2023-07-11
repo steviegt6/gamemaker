@@ -39,23 +39,23 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
     public GameMakerOptnChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        context.VersionInfo.OptionBitflag = context.Reader.ReadInt32() == int.MinValue;
-        context.Reader.Position -= sizeof(int);
+        context.VersionInfo.OptionBitflag = context.ReadInt32() == int.MinValue;
+        context.Position -= sizeof(int);
 
         if (context.VersionInfo.OptionBitflag) {
-            UnknownUInt64 = context.Reader.ReadUInt64();
-            Options = (OptnOptionFlags)context.Reader.ReadUInt64();
-            Scale = context.Reader.ReadInt32();
-            WindowColor = context.Reader.ReadUInt32();
-            ColorDepth = context.Reader.ReadUInt32();
-            Resolution = context.Reader.ReadUInt32();
-            Frequency = context.Reader.ReadUInt32();
-            VertexSync = context.Reader.ReadUInt32();
-            Priority = context.Reader.ReadUInt32();
+            UnknownUInt64 = context.ReadUInt64();
+            Options = (OptnOptionFlags)context.ReadUInt64();
+            Scale = context.ReadInt32();
+            WindowColor = context.ReadUInt32();
+            ColorDepth = context.ReadUInt32();
+            Resolution = context.ReadUInt32();
+            Frequency = context.ReadUInt32();
+            VertexSync = context.ReadUInt32();
+            Priority = context.ReadUInt32();
             SplashBackImage = context.ReadPointerAndObject<GameMakerTextureItem>();
             SplashFrontImage = context.ReadPointerAndObject<GameMakerTextureItem>();
             SplashLoadImage = context.ReadPointerAndObject<GameMakerTextureItem>();
-            LoadAlpha = context.Reader.ReadUInt32();
+            LoadAlpha = context.ReadUInt32();
         }
         else {
             Options = 0;
@@ -64,30 +64,30 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
             ReadOptionFlag(context, OptnOptionFlags.UseNewAudio);
             ReadOptionFlag(context, OptnOptionFlags.NoBorder);
             ReadOptionFlag(context, OptnOptionFlags.ShowCursor);
-            Scale = context.Reader.ReadInt32();
+            Scale = context.ReadInt32();
             ReadOptionFlag(context, OptnOptionFlags.Sizeable);
             ReadOptionFlag(context, OptnOptionFlags.StayOnTop);
-            WindowColor = context.Reader.ReadUInt32();
+            WindowColor = context.ReadUInt32();
             ReadOptionFlag(context, OptnOptionFlags.ChangeResolution);
-            ColorDepth = context.Reader.ReadUInt32();
-            Resolution = context.Reader.ReadUInt32();
-            Frequency = context.Reader.ReadUInt32();
+            ColorDepth = context.ReadUInt32();
+            Resolution = context.ReadUInt32();
+            Frequency = context.ReadUInt32();
             ReadOptionFlag(context, OptnOptionFlags.NoButtons);
-            VertexSync = context.Reader.ReadUInt32();
+            VertexSync = context.ReadUInt32();
             ReadOptionFlag(context, OptnOptionFlags.ScreenKey);
             ReadOptionFlag(context, OptnOptionFlags.HelpKey);
             ReadOptionFlag(context, OptnOptionFlags.QuitKey);
             ReadOptionFlag(context, OptnOptionFlags.SaveKey);
             ReadOptionFlag(context, OptnOptionFlags.ScreenShotKey);
             ReadOptionFlag(context, OptnOptionFlags.CloseSec);
-            Priority = context.Reader.ReadUInt32();
+            Priority = context.ReadUInt32();
             ReadOptionFlag(context, OptnOptionFlags.Freeze);
             ReadOptionFlag(context, OptnOptionFlags.ShowProgress);
             SplashBackImage = context.ReadPointerAndObject<GameMakerTextureItem>();
             SplashFrontImage = context.ReadPointerAndObject<GameMakerTextureItem>();
             SplashLoadImage = context.ReadPointerAndObject<GameMakerTextureItem>();
             ReadOptionFlag(context, OptnOptionFlags.LoadTransparent);
-            LoadAlpha = context.Reader.ReadUInt32();
+            LoadAlpha = context.ReadUInt32();
             ReadOptionFlag(context, OptnOptionFlags.ScaleProgress);
             ReadOptionFlag(context, OptnOptionFlags.DisplayErrors);
             ReadOptionFlag(context, OptnOptionFlags.WriteErrors);
@@ -102,19 +102,19 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
 
     public override void Write(SerializationContext context) {
         if (context.VersionInfo.OptionBitflag) {
-            context.Writer.Write(UnknownUInt64);
-            context.Writer.Write((ulong)Options);
-            context.Writer.Write(Scale);
-            context.Writer.Write(WindowColor);
-            context.Writer.Write(ColorDepth);
-            context.Writer.Write(Resolution);
-            context.Writer.Write(Frequency);
-            context.Writer.Write(VertexSync);
-            context.Writer.Write(Priority);
-            context.Writer.Write(SplashBackImage);
-            context.Writer.Write(SplashFrontImage);
-            context.Writer.Write(SplashLoadImage);
-            context.Writer.Write(LoadAlpha);
+            context.Write(UnknownUInt64);
+            context.Write((ulong)Options);
+            context.Write(Scale);
+            context.Write(WindowColor);
+            context.Write(ColorDepth);
+            context.Write(Resolution);
+            context.Write(Frequency);
+            context.Write(VertexSync);
+            context.Write(Priority);
+            context.Write(SplashBackImage);
+            context.Write(SplashFrontImage);
+            context.Write(SplashLoadImage);
+            context.Write(LoadAlpha);
         }
         else {
             WriteOptionFlag(context, OptnOptionFlags.Fullscreen);
@@ -122,30 +122,30 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
             WriteOptionFlag(context, OptnOptionFlags.UseNewAudio);
             WriteOptionFlag(context, OptnOptionFlags.NoBorder);
             WriteOptionFlag(context, OptnOptionFlags.ShowCursor);
-            context.Writer.Write(Scale);
+            context.Write(Scale);
             WriteOptionFlag(context, OptnOptionFlags.Sizeable);
             WriteOptionFlag(context, OptnOptionFlags.StayOnTop);
-            context.Writer.Write(WindowColor);
+            context.Write(WindowColor);
             WriteOptionFlag(context, OptnOptionFlags.ChangeResolution);
-            context.Writer.Write(ColorDepth);
-            context.Writer.Write(Resolution);
-            context.Writer.Write(Frequency);
+            context.Write(ColorDepth);
+            context.Write(Resolution);
+            context.Write(Frequency);
             WriteOptionFlag(context, OptnOptionFlags.NoButtons);
-            context.Writer.Write(VertexSync);
+            context.Write(VertexSync);
             WriteOptionFlag(context, OptnOptionFlags.ScreenKey);
             WriteOptionFlag(context, OptnOptionFlags.HelpKey);
             WriteOptionFlag(context, OptnOptionFlags.QuitKey);
             WriteOptionFlag(context, OptnOptionFlags.SaveKey);
             WriteOptionFlag(context, OptnOptionFlags.ScreenShotKey);
             WriteOptionFlag(context, OptnOptionFlags.CloseSec);
-            context.Writer.Write(Priority);
+            context.Write(Priority);
             WriteOptionFlag(context, OptnOptionFlags.Freeze);
             WriteOptionFlag(context, OptnOptionFlags.ShowProgress);
-            context.Writer.Write(SplashBackImage);
-            context.Writer.Write(SplashFrontImage);
-            context.Writer.Write(SplashLoadImage);
+            context.Write(SplashBackImage);
+            context.Write(SplashFrontImage);
+            context.Write(SplashLoadImage);
             WriteOptionFlag(context, OptnOptionFlags.LoadTransparent);
-            context.Writer.Write(LoadAlpha);
+            context.Write(LoadAlpha);
             WriteOptionFlag(context, OptnOptionFlags.ScaleProgress);
             WriteOptionFlag(context, OptnOptionFlags.DisplayErrors);
             WriteOptionFlag(context, OptnOptionFlags.WriteErrors);
@@ -158,11 +158,11 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
     }
 
     private void ReadOptionFlag(DeserializationContext context, OptnOptionFlags flag) {
-        if (context.Reader.ReadBoolean(wide: true))
+        if (context.ReadBoolean(wide: true))
             Options |= flag;
     }
 
     private void WriteOptionFlag(SerializationContext context, OptnOptionFlags flag) {
-        context.Writer.Write((Options & flag) == flag, wide: true);
+        context.Write((Options & flag) == flag, wide: true);
     }
 }

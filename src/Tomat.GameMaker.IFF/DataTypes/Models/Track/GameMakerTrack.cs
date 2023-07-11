@@ -30,17 +30,17 @@ public sealed class GameMakerTrack : IGameMakerSerializable {
     public void Read(DeserializationContext context) {
         ModelName = context.ReadPointerAndObject<GameMakerString>();
         Name = context.ReadPointerAndObject<GameMakerString>();
-        BuiltinName = context.Reader.ReadInt32();
-        TrackTraits = (GameMakerTrackTraits)context.Reader.ReadInt32();
-        IsCreationTrack = context.Reader.ReadBoolean(wide: true);
+        BuiltinName = context.ReadInt32();
+        TrackTraits = (GameMakerTrackTraits)context.ReadInt32();
+        IsCreationTrack = context.ReadBoolean(wide: true);
 
-        var tagCount = context.Reader.ReadInt32();
-        var ownedResourceCount = context.Reader.ReadInt32();
-        var trackCount = context.Reader.ReadInt32();
+        var tagCount = context.ReadInt32();
+        var ownedResourceCount = context.ReadInt32();
+        var trackCount = context.ReadInt32();
 
         Tags = new List<int>(tagCount);
         for (var i = 0; i < tagCount; i++)
-            Tags.Add(context.Reader.ReadInt32());
+            Tags.Add(context.ReadInt32());
 
         OwnedResources = new List<IGameMakerSerializable>(ownedResourceCount);
         OwnedResourceTypes = new List<GameMakerPointer<GameMakerString>>(ownedResourceCount);
@@ -114,21 +114,21 @@ public sealed class GameMakerTrack : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(ModelName);
-        context.Writer.Write(Name);
-        context.Writer.Write(BuiltinName);
-        context.Writer.Write((int)TrackTraits);
-        context.Writer.Write(IsCreationTrack, wide: true);
+        context.Write(ModelName);
+        context.Write(Name);
+        context.Write(BuiltinName);
+        context.Write((int)TrackTraits);
+        context.Write(IsCreationTrack, wide: true);
 
-        context.Writer.Write(Tags!.Count);
-        context.Writer.Write(OwnedResources!.Count);
-        context.Writer.Write(Tracks!.Count);
+        context.Write(Tags!.Count);
+        context.Write(OwnedResources!.Count);
+        context.Write(Tracks!.Count);
 
         foreach (var tag in Tags)
-            context.Writer.Write(tag);
+            context.Write(tag);
 
         for (var i = 0; i < OwnedResources.Count; i++) {
-            context.Writer.Write(OwnedResourceTypes![i]);
+            context.Write(OwnedResourceTypes![i]);
             OwnedResources[i]!.Write(context);
         }
 

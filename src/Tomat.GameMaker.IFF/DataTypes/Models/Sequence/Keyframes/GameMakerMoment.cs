@@ -10,14 +10,14 @@ public sealed class GameMakerMoment : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> Event { get; set; }
 
     public void Read(DeserializationContext context) {
-        InternalCount = context.Reader.ReadInt32();
+        InternalCount = context.ReadInt32();
         if (InternalCount > 0)
             Event = context.ReadPointerAndObject<GameMakerString>();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(InternalCount);
+        context.Write(InternalCount);
         if (InternalCount > 0)
-            context.Writer.Write(Event);
+            context.Write(Event);
     }
 }

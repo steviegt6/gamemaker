@@ -27,10 +27,10 @@ public sealed class GameMakerLanguage : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write(Region);
+        context.Write(Name);
+        context.Write(Region);
 
         foreach (var entry in Entries!)
-            context.Writer.Write(entry);
+            context.Write(entry);
     }
 }

@@ -10,7 +10,7 @@ public sealed class GameMakerSpriteSequenceReference : IGameMakerSerializable {
     public GameMakerSequence? Sequence { get; set; }
 
     public void Read(DeserializationContext context) {
-        Version = context.Reader.ReadInt32();
+        Version = context.ReadInt32();
         if (Version != 1)
             throw new InvalidDataException($"Expected version 1, got {Version}.");
 
@@ -19,7 +19,7 @@ public sealed class GameMakerSpriteSequenceReference : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Version);
+        context.Write(Version);
         Sequence!.Write(context);
     }
 }

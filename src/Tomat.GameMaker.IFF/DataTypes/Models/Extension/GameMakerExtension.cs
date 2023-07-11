@@ -36,13 +36,13 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(EmptyString);
-        context.Writer.Write(Name);
-        context.Writer.Write(ClassName);
+        context.Write(EmptyString);
+        context.Write(Name);
+        context.Write(ClassName);
 
         if (context.VersionInfo.IsAtLeast(GM_2022_6)) {
-            context.Writer.Write(filesPointer!.Value);
-            context.Writer.Write(Options);
+            context.Write(filesPointer!.Value);
+            context.Write(Options);
             context.MarkPointerAndWriteObject(filesPointer.Value);
             context.MarkPointerAndWriteObject(Options);
         }

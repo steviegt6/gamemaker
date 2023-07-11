@@ -12,19 +12,19 @@ public sealed class GameMakerShdrChunk : AbstractChunk {
     public GameMakerShdrChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        context.Reader.Position -= 4;
-        var chunkEnd = context.Reader.Position + sizeof(int) + context.Reader.ReadInt32();
+        context.Position -= 4;
+        var chunkEnd = context.Position + sizeof(int) + context.ReadInt32();
 
-        var count = context.Reader.ReadInt32();
+        var count = context.ReadInt32();
         var pointers = new int[count];
         for (var i = 0; i < count; i++)
-            pointers[i] = context.Reader.ReadInt32();
+            pointers[i] = context.ReadInt32();
         
         Shaders = new List<GameMakerShader>(count);
 
         for (var i = 0; i < count; i++) {
             var shader = new GameMakerShader();
-            context.Reader.Position = pointers[i];
+            context.Position = pointers[i];
             shader.Read(context, i < count - 1 ? pointers[i + 1] : chunkEnd);
             Shaders.Add(shader);
         }

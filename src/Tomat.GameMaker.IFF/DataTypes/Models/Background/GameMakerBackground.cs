@@ -37,71 +37,71 @@ public sealed class GameMakerBackground : IGameMakerSerializable {
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
-        Transparent = context.Reader.ReadBoolean(wide: true);
-        Smooth = context.Reader.ReadBoolean(wide: true);
-        Preload = context.Reader.ReadBoolean(wide: true);
+        Transparent = context.ReadBoolean(wide: true);
+        Smooth = context.ReadBoolean(wide: true);
+        Preload = context.ReadBoolean(wide: true);
         Texture = context.ReadPointerAndObject<GameMakerTextureItem>();
 
         if (!context.VersionInfo.IsAtLeast(GM_2))
             return;
 
-        TileUnknownInt32Always2 = context.Reader.ReadInt32();
+        TileUnknownInt32Always2 = context.ReadInt32();
         if (TileUnknownInt32Always2 != 2)
             throw new InvalidDataException($"Expected 2 for unknown int32, got {TileUnknownInt32Always2}.");
 
-        TileWidth = context.Reader.ReadUInt32();
-        TileHeight = context.Reader.ReadUInt32();
-        TileOutputBorderX = context.Reader.ReadUInt32();
-        TileOutputBorderY = context.Reader.ReadUInt32();
-        TileColumns = context.Reader.ReadUInt32();
+        TileWidth = context.ReadUInt32();
+        TileHeight = context.ReadUInt32();
+        TileOutputBorderX = context.ReadUInt32();
+        TileOutputBorderY = context.ReadUInt32();
+        TileColumns = context.ReadUInt32();
 
-        var tileFrameCount = context.Reader.ReadUInt32();
-        var tileCount = context.Reader.ReadUInt32();
+        var tileFrameCount = context.ReadUInt32();
+        var tileCount = context.ReadUInt32();
 
-        TileUnknownInt32Always0 = context.Reader.ReadInt32();
+        TileUnknownInt32Always0 = context.ReadInt32();
         if (TileUnknownInt32Always0 != 0)
             throw new InvalidDataException($"Expected 0 for unknown int32, got {TileUnknownInt32Always0}.");
 
-        TileFrameLength = context.Reader.ReadInt64();
+        TileFrameLength = context.ReadInt64();
 
         Tiles = new List<List<uint>>((int)tileCount);
 
         for (var i = 0; i < tileCount; i++) {
             var tileFrames = new List<uint>((int)tileFrameCount);
             for (var j = 0; j < tileFrameCount; j++)
-                tileFrames.Add(context.Reader.ReadUInt32());
+                tileFrames.Add(context.ReadUInt32());
 
             Tiles.Add(tileFrames);
         }
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write(Transparent, wide: true);
-        context.Writer.Write(Smooth, wide: true);
-        context.Writer.Write(Preload, wide: true);
-        context.Writer.Write(Texture);
+        context.Write(Name);
+        context.Write(Transparent, wide: true);
+        context.Write(Smooth, wide: true);
+        context.Write(Preload, wide: true);
+        context.Write(Texture);
 
         if (!context.VersionInfo.IsAtLeast(GM_2))
             return;
 
-        context.Writer.Write(TileUnknownInt32Always2);
-        context.Writer.Write(TileWidth);
-        context.Writer.Write(TileHeight);
-        context.Writer.Write(TileOutputBorderX);
-        context.Writer.Write(TileOutputBorderY);
-        context.Writer.Write(TileColumns);
-        context.Writer.Write((uint)Tiles![0].Count);
-        context.Writer.Write((uint)Tiles!.Count);
-        context.Writer.Write(TileUnknownInt32Always0);
-        context.Writer.Write(TileFrameLength);
+        context.Write(TileUnknownInt32Always2);
+        context.Write(TileWidth);
+        context.Write(TileHeight);
+        context.Write(TileOutputBorderX);
+        context.Write(TileOutputBorderY);
+        context.Write(TileColumns);
+        context.Write((uint)Tiles![0].Count);
+        context.Write((uint)Tiles!.Count);
+        context.Write(TileUnknownInt32Always0);
+        context.Write(TileFrameLength);
 
         for (var i = 0; i < Tiles.Count; i++) {
             if (i != 0 && Tiles[i].Count != Tiles[i - 1].Count)
                 throw new InvalidDataException($"Tile {i} has {Tiles[i].Count} frames, but tile {i - 1} has {Tiles[i - 1].Count} frames.");
 
             foreach (var frame in Tiles[i])
-                context.Writer.Write(frame);
+                context.Write(frame);
         }
     }
 }

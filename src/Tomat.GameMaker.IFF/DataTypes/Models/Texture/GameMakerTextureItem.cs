@@ -28,30 +28,30 @@ public sealed class GameMakerTextureItem : IGameMakerSerializable {
     public short TexturePageId { get; set; } = -1;
 
     public void Read(DeserializationContext context) {
-        SourceX = context.Reader.ReadUInt16();
-        SourceY = context.Reader.ReadUInt16();
-        SourceWidth = context.Reader.ReadUInt16();
-        SourceHeight = context.Reader.ReadUInt16();
-        TargetX = context.Reader.ReadUInt16();
-        TargetY = context.Reader.ReadUInt16();
-        TargetWidth = context.Reader.ReadUInt16();
-        TargetHeight = context.Reader.ReadUInt16();
-        BoundWidth = context.Reader.ReadUInt16();
-        BoundHeight = context.Reader.ReadUInt16();
-        TexturePageId = context.Reader.ReadInt16();
+        SourceX = context.ReadUInt16();
+        SourceY = context.ReadUInt16();
+        SourceWidth = context.ReadUInt16();
+        SourceHeight = context.ReadUInt16();
+        TargetX = context.ReadUInt16();
+        TargetY = context.ReadUInt16();
+        TargetWidth = context.ReadUInt16();
+        TargetHeight = context.ReadUInt16();
+        BoundWidth = context.ReadUInt16();
+        BoundHeight = context.ReadUInt16();
+        TexturePageId = context.ReadInt16();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(SourceX);
-        context.Writer.Write(SourceY);
-        context.Writer.Write(SourceWidth);
-        context.Writer.Write(SourceHeight);
-        context.Writer.Write(TargetX);
-        context.Writer.Write(TargetY);
-        context.Writer.Write(TargetWidth);
-        context.Writer.Write(TargetHeight);
-        context.Writer.Write(BoundWidth);
-        context.Writer.Write(BoundHeight);
-        context.Writer.Write(TexturePageId);
+        context.Write(SourceX);
+        context.Write(SourceY);
+        context.Write(SourceWidth);
+        context.Write(SourceHeight);
+        context.Write(TargetX);
+        context.Write(TargetY);
+        context.Write(TargetWidth);
+        context.Write(TargetHeight);
+        context.Write(BoundWidth);
+        context.Write(BoundHeight);
+        context.Write(TexturePageId);
     }
 }

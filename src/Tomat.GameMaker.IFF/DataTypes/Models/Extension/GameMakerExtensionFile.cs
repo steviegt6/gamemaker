@@ -18,16 +18,16 @@ public sealed class GameMakerExtensionFile : IGameMakerSerializable {
         FileName = context.ReadPointerAndObject<GameMakerString>();
         FinalFunction = context.ReadPointerAndObject<GameMakerString>();
         InitFunction = context.ReadPointerAndObject<GameMakerString>();
-        ExtensionKind = (GameMakerExtensionKind)context.Reader.ReadUInt32();
+        ExtensionKind = (GameMakerExtensionKind)context.ReadUInt32();
         Functions = new GameMakerPointerList<GameMakerExtensionFunction>();
         Functions.Read(context);
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(FileName);
-        context.Writer.Write(FinalFunction);
-        context.Writer.Write(InitFunction);
-        context.Writer.Write((uint)ExtensionKind);
+        context.Write(FileName);
+        context.Write(FinalFunction);
+        context.Write(InitFunction);
+        context.Write((uint)ExtensionKind);
         Functions!.Write(context);
     }
 }

@@ -8,14 +8,14 @@ public sealed class GameMakerObjectEvent : IGameMakerSerializable {
     public GameMakerPointerList<GameMakerObjectEventAction>? Actions { get; set; }
 
     public void Read(DeserializationContext context) {
-        SubType = context.Reader.ReadInt32();
+        SubType = context.ReadInt32();
 
         Actions = new GameMakerPointerList<GameMakerObjectEventAction>();
         Actions.Read(context);
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(SubType);
+        context.Write(SubType);
         Actions!.Write(context);
     }
 }

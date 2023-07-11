@@ -42,50 +42,50 @@ public sealed class GameMakerFont : IGameMakerSerializable {
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
         DisplayName = context.ReadPointerAndObject<GameMakerString>();
-        Size = context.Reader.ReadInt32();
+        Size = context.ReadInt32();
 
         if (Size < 0) {
-            context.Reader.Position -= sizeof(int);
-            SizeFloat = -context.Reader.ReadSingle();
+            context.Position -= sizeof(int);
+            SizeFloat = -context.ReadSingle();
         }
 
-        Bold = context.Reader.ReadBoolean(wide: true);
-        Italic = context.Reader.ReadBoolean(wide: true);
-        RangeStart = context.Reader.ReadUInt16();
-        Charset = context.Reader.ReadByte();
-        AntiAlias = context.Reader.ReadByte();
-        RangeEnd = context.Reader.ReadInt32();
+        Bold = context.ReadBoolean(wide: true);
+        Italic = context.ReadBoolean(wide: true);
+        RangeStart = context.ReadUInt16();
+        Charset = context.ReadByte();
+        AntiAlias = context.ReadByte();
+        RangeEnd = context.ReadInt32();
         TextureItem = context.ReadPointerAndObject<GameMakerTextureItem>();
-        ScaleX = context.Reader.ReadSingle();
-        ScaleY = context.Reader.ReadSingle();
+        ScaleX = context.ReadSingle();
+        ScaleY = context.ReadSingle();
         if (context.VersionInfo.FormatId >= 17)
-            AscenderOffset = context.Reader.ReadInt32();
+            AscenderOffset = context.ReadInt32();
         if (context.VersionInfo.IsAtLeast(GM_2022_2))
-            Ascender = context.Reader.ReadInt32();
+            Ascender = context.ReadInt32();
 
         Glyphs = new GameMakerPointerList<GameMakerGlyph>();
         Glyphs.Read(context);
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write(DisplayName);
+        context.Write(Name);
+        context.Write(DisplayName);
         if (Size < 0)
             Size = BitConverter.ToInt32(BitConverter.GetBytes(-SizeFloat));
-        context.Writer.Write(Size);
-        context.Writer.Write(Bold, wide: true);
-        context.Writer.Write(Italic, wide: true);
-        context.Writer.Write(RangeStart);
-        context.Writer.Write(Charset);
-        context.Writer.Write(AntiAlias);
-        context.Writer.Write(RangeEnd);
-        context.Writer.Write(TextureItem);
-        context.Writer.Write(ScaleX);
-        context.Writer.Write(ScaleY);
+        context.Write(Size);
+        context.Write(Bold, wide: true);
+        context.Write(Italic, wide: true);
+        context.Write(RangeStart);
+        context.Write(Charset);
+        context.Write(AntiAlias);
+        context.Write(RangeEnd);
+        context.Write(TextureItem);
+        context.Write(ScaleX);
+        context.Write(ScaleY);
         if (context.VersionInfo.FormatId >= 17)
-            context.Writer.Write(AscenderOffset);
+            context.Write(AscenderOffset);
         if (context.VersionInfo.IsAtLeast(GM_2022_2))
-            context.Writer.Write(Ascender);
+            context.Write(Ascender);
         Glyphs!.Write(context);
     }
 }

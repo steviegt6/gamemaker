@@ -22,9 +22,9 @@ public sealed class GameMakerLangChunk : AbstractChunk {
     public GameMakerLangChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        UnknownInt32 = context.Reader.ReadInt32();
-        LanguageCount = context.Reader.ReadInt32();
-        EntryCount = context.Reader.ReadInt32();
+        UnknownInt32 = context.ReadInt32();
+        LanguageCount = context.ReadInt32();
+        EntryCount = context.ReadInt32();
 
         EntryIds = new List<GameMakerPointer<GameMakerString>>();
         for (var i = 0; i < EntryCount; i++)
@@ -40,14 +40,14 @@ public sealed class GameMakerLangChunk : AbstractChunk {
     }
 
     public override void Write(SerializationContext context) {
-        context.Writer.Write(UnknownInt32);
+        context.Write(UnknownInt32);
         LanguageCount = Languages!.Count;
-        context.Writer.Write(LanguageCount);
+        context.Write(LanguageCount);
         EntryCount = EntryIds!.Count;
-        context.Writer.Write(EntryCount);
+        context.Write(EntryCount);
 
         foreach (var entry in EntryIds!)
-            context.Writer.Write(entry);
+            context.Write(entry);
 
         foreach (var language in Languages!)
             language.Write(context);

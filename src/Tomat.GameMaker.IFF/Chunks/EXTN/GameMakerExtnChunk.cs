@@ -22,7 +22,7 @@ public sealed class GameMakerExtnChunk : AbstractChunk {
             return;
 
         foreach (var extension in Extensions)
-            extension.ExpectObject().ProductId = context.Reader.ReadGuid();
+            extension.ExpectObject().ProductId = context.ReadGuid();
     }
 
     public override void Write(SerializationContext context) {
@@ -30,7 +30,7 @@ public sealed class GameMakerExtnChunk : AbstractChunk {
 
         foreach (var extension in Extensions!) {
             if (extension.Object?.ProductId is { } guid)
-                context.Writer.Write(guid.ToByteArray());
+                context.Write(guid.ToByteArray());
         }
     }
 
@@ -40,50 +40,50 @@ public sealed class GameMakerExtnChunk : AbstractChunk {
         }
 
         var is20226 = true;
-        var oldPos = context.Reader.Position;
+        var oldPos = context.Position;
 
-        var extensionCount = context.Reader.ReadInt32();
+        var extensionCount = context.ReadInt32();
 
         if (extensionCount > 0) {
-            var firstExtensionPointer = context.Reader.ReadInt32();
-            var firstExtensionEndPointer = extensionCount >= 2 ? context.Reader.ReadInt32() : oldPos + Size;
+            var firstExtensionPointer = context.ReadInt32();
+            var firstExtensionEndPointer = extensionCount >= 2 ? context.ReadInt32() : oldPos + Size;
 
-            context.Reader.Position = firstExtensionPointer + 12;
-            var newPointer1 = context.Reader.ReadInt32();
-            var newPointer2 = context.Reader.ReadInt32();
+            context.Position = firstExtensionPointer + 12;
+            var newPointer1 = context.ReadInt32();
+            var newPointer2 = context.ReadInt32();
 
-            if (newPointer1 != context.Reader.Position)
+            if (newPointer1 != context.Position)
                 is20226 = false;
-            else if (newPointer2 <= context.Reader.Position || newPointer2 >= oldPos + Size)
+            else if (newPointer2 <= context.Position || newPointer2 >= oldPos + Size)
                 is20226 = false;
             else {
-                context.Reader.Position = newPointer2;
-                var optionCount = context.Reader.ReadInt32();
+                context.Position = newPointer2;
+                var optionCount = context.ReadInt32();
 
                 if (optionCount > 0) {
-                    var newOffsetCheck = context.Reader.Position + (sizeof(int) * (optionCount - 1));
+                    var newOffsetCheck = context.Position + (sizeof(int) * (optionCount - 1));
 
                     if (newOffsetCheck >= oldPos + Size) {
                         is20226 = false;
                     }
                     else {
-                        context.Reader.Position += sizeof(int) * (optionCount - 1);
-                        newOffsetCheck = context.Reader.ReadInt32();
+                        context.Position += sizeof(int) * (optionCount - 1);
+                        newOffsetCheck = context.ReadInt32();
 
                         if (newOffsetCheck < 0 || newOffsetCheck >= oldPos + Size)
                             is20226 = false;
                         else
-                            context.Reader.Position = newOffsetCheck;
+                            context.Position = newOffsetCheck;
                     }
                 }
 
                 if (is20226) {
                     if (extensionCount == 1) {
-                        context.Reader.Position += 16;
-                        context.Reader.Pad(16);
+                        context.Position += 16;
+                        context.Pad(16);
                     }
 
-                    if (context.Reader.Position != firstExtensionEndPointer)
+                    if (context.Position != firstExtensionEndPointer)
                         is20226 = false;
                 }
             }
@@ -92,7 +92,7 @@ public sealed class GameMakerExtnChunk : AbstractChunk {
             is20226 = false;
         }
 
-        context.Reader.Position = oldPos;
+        context.Position = oldPos;
 
         if (is20226)
             context.VersionInfo.UpdateTo(GM_2022_6);

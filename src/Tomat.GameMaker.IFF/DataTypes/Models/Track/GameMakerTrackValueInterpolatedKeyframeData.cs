@@ -14,11 +14,11 @@ public sealed class GameMakerTrackValueInterpolatedKeyframeData : IGameMakerSeri
     public int AnimationCurveId { get; set; }
 
     public void Read(DeserializationContext context) {
-        Value = context.Reader.ReadInt32();
-        IsCurveEmbedded = context.Reader.ReadBoolean(wide: true);
+        Value = context.ReadInt32();
+        IsCurveEmbedded = context.ReadBoolean(wide: true);
 
         if (IsCurveEmbedded) {
-            AnimationCurveId = context.Reader.ReadInt32();
+            AnimationCurveId = context.ReadInt32();
             if (AnimationCurveId != -1)
                 throw new InvalidDataException("Expected curve ID of -1!");
 
@@ -26,20 +26,20 @@ public sealed class GameMakerTrackValueInterpolatedKeyframeData : IGameMakerSeri
             AnimationCurve.Read(context);
         }
         else {
-            AnimationCurveId = context.Reader.ReadInt32();
+            AnimationCurveId = context.ReadInt32();
         }
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Value);
-        context.Writer.Write(IsCurveEmbedded, wide: true);
+        context.Write(Value);
+        context.Write(IsCurveEmbedded, wide: true);
 
         if (IsCurveEmbedded) {
-            context.Writer.Write(AnimationCurveId); // Expected to be -1.
+            context.Write(AnimationCurveId); // Expected to be -1.
             AnimationCurve!.Write(context);
         }
         else {
-            context.Writer.Write(AnimationCurveId);
+            context.Write(AnimationCurveId);
         }
     }
 }

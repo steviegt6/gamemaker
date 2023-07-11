@@ -11,14 +11,14 @@ public sealed class GameMakerRoomLayerEffectProperty : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> Value { get; set; }
 
     public void Read(DeserializationContext context) {
-        Type = (GameMakerRoomLayerEffectPropertyType)context.Reader.ReadInt32();
+        Type = (GameMakerRoomLayerEffectPropertyType)context.ReadInt32();
         Name = context.ReadPointerAndObject<GameMakerString>();
         Value = context.ReadPointerAndObject<GameMakerString>();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write((int)Type);
-        context.Writer.Write(Name);
-        context.Writer.Write(Value);
+        context.Write((int)Type);
+        context.Write(Name);
+        context.Write(Value);
     }
 }

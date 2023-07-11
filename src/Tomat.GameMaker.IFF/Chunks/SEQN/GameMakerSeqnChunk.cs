@@ -16,7 +16,7 @@ public sealed class GameMakerSeqnChunk : AbstractChunk {
         if (Size == 8)
             return;
 
-        var chunkVersion = context.Reader.ReadInt32();
+        var chunkVersion = context.ReadInt32();
         if (chunkVersion != 1)
             throw new InvalidDataException($"Expected chunk version 1, got {chunkVersion}.");
 
@@ -28,7 +28,7 @@ public sealed class GameMakerSeqnChunk : AbstractChunk {
         if (Sequences is null)
             return;
 
-        context.Writer.Write(1);
+        context.Write(1);
         Sequences!.Write(context);
     }
 }

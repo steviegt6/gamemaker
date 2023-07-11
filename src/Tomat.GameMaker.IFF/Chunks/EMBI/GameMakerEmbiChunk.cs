@@ -12,7 +12,7 @@ public sealed class GameMakerEmbiChunk : AbstractChunk {
     public GameMakerEmbiChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        var chunkVersion = context.Reader.ReadInt32();
+        var chunkVersion = context.ReadInt32();
         if (chunkVersion != 1)
             throw new InvalidDataException("Expected chunk version 1, got " + chunkVersion);
 
@@ -21,7 +21,7 @@ public sealed class GameMakerEmbiChunk : AbstractChunk {
     }
 
     public override void Write(SerializationContext context) {
-        context.Writer.Write(1);
+        context.Write(1);
         EmbeddedImages?.Write(context);
     }
 }

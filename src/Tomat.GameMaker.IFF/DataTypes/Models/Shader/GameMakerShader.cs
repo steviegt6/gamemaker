@@ -45,7 +45,7 @@ public sealed class GameMakerShader : IGameMakerSerializable {
 
     public void Read(DeserializationContext context, int endPos) {
         Name = context.ReadPointerAndObject<GameMakerString>();
-        ShaderType = (GameMakerShaderType)(context.Reader.ReadUInt32() & 0x7FFFFFFF);
+        ShaderType = (GameMakerShaderType)(context.ReadUInt32() & 0x7FFFFFFF);
 
         GlslEsVertex = context.ReadPointerAndObject<GameMakerString>();
         GlslEsFragment = context.ReadPointerAndObject<GameMakerString>();
@@ -54,42 +54,42 @@ public sealed class GameMakerShader : IGameMakerSerializable {
         Hlsl9Vertex = context.ReadPointerAndObject<GameMakerString>();
         Hlsl9Fragment = context.ReadPointerAndObject<GameMakerString>();
 
-        var ptr1 = context.Reader.ReadInt32();
-        Hlsl11VertexBuffer = context.Reader.ReadPointer<GameMakerShaderBuffer>(ptr1);
-        var ptr2 = context.Reader.ReadInt32();
-        Hlsl11PixelBuffer = context.Reader.ReadPointer<GameMakerShaderBuffer>(ptr2);
+        var ptr1 = context.ReadInt32();
+        Hlsl11VertexBuffer = context.ReadPointer<GameMakerShaderBuffer>(ptr1);
+        var ptr2 = context.ReadInt32();
+        Hlsl11PixelBuffer = context.ReadPointer<GameMakerShaderBuffer>(ptr2);
 
-        var count = context.Reader.ReadInt32();
+        var count = context.ReadInt32();
         VertexAttributes = new List<GameMakerPointer<GameMakerString>>(count);
         for (var i = count; i > 0; i--)
             VertexAttributes.Add(context.ReadPointerAndObject<GameMakerString>());
 
-        Version = context.Reader.ReadInt32();
+        Version = context.ReadInt32();
 
-        var ptr3 = context.Reader.ReadInt32();
-        PsslVertexBuffer = context.Reader.ReadPointer<GameMakerShaderBuffer>(ptr3);
-        ReadShaderData(context, PsslVertexBuffer, ptr3, context.Reader.ReadInt32());
+        var ptr3 = context.ReadInt32();
+        PsslVertexBuffer = context.ReadPointer<GameMakerShaderBuffer>(ptr3);
+        ReadShaderData(context, PsslVertexBuffer, ptr3, context.ReadInt32());
 
-        var currPtr = context.Reader.ReadInt32();
-        PsslPixelBuffer = context.Reader.ReadPointer<GameMakerShaderBuffer>(currPtr);
-        ReadShaderData(context, PsslPixelBuffer, currPtr, context.Reader.ReadInt32());
+        var currPtr = context.ReadInt32();
+        PsslPixelBuffer = context.ReadPointer<GameMakerShaderBuffer>(currPtr);
+        ReadShaderData(context, PsslPixelBuffer, currPtr, context.ReadInt32());
 
-        currPtr = context.Reader.ReadInt32();
-        CgPsVitaVertexBuffer = context.Reader.ReadPointer<GameMakerShaderBuffer>(currPtr);
-        ReadShaderData(context, CgPsVitaVertexBuffer, currPtr, context.Reader.ReadInt32());
+        currPtr = context.ReadInt32();
+        CgPsVitaVertexBuffer = context.ReadPointer<GameMakerShaderBuffer>(currPtr);
+        ReadShaderData(context, CgPsVitaVertexBuffer, currPtr, context.ReadInt32());
 
-        currPtr = context.Reader.ReadInt32();
-        CgPsVitaPixelBuffer = context.Reader.ReadPointer<GameMakerShaderBuffer>(currPtr);
-        ReadShaderData(context, CgPsVitaPixelBuffer, currPtr, context.Reader.ReadInt32());
+        currPtr = context.ReadInt32();
+        CgPsVitaPixelBuffer = context.ReadPointer<GameMakerShaderBuffer>(currPtr);
+        ReadShaderData(context, CgPsVitaPixelBuffer, currPtr, context.ReadInt32());
 
         if (Version >= 2) {
-            currPtr = context.Reader.ReadInt32();
-            CgPs3VertexBuffer = context.Reader.ReadPointer<GameMakerShaderBuffer>(currPtr);
-            ReadShaderData(context, CgPs3VertexBuffer, currPtr, context.Reader.ReadInt32());
+            currPtr = context.ReadInt32();
+            CgPs3VertexBuffer = context.ReadPointer<GameMakerShaderBuffer>(currPtr);
+            ReadShaderData(context, CgPs3VertexBuffer, currPtr, context.ReadInt32());
 
-            currPtr = context.Reader.ReadInt32();
-            CgPs3PixelBuffer = context.Reader.ReadPointer<GameMakerShaderBuffer>(currPtr);
-            ReadShaderData(context, CgPs3PixelBuffer, currPtr, context.Reader.ReadInt32());
+            currPtr = context.ReadInt32();
+            CgPs3PixelBuffer = context.ReadPointer<GameMakerShaderBuffer>(currPtr);
+            ReadShaderData(context, CgPs3PixelBuffer, currPtr, context.ReadInt32());
         }
 
         ReadShaderData(context, Hlsl11VertexBuffer, ptr1, -1, ptr2 == 0 ? endPos : ptr2);
@@ -97,80 +97,80 @@ public sealed class GameMakerShader : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write((uint)ShaderType | 0x80000000u);
+        context.Write(Name);
+        context.Write((uint)ShaderType | 0x80000000u);
 
-        context.Writer.Write(GlslEsVertex);
-        context.Writer.Write(GlslEsFragment);
-        context.Writer.Write(GlslVertex);
-        context.Writer.Write(GlslFragment);
-        context.Writer.Write(Hlsl9Vertex);
-        context.Writer.Write(Hlsl9Fragment);
+        context.Write(GlslEsVertex);
+        context.Write(GlslEsFragment);
+        context.Write(GlslVertex);
+        context.Write(GlslFragment);
+        context.Write(Hlsl9Vertex);
+        context.Write(Hlsl9Fragment);
 
-        context.Writer.Write(Hlsl11VertexBuffer);
-        context.Writer.Write(Hlsl11PixelBuffer);
+        context.Write(Hlsl11VertexBuffer);
+        context.Write(Hlsl11PixelBuffer);
 
-        context.Writer.Write(VertexAttributes!.Count);
+        context.Write(VertexAttributes!.Count);
         foreach (var attribute in VertexAttributes)
-            context.Writer.Write(attribute);
+            context.Write(attribute);
 
-        context.Writer.Write(Version);
+        context.Write(Version);
 
-        context.Writer.Write(PsslVertexBuffer);
-        context.Writer.Write(PsslVertexBuffer.IsNull ? 0 : PsslVertexBuffer.ExpectObject().Buffer.Length);
-        context.Writer.Write(PsslPixelBuffer);
-        context.Writer.Write(PsslPixelBuffer.IsNull ? 0 : PsslPixelBuffer.ExpectObject().Buffer.Length);
+        context.Write(PsslVertexBuffer);
+        context.Write(PsslVertexBuffer.IsNull ? 0 : PsslVertexBuffer.ExpectObject().Buffer.Length);
+        context.Write(PsslPixelBuffer);
+        context.Write(PsslPixelBuffer.IsNull ? 0 : PsslPixelBuffer.ExpectObject().Buffer.Length);
 
-        context.Writer.Write(CgPsVitaVertexBuffer);
-        context.Writer.Write(CgPsVitaVertexBuffer.IsNull ? 0 : CgPsVitaVertexBuffer.ExpectObject().Buffer.Length);
-        context.Writer.Write(CgPsVitaPixelBuffer);
-        context.Writer.Write(CgPsVitaPixelBuffer.IsNull ? 0 : CgPsVitaPixelBuffer.ExpectObject().Buffer.Length);
+        context.Write(CgPsVitaVertexBuffer);
+        context.Write(CgPsVitaVertexBuffer.IsNull ? 0 : CgPsVitaVertexBuffer.ExpectObject().Buffer.Length);
+        context.Write(CgPsVitaPixelBuffer);
+        context.Write(CgPsVitaPixelBuffer.IsNull ? 0 : CgPsVitaPixelBuffer.ExpectObject().Buffer.Length);
 
         if (Version >= 2) {
-            context.Writer.Write(CgPs3VertexBuffer);
-            context.Writer.Write(CgPs3VertexBuffer.IsNull ? 0 : CgPs3VertexBuffer.ExpectObject().Buffer.Length);
-            context.Writer.Write(CgPs3PixelBuffer);
-            context.Writer.Write(CgPs3PixelBuffer.IsNull ? 0 : CgPs3PixelBuffer.ExpectObject().Buffer.Length);
+            context.Write(CgPs3VertexBuffer);
+            context.Write(CgPs3VertexBuffer.IsNull ? 0 : CgPs3VertexBuffer.ExpectObject().Buffer.Length);
+            context.Write(CgPs3PixelBuffer);
+            context.Write(CgPs3PixelBuffer.IsNull ? 0 : CgPs3PixelBuffer.ExpectObject().Buffer.Length);
         }
 
         if (!Hlsl11VertexBuffer.IsNull) {
-            context.Writer.Pad(8);
+            context.Pad(8);
             context.MarkPointerAndWriteObject(Hlsl11VertexBuffer);
         }
 
         if (!Hlsl11PixelBuffer.IsNull) {
-            context.Writer.Pad(8);
+            context.Pad(8);
             context.MarkPointerAndWriteObject(Hlsl11PixelBuffer);
         }
 
         if (!PsslVertexBuffer.IsNull) {
-            context.Writer.Pad(8);
+            context.Pad(8);
             context.MarkPointerAndWriteObject(PsslVertexBuffer);
         }
 
         if (!PsslPixelBuffer.IsNull) {
-            context.Writer.Pad(8);
+            context.Pad(8);
             context.MarkPointerAndWriteObject(PsslPixelBuffer);
         }
 
         if (!CgPsVitaVertexBuffer.IsNull) {
-            context.Writer.Pad(8);
+            context.Pad(8);
             context.MarkPointerAndWriteObject(CgPsVitaVertexBuffer);
         }
 
         if (!CgPsVitaPixelBuffer.IsNull) {
-            context.Writer.Pad(8);
+            context.Pad(8);
             context.MarkPointerAndWriteObject(CgPsVitaPixelBuffer);
         }
 
         if (Version >= 2) {
             if (!CgPs3VertexBuffer.IsNull) {
-                context.Writer.Pad(16);
+                context.Pad(16);
                 context.MarkPointerAndWriteObject(CgPs3VertexBuffer);
             }
 
             if (!CgPs3PixelBuffer.IsNull) {
-                context.Writer.Pad(8);
+                context.Pad(8);
                 context.MarkPointerAndWriteObject(CgPs3PixelBuffer);
             }
         }
@@ -184,14 +184,14 @@ public sealed class GameMakerShader : IGameMakerSerializable {
         if (buffer.IsNull)
             return;
 
-        var returnTo = context.Reader.Position;
-        context.Reader.Position = pointer;
+        var returnTo = context.Position;
+        context.Position = pointer;
 
         if (length == -1)
             buffer.ExpectObject().Read(context, end - pointer);
         else
             buffer.ExpectObject().Read(context, length);
 
-        context.Reader.Position = returnTo;
+        context.Position = returnTo;
     }
 }

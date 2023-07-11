@@ -8,12 +8,12 @@ public sealed class GameMakerKerning : IGameMakerSerializable {
     public short Amount { get; set; }
 
     public void Read(DeserializationContext context) {
-        Other = context.Reader.ReadInt16();
-        Amount = context.Reader.ReadInt16();
+        Other = context.ReadInt16();
+        Amount = context.ReadInt16();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Other);
-        context.Writer.Write(Amount);
+        context.Write(Other);
+        context.Write(Amount);
     }
 }

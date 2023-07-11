@@ -37,40 +37,40 @@ public sealed class GameMakerSound : IGameMakerSerializable {
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
-        AudioEntryFlags = (GameMakerSoundAudioEntryFlags)context.Reader.ReadUInt32();
+        AudioEntryFlags = (GameMakerSoundAudioEntryFlags)context.ReadUInt32();
         AudioType = context.ReadPointerAndObject<GameMakerString>();
         AudioFileName = context.ReadPointerAndObject<GameMakerString>();
-        AudioEffects = context.Reader.ReadUInt32();
-        Volume = context.Reader.ReadSingle();
-        Pitch = context.Reader.ReadSingle();
+        AudioEffects = context.ReadUInt32();
+        Volume = context.ReadSingle();
+        Pitch = context.ReadSingle();
 
         if (context.VersionInfo.FormatId >= 14) {
-            GroupId = context.Reader.ReadInt32();
-            AudioId = context.Reader.ReadInt32();
+            GroupId = context.ReadInt32();
+            AudioId = context.ReadInt32();
         }
         else {
             GroupId = -1;
-            AudioId = context.Reader.ReadInt32();
-            Preload = context.Reader.ReadBoolean(wide: true);
+            AudioId = context.ReadInt32();
+            Preload = context.ReadBoolean(wide: true);
         }
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write((uint)AudioEntryFlags);
-        context.Writer.Write(AudioType);
-        context.Writer.Write(AudioFileName);
-        context.Writer.Write(AudioEffects);
-        context.Writer.Write(Volume);
-        context.Writer.Write(Pitch);
+        context.Write(Name);
+        context.Write((uint)AudioEntryFlags);
+        context.Write(AudioType);
+        context.Write(AudioFileName);
+        context.Write(AudioEffects);
+        context.Write(Volume);
+        context.Write(Pitch);
 
         if (context.VersionInfo.FormatId >= 14) {
-            context.Writer.Write(GroupId);
-            context.Writer.Write(AudioId);
+            context.Write(GroupId);
+            context.Write(AudioId);
         }
         else {
-            context.Writer.Write(AudioId);
-            context.Writer.Write(Preload, wide: true);
+            context.Write(AudioId);
+            context.Write(Preload, wide: true);
         }
     }
 }

@@ -27,21 +27,21 @@ public sealed class GameMakerTextureData : IGameMakerSerializable {
     public int LengthOffset { get; set; }
 
     public void Read(DeserializationContext context) {
-        var begin = context.Reader.Position;
-        var header = context.Reader.ReadBytes(8).ToArray();
+        var begin = context.Position;
+        var header = context.ReadBytes(8).ToArray();
 
         if (!header.SequenceEqual(PNG_HEADER)) {
-            context.Reader.Position = begin;
+            context.Position = begin;
 
             if (header.Take(4).SequenceEqual(QOI_BZIP2_HEADER)) {
                 IsQoi = true;
                 IsBZip2 = true;
-                context.Reader.Position += 4; // header size
-                QoiWidth = context.Reader.ReadInt16();
-                QoiHeight = context.Reader.ReadInt16();
+                context.Position += 4; // header size
+                QoiWidth = context.ReadInt16();
+                QoiHeight = context.ReadInt16();
 
                 if (context.VersionInfo.IsAtLeast(GM_2022_5))
-                    QoiLength = context.Reader.ReadUInt32();
+                    QoiLength = context.ReadUInt32();
 
                 // TODO: Queue data to be decompressed instead of doing it here.
                 Data = Decompress(context);
@@ -51,11 +51,11 @@ public sealed class GameMakerTextureData : IGameMakerSerializable {
             else if (header.Take(4).SequenceEqual(QOI_HEADER)) {
                 IsQoi = true;
 
-                var dataBegin = context.Reader.Position;
-                context.Reader.Position += 4 + sizeof(short) + sizeof(short); // header size + width + height
-                var length = context.Reader.ReadInt32();
-                context.Reader.Position = dataBegin;
-                Data = context.Reader.ReadBytes(length + 12).ToArray();
+                var dataBegin = context.Position;
+                context.Position += 4 + sizeof(short) + sizeof(short); // header size + width + height
+                var length = context.ReadInt32();
+                context.Position = dataBegin;
+                Data = context.ReadBytes(length + 12).ToArray();
 
                 context.VersionInfo.UpdateTo(GM_2022_1);
             }
@@ -68,36 +68,36 @@ public sealed class GameMakerTextureData : IGameMakerSerializable {
         int type;
 
         do {
-            var length = (uint)context.Reader.ReadByte() << 24 | (uint)context.Reader.ReadByte() << 16 | (uint)context.Reader.ReadByte() << 8 | (ulong)context.Reader.ReadByte();
-            type = context.Reader.ReadInt32();
-            context.Reader.Position += (int)length + 4;
+            var length = (uint)context.ReadByte() << 24 | (uint)context.ReadByte() << 16 | (uint)context.ReadByte() << 8 | (ulong)context.ReadByte();
+            type = context.ReadInt32();
+            context.Position += (int)length + 4;
         }
         while (type != 0x444E4549); // IEND
 
-        var textureLength = context.Reader.Position - begin;
-        context.Reader.Position = begin;
-        Data = context.Reader.ReadBytes(textureLength).ToArray();
+        var textureLength = context.Position - begin;
+        context.Position = begin;
+        Data = context.ReadBytes(textureLength).ToArray();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Pad(128);
-        context.Writer.Pointers[this] = context.Writer.Position;
+        context.Pad(128);
+        context.Pointers[this] = context.Position;
 
         if (IsQoi && IsBZip2) {
-            context.Writer.Write(QOI_BZIP2_HEADER);
-            context.Writer.Write(QoiWidth);
-            context.Writer.Write(QoiHeight);
+            context.Write(QOI_BZIP2_HEADER);
+            context.Write(QoiWidth);
+            context.Write(QoiHeight);
             if (context.VersionInfo.IsAtLeast(GM_2022_5))
-                context.Writer.Write(QoiLength);
+                context.Write(QoiLength);
             using var input = new MemoryStream(Data.ToArray());
             using var output = new MemoryStream(1024);
             BZip2.Compress(input, output, false, 9);
             var final = output.ToArray();
-            context.Writer.Write(final);
+            context.Write(final);
             WriteLength(context, Data.Length + 8);
         }
         else {
-            context.Writer.Write(Data);
+            context.Write(Data);
             WriteLength(context, Data.Length);
         }
     }
@@ -106,15 +106,15 @@ public sealed class GameMakerTextureData : IGameMakerSerializable {
         if (!context.VersionInfo.IsAtLeast(GM_2022_3))
             return;
 
-        var begin = context.Writer.Position;
-        context.Writer.Position = LengthOffset;
-        context.Writer.Write(length);
-        context.Writer.Position = begin;
+        var begin = context.Position;
+        context.Position = LengthOffset;
+        context.Write(length);
+        context.Position = begin;
     }
 
     private static byte[] Decompress(DeserializationContext context) {
-        using var ms = new MemoryStream(context.Reader.Data);
-        ms.Seek(context.Reader.Position, SeekOrigin.Begin);
+        using var ms = new MemoryStream(context.Data);
+        ms.Seek(context.Position, SeekOrigin.Begin);
         var decompressed = new MemoryStream(1024);
         BZip2.Decompress(ms, decompressed, false);
         return decompressed.ToArray();

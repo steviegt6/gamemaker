@@ -29,32 +29,32 @@ public sealed class GameMakerRoomTile : IGameMakerSerializable {
     public int Color { get; set; }
 
     public void Read(DeserializationContext context) {
-        X = context.Reader.ReadInt32();
-        Y = context.Reader.ReadInt32();
-        AssetId = context.Reader.ReadInt32();
-        SourceX = context.Reader.ReadInt32();
-        SourceY = context.Reader.ReadInt32();
-        Width = context.Reader.ReadInt32();
-        Height = context.Reader.ReadInt32();
-        Depth = context.Reader.ReadInt32();
-        Id = context.Reader.ReadInt32();
-        ScaleX = context.Reader.ReadSingle();
-        ScaleY = context.Reader.ReadSingle();
-        Color = context.Reader.ReadInt32();
+        X = context.ReadInt32();
+        Y = context.ReadInt32();
+        AssetId = context.ReadInt32();
+        SourceX = context.ReadInt32();
+        SourceY = context.ReadInt32();
+        Width = context.ReadInt32();
+        Height = context.ReadInt32();
+        Depth = context.ReadInt32();
+        Id = context.ReadInt32();
+        ScaleX = context.ReadSingle();
+        ScaleY = context.ReadSingle();
+        Color = context.ReadInt32();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(X);
-        context.Writer.Write(Y);
-        context.Writer.Write(AssetId);
-        context.Writer.Write(SourceX);
-        context.Writer.Write(SourceY);
-        context.Writer.Write(Width);
-        context.Writer.Write(Height);
-        context.Writer.Write(Depth);
-        context.Writer.Write(Id);
-        context.Writer.Write(ScaleX);
-        context.Writer.Write(ScaleY);
-        context.Writer.Write(Color);
+        context.Write(X);
+        context.Write(Y);
+        context.Write(AssetId);
+        context.Write(SourceX);
+        context.Write(SourceY);
+        context.Write(Width);
+        context.Write(Height);
+        context.Write(Depth);
+        context.Write(Id);
+        context.Write(ScaleX);
+        context.Write(ScaleY);
+        context.Write(Color);
     }
 }

@@ -9,14 +9,14 @@ public sealed class GameMakerTrackValueInterpolatedKeyframes : GameMakerTrackKey
     public GameMakerList<GameMakerKeyframe<GameMakerTrackValueInterpolatedKeyframeData>>? Keyframes { get; set; }
 
     public override void Read(DeserializationContext context) {
-        InterpolationType = (GameMakerTrackValueInterpolatedKeyframesInterpolationType)context.Reader.ReadInt32();
+        InterpolationType = (GameMakerTrackValueInterpolatedKeyframesInterpolationType)context.ReadInt32();
 
         Keyframes = new GameMakerList<GameMakerKeyframe<GameMakerTrackValueInterpolatedKeyframeData>>();
         Keyframes.Read(context);
     }
 
     public override void Write(SerializationContext context) {
-        context.Writer.Write((int)InterpolationType);
+        context.Write((int)InterpolationType);
         Keyframes!.Write(context);
     }
 }

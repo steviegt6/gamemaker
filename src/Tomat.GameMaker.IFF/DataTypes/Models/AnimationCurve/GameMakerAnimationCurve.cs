@@ -22,7 +22,7 @@ public sealed class GameMakerAnimationCurve : IGameMakerSerializable {
 
     public void Read(DeserializationContext context) {
         Name = includeName ? context.ReadPointerAndObject<GameMakerString>() : GameMakerPointer<GameMakerString>.NULL;
-        GraphType = (GameMakerAnimationCurveGraphType)context.Reader.ReadUInt32();
+        GraphType = (GameMakerAnimationCurveGraphType)context.ReadUInt32();
 
         Channels = new GameMakerList<GameMakerAnimationCurveChannel>();
         Channels.Read(context);
@@ -30,8 +30,8 @@ public sealed class GameMakerAnimationCurve : IGameMakerSerializable {
 
     public void Write(SerializationContext context) {
         if (includeName)
-            context.Writer.Write(Name);
-        context.Writer.Write((uint)GraphType);
+            context.Write(Name);
+        context.Write((uint)GraphType);
         Channels!.Write(context);
     }
 }

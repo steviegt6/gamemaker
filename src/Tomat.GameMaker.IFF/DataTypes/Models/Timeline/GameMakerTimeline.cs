@@ -13,22 +13,22 @@ public sealed class GameMakerTimeline : IGameMakerSerializable {
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
 
-        var count = context.Reader.ReadInt32();
+        var count = context.ReadInt32();
         Moments = new List<(int, GameMakerPointer<GameMakerPointerList<GameMakerObjectEventAction>>)>(count);
 
         for (var i = count; i > 0; i--) {
-            var time = context.Reader.ReadInt32();
+            var time = context.ReadInt32();
             Moments.Add((time, context.ReadPointerAndObject<GameMakerPointerList<GameMakerObjectEventAction>>()));
         }
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write(Moments!.Count);
+        context.Write(Name);
+        context.Write(Moments!.Count);
 
         foreach (var (time, actions) in Moments) {
-            context.Writer.Write(time);
-            context.Writer.Write(actions);
+            context.Write(time);
+            context.Write(actions);
         }
 
         foreach (var (_, actions) in Moments)

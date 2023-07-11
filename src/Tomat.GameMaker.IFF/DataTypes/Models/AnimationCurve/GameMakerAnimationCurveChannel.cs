@@ -14,17 +14,17 @@ public sealed class GameMakerAnimationCurveChannel : IGameMakerSerializable {
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
-        FunctionType = (GameMakerAnimationCurveChannelFunctionType)context.Reader.ReadInt32();
-        Iterations = (ushort)context.Reader.ReadUInt32(); // TODO: Uhh... okay?
+        FunctionType = (GameMakerAnimationCurveChannelFunctionType)context.ReadInt32();
+        Iterations = (ushort)context.ReadUInt32(); // TODO: Uhh... okay?
 
         Points = new GameMakerList<GameMakerAnimationCurveChannelPoint>();
         Points.Read(context);
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write((int)FunctionType);
-        context.Writer.Write((uint)Iterations); // TODO: Uhh... okay?
+        context.Write(Name);
+        context.Write((int)FunctionType);
+        context.Write((uint)Iterations); // TODO: Uhh... okay?
         Points!.Write(context);
     }
 }

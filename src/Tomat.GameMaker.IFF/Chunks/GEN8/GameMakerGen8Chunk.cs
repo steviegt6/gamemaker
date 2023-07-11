@@ -73,90 +73,90 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
     public GameMakerGen8Chunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        DisableDebug = context.Reader.ReadBoolean(wide: false);
-        context.VersionInfo.FormatId = FormatId = context.Reader.ReadByte();
-        UnknownInt16 = context.Reader.ReadInt16();
+        DisableDebug = context.ReadBoolean(wide: false);
+        context.VersionInfo.FormatId = FormatId = context.ReadByte();
+        UnknownInt16 = context.ReadInt16();
         FileName = context.ReadPointerAndObject<GameMakerString>();
         Config = context.ReadPointerAndObject<GameMakerString>();
-        LastObjectId = context.Reader.ReadInt32();
-        LastTileId = context.Reader.ReadInt32();
-        GameId = context.Reader.ReadInt32();
-        LegacyGuid = context.Reader.ReadGuid();
+        LastObjectId = context.ReadInt32();
+        LastTileId = context.ReadInt32();
+        GameId = context.ReadInt32();
+        LegacyGuid = context.ReadGuid();
         GameName = context.ReadPointerAndObject<GameMakerString>();
-        MajorVersion = context.Reader.ReadInt32();
-        MinorVersion = context.Reader.ReadInt32();
-        ReleaseVersion = context.Reader.ReadInt32();
-        BuildVersion = context.Reader.ReadInt32();
+        MajorVersion = context.ReadInt32();
+        MinorVersion = context.ReadInt32();
+        ReleaseVersion = context.ReadInt32();
+        BuildVersion = context.ReadInt32();
         context.VersionInfo.UpdateTo(new Version(MajorVersion, MinorVersion, ReleaseVersion, BuildVersion));
-        DefaultWindowWidth = context.Reader.ReadInt32();
-        DefaultWindowHeight = context.Reader.ReadInt32();
-        Info = (Gen8InfoFlags)context.Reader.ReadInt32();
-        LicenseCrc32 = context.Reader.ReadInt32();
-        LicenseMd5 = context.Reader.ReadBytes(16);
-        Timestamp = context.Reader.ReadInt64();
+        DefaultWindowWidth = context.ReadInt32();
+        DefaultWindowHeight = context.ReadInt32();
+        Info = (Gen8InfoFlags)context.ReadInt32();
+        LicenseCrc32 = context.ReadInt32();
+        LicenseMd5 = context.ReadBytes(16);
+        Timestamp = context.ReadInt64();
         DisplayName = context.ReadPointerAndObject<GameMakerString>();
-        ActiveTargets = context.Reader.ReadInt64();
-        FunctionClassifications = (Gen8FunctionClassification)context.Reader.ReadInt64();
-        SteamAppId = context.Reader.ReadInt32();
+        ActiveTargets = context.ReadInt64();
+        FunctionClassifications = (Gen8FunctionClassification)context.ReadInt64();
+        SteamAppId = context.ReadInt32();
 
         if (FormatId >= 14)
-            DebuggerPort = context.Reader.ReadInt32();
+            DebuggerPort = context.ReadInt32();
 
-        var roomCount = context.Reader.ReadInt32();
+        var roomCount = context.ReadInt32();
         RoomOrder = new List<int>(roomCount);
         for (var i = 0; i < roomCount; i++)
-            RoomOrder.Add(context.Reader.ReadInt32());
+            RoomOrder.Add(context.ReadInt32());
 
         if (!context.VersionInfo.IsAtLeast(GM_2))
             return;
 
         GameMaker2RandomUid = ReadRandomUid(context);
-        GameMaker2Fps = context.Reader.ReadSingle();
-        GameMaker2AllowStatistics = context.Reader.ReadBoolean(wide: true);
-        GameMaker2GameGuid = context.Reader.ReadGuid();
+        GameMaker2Fps = context.ReadSingle();
+        GameMaker2AllowStatistics = context.ReadBoolean(wide: true);
+        GameMaker2GameGuid = context.ReadGuid();
     }
 
     public override void Write(SerializationContext context) {
-        context.Writer.Write(DisableDebug, wide: false);
-        context.Writer.Write(context.VersionInfo.FormatId = FormatId);
-        context.Writer.Write(UnknownInt16);
-        context.Writer.Write(FileName);
-        context.Writer.Write(Config);
-        context.Writer.Write(LastObjectId);
-        context.Writer.Write(LastTileId);
-        context.Writer.Write(GameId);
-        context.Writer.Write(LegacyGuid.ToByteArray());
-        context.Writer.Write(GameName);
-        context.Writer.Write(MajorVersion);
-        context.Writer.Write(MinorVersion);
-        context.Writer.Write(ReleaseVersion);
-        context.Writer.Write(BuildVersion);
+        context.Write(DisableDebug, wide: false);
+        context.Write(context.VersionInfo.FormatId = FormatId);
+        context.Write(UnknownInt16);
+        context.Write(FileName);
+        context.Write(Config);
+        context.Write(LastObjectId);
+        context.Write(LastTileId);
+        context.Write(GameId);
+        context.Write(LegacyGuid.ToByteArray());
+        context.Write(GameName);
+        context.Write(MajorVersion);
+        context.Write(MinorVersion);
+        context.Write(ReleaseVersion);
+        context.Write(BuildVersion);
         context.VersionInfo.UpdateTo(new Version(MajorVersion, MinorVersion, ReleaseVersion, BuildVersion));
-        context.Writer.Write(DefaultWindowWidth);
-        context.Writer.Write(DefaultWindowHeight);
-        context.Writer.Write((int)Info);
-        context.Writer.Write(LicenseCrc32);
-        context.Writer.Write(LicenseMd5);
-        context.Writer.Write(Timestamp);
-        context.Writer.Write(DisplayName);
-        context.Writer.Write(ActiveTargets);
-        context.Writer.Write((ulong)FunctionClassifications);
-        context.Writer.Write(SteamAppId);
+        context.Write(DefaultWindowWidth);
+        context.Write(DefaultWindowHeight);
+        context.Write((int)Info);
+        context.Write(LicenseCrc32);
+        context.Write(LicenseMd5);
+        context.Write(Timestamp);
+        context.Write(DisplayName);
+        context.Write(ActiveTargets);
+        context.Write((ulong)FunctionClassifications);
+        context.Write(SteamAppId);
 
         if (FormatId >= 14)
-            context.Writer.Write(DebuggerPort);
+            context.Write(DebuggerPort);
 
         if (!context.VersionInfo.IsAtLeast(GM_2))
             return;
 
-        context.Writer.Write(RoomOrder!.Count);
+        context.Write(RoomOrder!.Count);
         foreach (var room in RoomOrder)
-            context.Writer.Write(room);
+            context.Write(room);
 
         WriteRandomUid(context);
-        context.Writer.Write(GameMaker2Fps);
-        context.Writer.Write(GameMaker2AllowStatistics, wide: true);
-        context.Writer.Write(GameMaker2GameGuid.ToByteArray());
+        context.Write(GameMaker2Fps);
+        context.Write(GameMaker2AllowStatistics, wide: true);
+        context.Write(GameMaker2GameGuid.ToByteArray());
     }
 
     private List<long> ReadRandomUid(DeserializationContext context) {
@@ -164,14 +164,14 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
 
         var rand = new Random((int)(Timestamp & 4294967295L));
         var firstRandom = (long)rand.Next() << 32 | (long)rand.Next();
-        if (context.Reader.ReadInt64() != firstRandom)
+        if (context.ReadInt64() != firstRandom)
             throw new Exception("Unexpected random UID");
 
         var infoLocation = Math.Abs((int)(Timestamp & (long)ushort.MaxValue) / 7 + (GameId - DefaultWindowWidth) + RoomOrder!.Count) % 4;
 
         for (var i = 0; i < 4; i++) {
             if (i == infoLocation) {
-                var curr = context.Reader.ReadInt64();
+                var curr = context.ReadInt64();
                 list.Add(curr);
 
                 if (curr == GetInfoNumber(firstRandom, false))
@@ -183,11 +183,11 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
                 context.VersionInfo.WasRunFromIde = true;
             }
             else {
-                var first = context.Reader.ReadInt32();
+                var first = context.ReadInt32();
                 if (first != rand.Next())
                     throw new Exception("Unexpected random UID");
 
-                var second = context.Reader.ReadInt32();
+                var second = context.ReadInt32();
                 if (second != rand.Next())
                     throw new Exception("Unexpected random UID");
 
@@ -207,19 +207,19 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         var infoNumber = GetInfoNumber(firstRand, context.VersionInfo.WasRunFromIde);
         var infoLocation = Math.Abs((int)(Timestamp & (long)ushort.MaxValue) / 7 + (GameId - DefaultWindowWidth) + RoomOrder!.Count) % 4;
 
-        context.Writer.Write(firstRand);
+        context.Write(firstRand);
         GameMaker2RandomUid.Add(infoNumber);
 
         for (var i = 0; i < 4; i++) {
             if (i == infoLocation) {
-                context.Writer.Write(infoNumber);
+                context.Write(infoNumber);
                 GameMaker2RandomUid.Add(infoNumber);
             }
             else {
                 var first = rand.Next();
                 var second = rand.Next();
-                context.Writer.Write(first);
-                context.Writer.Write(second);
+                context.Write(first);
+                context.Write(second);
                 GameMaker2RandomUid.Add(((long)first << 32) | (long)second);
             }
         }

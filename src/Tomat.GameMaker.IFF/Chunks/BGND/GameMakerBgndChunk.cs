@@ -18,10 +18,10 @@ public sealed class GameMakerBgndChunk : AbstractChunk {
         Backgrounds.Read(
             context,
             elementReader: (ctx, notLast) => {
-                var ptr = ctx.Reader.ReadInt32();
+                var ptr = ctx.ReadInt32();
 
-                if (context.Reader.Position % context.VersionInfo.BackgroundAlignment != 0)
-                    throw new InvalidDataException($"Expected background pointer to be aligned to {context.VersionInfo.BackgroundAlignment} bytes, got {context.Reader.Position % context.VersionInfo.BackgroundAlignment}.");
+                if (context.Position % context.VersionInfo.BackgroundAlignment != 0)
+                    throw new InvalidDataException($"Expected background pointer to be aligned to {context.VersionInfo.BackgroundAlignment} bytes, got {context.Position % context.VersionInfo.BackgroundAlignment}.");
 
                 return ctx.ReadPointerAndObject<GameMakerBackground>(ptr, returnAfter: notLast);
             }
@@ -32,7 +32,7 @@ public sealed class GameMakerBgndChunk : AbstractChunk {
         Backgrounds!.Write(
             context,
             beforeWriter: (ctx, i, count) => {
-                ctx.Writer.Pad(context.VersionInfo.BackgroundAlignment);
+                ctx.Pad(context.VersionInfo.BackgroundAlignment);
             }
         );
     }

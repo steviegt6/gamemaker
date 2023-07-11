@@ -25,28 +25,28 @@ public sealed class GameMakerRoomLayerBackground : IGameMakerSerializable {
     public GameMakerSpritePlaybackSpeedType PlaybackSpeedType { get; set; }
 
     public void Read(DeserializationContext context) {
-        Visible = context.Reader.ReadBoolean(wide: true);
-        Foreground = context.Reader.ReadBoolean(wide: true);
-        SpriteId = context.Reader.ReadInt32();
-        TileHorizontal = context.Reader.ReadBoolean(wide: true);
-        TileVertical = context.Reader.ReadBoolean(wide: true);
-        Stretch = context.Reader.ReadBoolean(wide: true);
-        Color = context.Reader.ReadInt32();
-        FirstFrame = context.Reader.ReadSingle();
-        AnimationSpeed = context.Reader.ReadSingle();
-        PlaybackSpeedType = (GameMakerSpritePlaybackSpeedType)context.Reader.ReadInt32();
+        Visible = context.ReadBoolean(wide: true);
+        Foreground = context.ReadBoolean(wide: true);
+        SpriteId = context.ReadInt32();
+        TileHorizontal = context.ReadBoolean(wide: true);
+        TileVertical = context.ReadBoolean(wide: true);
+        Stretch = context.ReadBoolean(wide: true);
+        Color = context.ReadInt32();
+        FirstFrame = context.ReadSingle();
+        AnimationSpeed = context.ReadSingle();
+        PlaybackSpeedType = (GameMakerSpritePlaybackSpeedType)context.ReadInt32();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Visible, wide: true);
-        context.Writer.Write(Foreground, wide: true);
-        context.Writer.Write(SpriteId);
-        context.Writer.Write(TileHorizontal, wide: true);
-        context.Writer.Write(TileVertical, wide: true);
-        context.Writer.Write(Stretch, wide: true);
-        context.Writer.Write(Color);
-        context.Writer.Write(FirstFrame);
-        context.Writer.Write(AnimationSpeed);
-        context.Writer.Write((int)PlaybackSpeedType);
+        context.Write(Visible, wide: true);
+        context.Write(Foreground, wide: true);
+        context.Write(SpriteId);
+        context.Write(TileHorizontal, wide: true);
+        context.Write(TileVertical, wide: true);
+        context.Write(Stretch, wide: true);
+        context.Write(Color);
+        context.Write(FirstFrame);
+        context.Write(AnimationSpeed);
+        context.Write((int)PlaybackSpeedType);
     }
 }

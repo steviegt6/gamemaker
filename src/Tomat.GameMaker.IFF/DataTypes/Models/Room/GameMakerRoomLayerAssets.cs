@@ -27,14 +27,14 @@ public sealed class GameMakerRoomLayerAssets : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(LegacyTiles);
-        context.Writer.Write(Sprites);
+        context.Write(LegacyTiles);
+        context.Write(Sprites);
 
         if (context.VersionInfo.IsAtLeast(GM_2_3)) {
-            context.Writer.Write(Sequences);
+            context.Write(Sequences);
             
             if (context.VersionInfo.IsAtLeast(GM_2_3_2))
-                context.Writer.Write(NineSlices);
+                context.Write(NineSlices);
         }
         
         context.MarkPointerAndWriteObject(LegacyTiles);
@@ -51,7 +51,7 @@ public sealed class GameMakerRoomLayerAssets : IGameMakerSerializable {
         // Even if it's 2.3.2 but we don't detect it, this shouldn't break the
         // format.
         if (NineSlices.IsNull)
-            context.Writer.Write(0);
+            context.Write(0);
         else
             context.MarkPointerAndWriteObject(NineSlices);
     }

@@ -29,28 +29,28 @@ public sealed class GameMakerObject : IGameMakerSerializable {
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
-        SpriteId = context.Reader.ReadInt32();
-        Visible = context.Reader.ReadBoolean(wide: true);
+        SpriteId = context.ReadInt32();
+        Visible = context.ReadBoolean(wide: true);
         if (context.VersionInfo.IsAtLeast(GM_2022_5))
-            Managed = context.Reader.ReadBoolean(wide: true);
-        Solid = context.Reader.ReadBoolean(wide: true);
-        Depth = context.Reader.ReadInt32();
-        Persistent = context.Reader.ReadBoolean(wide: true);
-        ParentObjectId = context.Reader.ReadInt32();
-        MaskSpriteId = context.Reader.ReadInt32();
+            Managed = context.ReadBoolean(wide: true);
+        Solid = context.ReadBoolean(wide: true);
+        Depth = context.ReadInt32();
+        Persistent = context.ReadBoolean(wide: true);
+        ParentObjectId = context.ReadInt32();
+        MaskSpriteId = context.ReadInt32();
 
-        PhysicsProperties.IsEnabled = context.Reader.ReadBoolean(wide: true);
-        PhysicsProperties.Sensor = context.Reader.ReadBoolean(wide: true);
-        PhysicsProperties.CollisionShape = (GameMakerObjectCollisionShape)context.Reader.ReadInt32();
-        PhysicsProperties.Density = context.Reader.ReadSingle();
-        PhysicsProperties.Restitution = context.Reader.ReadSingle();
-        PhysicsProperties.Group = context.Reader.ReadInt32();
-        PhysicsProperties.LinearDamping = context.Reader.ReadSingle();
-        PhysicsProperties.AngularDamping = context.Reader.ReadSingle();
-        var vertexCount = context.Reader.ReadInt32();
-        PhysicsProperties.Friction = context.Reader.ReadSingle();
-        PhysicsProperties.IsAwake = context.Reader.ReadBoolean(wide: true);
-        PhysicsProperties.IsKinematic = context.Reader.ReadBoolean(wide: true);
+        PhysicsProperties.IsEnabled = context.ReadBoolean(wide: true);
+        PhysicsProperties.Sensor = context.ReadBoolean(wide: true);
+        PhysicsProperties.CollisionShape = (GameMakerObjectCollisionShape)context.ReadInt32();
+        PhysicsProperties.Density = context.ReadSingle();
+        PhysicsProperties.Restitution = context.ReadSingle();
+        PhysicsProperties.Group = context.ReadInt32();
+        PhysicsProperties.LinearDamping = context.ReadSingle();
+        PhysicsProperties.AngularDamping = context.ReadSingle();
+        var vertexCount = context.ReadInt32();
+        PhysicsProperties.Friction = context.ReadSingle();
+        PhysicsProperties.IsAwake = context.ReadBoolean(wide: true);
+        PhysicsProperties.IsKinematic = context.ReadBoolean(wide: true);
         PhysicsProperties.Vertices = new List<GameMakerObjectPhysicsVertex>(vertexCount);
 
         for (var i = vertexCount; i > 0; i--) {
@@ -64,28 +64,28 @@ public sealed class GameMakerObject : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write(SpriteId);
-        context.Writer.Write(Visible, wide: true);
+        context.Write(Name);
+        context.Write(SpriteId);
+        context.Write(Visible, wide: true);
         if (context.VersionInfo.IsAtLeast(GM_2022_5))
-            context.Writer.Write(Managed, wide: true);
-        context.Writer.Write(Solid, wide: true);
-        context.Writer.Write(Depth);
-        context.Writer.Write(Persistent, wide: true);
-        context.Writer.Write(ParentObjectId);
-        context.Writer.Write(MaskSpriteId);
-        context.Writer.Write(PhysicsProperties.IsEnabled, wide: true);
-        context.Writer.Write(PhysicsProperties.Sensor, wide: true);
-        context.Writer.Write((int)PhysicsProperties.CollisionShape);
-        context.Writer.Write(PhysicsProperties.Density);
-        context.Writer.Write(PhysicsProperties.Restitution);
-        context.Writer.Write(PhysicsProperties.Group);
-        context.Writer.Write(PhysicsProperties.LinearDamping);
-        context.Writer.Write(PhysicsProperties.AngularDamping);
-        context.Writer.Write(PhysicsProperties.Vertices.Count);
-        context.Writer.Write(PhysicsProperties.Friction);
-        context.Writer.Write(PhysicsProperties.IsAwake, wide: true);
-        context.Writer.Write(PhysicsProperties.IsKinematic, wide: true);
+            context.Write(Managed, wide: true);
+        context.Write(Solid, wide: true);
+        context.Write(Depth);
+        context.Write(Persistent, wide: true);
+        context.Write(ParentObjectId);
+        context.Write(MaskSpriteId);
+        context.Write(PhysicsProperties.IsEnabled, wide: true);
+        context.Write(PhysicsProperties.Sensor, wide: true);
+        context.Write((int)PhysicsProperties.CollisionShape);
+        context.Write(PhysicsProperties.Density);
+        context.Write(PhysicsProperties.Restitution);
+        context.Write(PhysicsProperties.Group);
+        context.Write(PhysicsProperties.LinearDamping);
+        context.Write(PhysicsProperties.AngularDamping);
+        context.Write(PhysicsProperties.Vertices.Count);
+        context.Write(PhysicsProperties.Friction);
+        context.Write(PhysicsProperties.IsAwake, wide: true);
+        context.Write(PhysicsProperties.IsKinematic, wide: true);
         foreach (var vertex in PhysicsProperties.Vertices)
             vertex.Write(context);
         Events!.Write(context);

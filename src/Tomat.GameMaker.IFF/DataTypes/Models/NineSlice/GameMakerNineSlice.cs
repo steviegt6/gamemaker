@@ -18,24 +18,24 @@ public sealed class GameMakerNineSlice : IGameMakerSerializable {
     public GameMakerNineSliceTileMode[]? TileModes { get; set; }
 
     public void Read(DeserializationContext context) {
-        Left = context.Reader.ReadInt32();
-        Top = context.Reader.ReadInt32();
-        Right = context.Reader.ReadInt32();
-        Bottom = context.Reader.ReadInt32();
-        Enabled = context.Reader.ReadBoolean(wide: true);
+        Left = context.ReadInt32();
+        Top = context.ReadInt32();
+        Right = context.ReadInt32();
+        Bottom = context.ReadInt32();
+        Enabled = context.ReadBoolean(wide: true);
 
         TileModes = new GameMakerNineSliceTileMode[TILE_MODES_LENGTH];
         for (var i = 0; i < TILE_MODES_LENGTH; i++)
-            TileModes[i] = (GameMakerNineSliceTileMode)context.Reader.ReadInt32();
+            TileModes[i] = (GameMakerNineSliceTileMode)context.ReadInt32();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Left);
-        context.Writer.Write(Top);
-        context.Writer.Write(Right);
-        context.Writer.Write(Bottom);
-        context.Writer.Write(Enabled, wide: true);
+        context.Write(Left);
+        context.Write(Top);
+        context.Write(Right);
+        context.Write(Bottom);
+        context.Write(Enabled, wide: true);
         for (var i = 0; i < TILE_MODES_LENGTH; i++)
-            context.Writer.Write((int)TileModes![i]);
+            context.Write((int)TileModes![i]);
     }
 }

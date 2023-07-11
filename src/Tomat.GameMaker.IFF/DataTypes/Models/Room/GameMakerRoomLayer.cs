@@ -42,17 +42,17 @@ public sealed class GameMakerRoomLayer : IGameMakerSerializable {
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
-        Id = context.Reader.ReadInt32();
-        LayerKind = (GameMakerRoomLayerKind)context.Reader.ReadInt32();
-        Depth = context.Reader.ReadInt32();
-        OffsetX = context.Reader.ReadSingle();
-        OffsetY = context.Reader.ReadSingle();
-        HSpeed = context.Reader.ReadSingle();
-        VSpeed = context.Reader.ReadSingle();
-        Visible = context.Reader.ReadBoolean(wide: true);
+        Id = context.ReadInt32();
+        LayerKind = (GameMakerRoomLayerKind)context.ReadInt32();
+        Depth = context.ReadInt32();
+        OffsetX = context.ReadSingle();
+        OffsetY = context.ReadSingle();
+        HSpeed = context.ReadSingle();
+        VSpeed = context.ReadSingle();
+        Visible = context.ReadBoolean(wide: true);
 
         if (context.VersionInfo.Version.Major >= 2022) {
-            EffectEnabled = context.Reader.ReadBoolean(wide: true);
+            EffectEnabled = context.ReadBoolean(wide: true);
             EffectType = context.ReadPointerAndObject<GameMakerString>();
             EffectProperties = new GameMakerList<GameMakerRoomLayerEffectProperty>();
             EffectProperties.Read(context);
@@ -90,19 +90,19 @@ public sealed class GameMakerRoomLayer : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Name);
-        context.Writer.Write(Id);
-        context.Writer.Write((int)LayerKind);
-        context.Writer.Write(Depth);
-        context.Writer.Write(OffsetX);
-        context.Writer.Write(OffsetY);
-        context.Writer.Write(HSpeed);
-        context.Writer.Write(VSpeed);
-        context.Writer.Write(Visible, wide: true);
+        context.Write(Name);
+        context.Write(Id);
+        context.Write((int)LayerKind);
+        context.Write(Depth);
+        context.Write(OffsetX);
+        context.Write(OffsetY);
+        context.Write(HSpeed);
+        context.Write(VSpeed);
+        context.Write(Visible, wide: true);
 
         if (context.VersionInfo.Version.Major >= 2022) {
-            context.Writer.Write(EffectEnabled, wide: true);
-            context.Writer.Write(EffectType);
+            context.Write(EffectEnabled, wide: true);
+            context.Write(EffectType);
             EffectProperties!.Write(context);
         }
 
