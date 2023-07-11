@@ -8,14 +8,12 @@ namespace Tomat.GameMaker.IFF.Chunks.STRG;
 public sealed class GameMakerStrgChunk : AbstractChunk {
     public const string NAME = "STRG";
 
-    public GameMakerPointerList<GameMakerString>? Strings { get; set; }
+    public GameMakerPointerList<GameMakerString> Strings { get; set; } = null!;
 
     public GameMakerStrgChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        Strings = new GameMakerPointerList<GameMakerString>();
-        Strings.Read(
-            context,
+        Strings = context.ReadPointerList<GameMakerString>(
             elementReader: (ctx, _) => {
                 var addr = ctx.ReadInt32();
 
@@ -28,8 +26,8 @@ public sealed class GameMakerStrgChunk : AbstractChunk {
     }
 
     public override void Write(SerializationContext context) {
-        Strings!.Write(
-            context,
+        context.Write(
+            Strings,
             beforeWriter: (ctx, _, _) => {
                 ctx.Pad(ctx.VersionInfo.StringAlignment);
             },

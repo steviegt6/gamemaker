@@ -34,7 +34,7 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
 
     public uint LoadAlpha { get; set; }
 
-    public GameMakerList<GameMakerConstant>? Constants { get; set; }
+    public GameMakerList<GameMakerConstant> Constants { get; set; } = null!;
 
     public GameMakerOptnChunk(string name, int size) : base(name, size) { }
 
@@ -96,8 +96,7 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
             ReadOptionFlag(context, OptnOptionFlags.CreationEventOrder);
         }
 
-        Constants = new GameMakerList<GameMakerConstant>();
-        Constants.Read(context);
+        Constants = context.ReadList<GameMakerConstant>();
     }
 
     public override void Write(SerializationContext context) {
@@ -154,7 +153,7 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
             WriteOptionFlag(context, OptnOptionFlags.CreationEventOrder);
         }
 
-        Constants!.Write(context);
+        context.Write(Constants);
     }
 
     private void ReadOptionFlag(DeserializationContext context, OptnOptionFlags flag) {

@@ -9,19 +9,18 @@ namespace Tomat.GameMaker.IFF.Chunks.TXTR;
 public sealed class GameMakerTxtrChunk : AbstractChunk {
     public const string NAME = "TXTR";
 
-    public GameMakerPointerList<GameMakerTexturePage>? TexturePages { get; set; }
+    public GameMakerPointerList<GameMakerTexturePage> TexturePages { get; set; } = null!;
 
     public GameMakerTxtrChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
         DoFormatCheck(context);
 
-        TexturePages = new GameMakerPointerList<GameMakerTexturePage>();
-        TexturePages.Read(context);
+        TexturePages = context.ReadPointerList<GameMakerTexturePage>();
     }
 
     public override void Write(SerializationContext context) {
-        TexturePages!.Write(context);
+        context.Write(TexturePages);
         foreach (var page in TexturePages)
             page.ExpectObject().TextureData.ExpectObject().Write(context);
 

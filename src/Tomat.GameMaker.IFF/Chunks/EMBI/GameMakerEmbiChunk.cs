@@ -7,7 +7,7 @@ namespace Tomat.GameMaker.IFF.Chunks.EMBI;
 public sealed class GameMakerEmbiChunk : AbstractChunk {
     public const string NAME = "EMBI";
 
-    public GameMakerList<GameMakerEmbeddedImage>? EmbeddedImages { get; set; }
+    public GameMakerList<GameMakerEmbeddedImage> EmbeddedImages { get; set; } = null!;
 
     public GameMakerEmbiChunk(string name, int size) : base(name, size) { }
 
@@ -16,12 +16,11 @@ public sealed class GameMakerEmbiChunk : AbstractChunk {
         if (chunkVersion != 1)
             throw new InvalidDataException("Expected chunk version 1, got " + chunkVersion);
 
-        EmbeddedImages = new GameMakerList<GameMakerEmbeddedImage>();
-        EmbeddedImages.Read(context);
+        EmbeddedImages = context.ReadList<GameMakerEmbeddedImage>();
     }
 
     public override void Write(SerializationContext context) {
         context.Write(1);
-        EmbeddedImages?.Write(context);
+        context.Write(EmbeddedImages);
     }
 }

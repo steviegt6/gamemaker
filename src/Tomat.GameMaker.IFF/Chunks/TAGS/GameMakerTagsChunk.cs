@@ -12,7 +12,7 @@ public sealed class GameMakerTagsChunk : AbstractChunk {
 
     public List<GameMakerPointer<GameMakerString>>? Tags { get; set; }
 
-    public GameMakerPointerList<GameMakerAssetTag>? AssetTags { get; set; }
+    public GameMakerPointerList<GameMakerAssetTag> AssetTags { get; set; } = null!;
 
     public GameMakerTagsChunk(string name, int size) : base(name, size) { }
 
@@ -28,8 +28,7 @@ public sealed class GameMakerTagsChunk : AbstractChunk {
         for (var i = count; i > 0; i--)
             Tags.Add(context.ReadPointerAndObject<GameMakerString>());
 
-        AssetTags = new GameMakerPointerList<GameMakerAssetTag>();
-        AssetTags.Read(context);
+        AssetTags = context.ReadPointerList<GameMakerAssetTag>();
     }
 
     public override void Write(SerializationContext context) {
@@ -40,6 +39,6 @@ public sealed class GameMakerTagsChunk : AbstractChunk {
         foreach (var tag in Tags)
             context.Write(tag);
 
-        AssetTags!.Write(context);
+        context.Write(AssetTags);
     }
 }

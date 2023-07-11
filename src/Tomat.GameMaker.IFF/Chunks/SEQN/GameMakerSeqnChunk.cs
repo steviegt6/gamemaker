@@ -7,6 +7,7 @@ namespace Tomat.GameMaker.IFF.Chunks.SEQN;
 public sealed class GameMakerSeqnChunk : AbstractChunk {
     public const string NAME = "SEQN";
 
+    // This list can be uniquely null even if the chunk was read.
     public GameMakerPointerList<GameMakerSequence>? Sequences { get; set; }
 
     public GameMakerSeqnChunk(string name, int size) : base(name, size) { }
@@ -20,8 +21,7 @@ public sealed class GameMakerSeqnChunk : AbstractChunk {
         if (chunkVersion != 1)
             throw new InvalidDataException($"Expected chunk version 1, got {chunkVersion}.");
 
-        Sequences = new GameMakerPointerList<GameMakerSequence>();
-        Sequences.Read(context);
+        Sequences = context.ReadPointerList<GameMakerSequence>();
     }
 
     public override void Write(SerializationContext context) {
@@ -29,6 +29,6 @@ public sealed class GameMakerSeqnChunk : AbstractChunk {
             return;
 
         context.Write(1);
-        Sequences!.Write(context);
+        context.Write(Sequences);
     }
 }

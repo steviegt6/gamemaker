@@ -6,19 +6,18 @@ namespace Tomat.GameMaker.IFF.Chunks.OBJT;
 public sealed class GameMakerObjtChunk : AbstractChunk {
     public const string NAME = "OBJT";
 
-    public GameMakerPointerList<GameMakerObject>? Objects { get; set; }
+    public GameMakerPointerList<GameMakerObject> Objects { get; set; } = null!;
 
     public GameMakerObjtChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
         DoFormatCheck(context);
 
-        Objects = new GameMakerPointerList<GameMakerObject>();
-        Objects.Read(context);
+        Objects = context.ReadPointerList<GameMakerObject>();
     }
 
     public override void Write(SerializationContext context) {
-        Objects!.Write(context);
+        context.Write(Objects);
     }
 
     private void DoFormatCheck(DeserializationContext context) {

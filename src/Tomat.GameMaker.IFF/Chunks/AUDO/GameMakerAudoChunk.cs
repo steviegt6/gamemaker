@@ -8,18 +8,17 @@ namespace Tomat.GameMaker.IFF.Chunks.AUDO;
 public sealed class GameMakerAudoChunk : AbstractChunk {
     public const string NAME = "AUDO";
 
-    public GameMakerPointerList<GameMakerAudio>? Audio { get; set; }
+    public GameMakerPointerList<GameMakerAudio> Audio { get; set; } = null!;
 
     public GameMakerAudoChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        Audio = new GameMakerPointerList<GameMakerAudio>();
-        Audio.Read(context);
+        Audio = context.ReadPointerList<GameMakerAudio>();
     }
 
     public override void Write(SerializationContext context) {
-        Audio!.Write(
-            context,
+        context.Write(
+            Audio,
             beforeWriter: (ctx, _, _) => {
                 ctx.Pad(4);
             }

@@ -9,7 +9,7 @@ namespace Tomat.GameMaker.IFF.Chunks.FEAT;
 public sealed class GameMakerFeatChunk : AbstractChunk {
     public const string NAME = "FEAT";
 
-    public List<GameMakerPointer<GameMakerString>>? FeatureFlags { get; set; }
+    public List<GameMakerPointer<GameMakerString>> FeatureFlags { get; set; } = null!;
 
     public GameMakerFeatChunk(string name, int size) : base(name, size) { }
 
@@ -25,7 +25,7 @@ public sealed class GameMakerFeatChunk : AbstractChunk {
     public override void Write(SerializationContext context) {
         context.Pad(4);
 
-        context.Write(FeatureFlags!.Count);
+        context.Write(FeatureFlags.Count);
         foreach (var flag in FeatureFlags)
             context.Write(flag);
     }

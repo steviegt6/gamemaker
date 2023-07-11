@@ -6,16 +6,15 @@ namespace Tomat.GameMaker.IFF.Chunks.ROOM;
 public sealed class GameMakerRoomChunk : AbstractChunk {
     public const string NAME = "ROOM";
 
-    public GameMakerPointerList<GameMakerRoom>? Rooms { get; set; }
+    public GameMakerPointerList<GameMakerRoom> Rooms { get; set; } = null!;
 
     public GameMakerRoomChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        Rooms = new GameMakerPointerList<GameMakerRoom>();
-        Rooms.Read(context);
+        Rooms = context.ReadPointerList<GameMakerRoom>();
     }
 
     public override void Write(SerializationContext context) {
-        Rooms!.Write(context);
+        context.Write(Rooms);
     }
 }

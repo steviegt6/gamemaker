@@ -8,7 +8,7 @@ namespace Tomat.GameMaker.IFF.Chunks.FEDS;
 public sealed class GameMakerFedsChunk : AbstractChunk {
     public const string NAME = "FEDS";
 
-    public GameMakerPointerList<GameMakerFilterEffect>? FilterEffects { get; set; }
+    public GameMakerPointerList<GameMakerFilterEffect> FilterEffects { get; set; } = null!;
 
     public GameMakerFedsChunk(string name, int size) : base(name, size) { }
 
@@ -19,13 +19,12 @@ public sealed class GameMakerFedsChunk : AbstractChunk {
         if (chunkVersion != 1)
             throw new InvalidDataException($"Expected chunk version 1, got {chunkVersion}.");
 
-        FilterEffects = new GameMakerPointerList<GameMakerFilterEffect>();
-        FilterEffects.Read(context);
+        FilterEffects = context.ReadPointerList<GameMakerFilterEffect>();
     }
 
     public override void Write(SerializationContext context) {
         context.Pad(4);
         context.Write(1);
-        FilterEffects!.Write(context);
+        context.Write(FilterEffects);
     }
 }

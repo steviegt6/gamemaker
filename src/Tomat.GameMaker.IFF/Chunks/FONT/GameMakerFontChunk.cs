@@ -9,7 +9,7 @@ namespace Tomat.GameMaker.IFF.Chunks.FONT;
 public sealed class GameMakerFontChunk : AbstractChunk {
     public const string NAME = "FONT";
 
-    public GameMakerPointerList<GameMakerFont>? Fonts { get; set; }
+    public GameMakerPointerList<GameMakerFont> Fonts { get; set; } = null!;
 
     public Memory<byte>? Padding { get; set; }
 
@@ -18,14 +18,12 @@ public sealed class GameMakerFontChunk : AbstractChunk {
     public override void Read(DeserializationContext context) {
         DoFormatCheck(context);
 
-        Fonts = new GameMakerPointerList<GameMakerFont>();
-        Fonts.Read(context);
-
+        Fonts = context.ReadPointerList<GameMakerFont>();
         Padding = context.ReadBytes(512);
     }
 
     public override void Write(SerializationContext context) {
-        Fonts!.Write(context);
+        context.Write(Fonts);
 
         if (!Padding.HasValue) {
             for (var i = 0; i < 0x80; i++)

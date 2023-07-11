@@ -1,6 +1,5 @@
 ﻿namespace Tomat.GameMaker.IFF.Chunks.DAFL;
 
-// Empty.
 public sealed class GameMakerDaflChunk : AbstractChunk {
     public const string NAME = "DAFL";
 

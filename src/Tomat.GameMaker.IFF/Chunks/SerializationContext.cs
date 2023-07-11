@@ -113,4 +113,19 @@ public sealed record SerializationContext(IGameMakerIffWriter Writer, GameMakerI
         pointer.WriteObject(this);
         pointer.ExpectObject().Write(this);
     }
+
+    public void Write<T>(GameMakerList<T> list, GameMakerList<T>.ListWrite? beforeWrite = null, GameMakerList<T>.ListWrite? afterWrite = null, GameMakerList<T>.ListElementWrite? elementWriter = null)
+        where T : IGameMakerSerializable, new() {
+        list.Write(this, beforeWrite, afterWrite, elementWriter);
+    }
+
+    public void Write<T>(
+        GameMakerPointerList<T> list,
+        GameMakerPointerList<T>.ListWrite? beforeWriter = null,
+        GameMakerPointerList<T>.ListWrite? afterWriter = null,
+        GameMakerPointerList<T>.ListElementWrite? elementWriter = null,
+        GameMakerPointerList<T>.ListElementWrite? elementPointerWriter = null
+    ) where T : IGameMakerSerializable, new() {
+        list.Write(this, beforeWriter, afterWriter, elementWriter, elementPointerWriter);
+    }
 };

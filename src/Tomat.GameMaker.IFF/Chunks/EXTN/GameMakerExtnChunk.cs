@@ -8,13 +8,12 @@ namespace Tomat.GameMaker.IFF.Chunks.EXTN;
 public sealed class GameMakerExtnChunk : AbstractChunk {
     public const string NAME = "EXTN";
 
-    public GameMakerPointerList<GameMakerExtension>? Extensions { get; set; }
+    public GameMakerPointerList<GameMakerExtension> Extensions { get; set; } = null!;
 
     public GameMakerExtnChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        Extensions = new GameMakerPointerList<GameMakerExtension>();
-        Extensions.Read(context);
+        Extensions = context.ReadPointerList<GameMakerExtension>();
 
         CheckFormatAndUpdateVersion(context);
 
@@ -26,7 +25,7 @@ public sealed class GameMakerExtnChunk : AbstractChunk {
     }
 
     public override void Write(SerializationContext context) {
-        Extensions!.Write(context);
+        context.Write(Extensions);
 
         foreach (var extension in Extensions!) {
             if (extension.Object?.ProductId is { } guid)

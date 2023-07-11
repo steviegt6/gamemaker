@@ -101,4 +101,17 @@ public sealed record DeserializationContext(IGameMakerIffReader Reader, GameMake
     public GameMakerPointer<T> ReadPointerAndObject<T>(bool returnAfter = true, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
         return ReadPointerAndObject<T>(ReadInt32(), returnAfter, useTypeOffset);
     }
+
+    public GameMakerList<T> ReadList<T>(GameMakerList<T>.ListRead? beforeRead = null, GameMakerList<T>.ListRead? afterRead = null, GameMakerList<T>.ListElementRead? elementReader = null) where T : IGameMakerSerializable, new() {
+        var list = new GameMakerList<T>();
+        list.Read(this, beforeRead, afterRead, elementReader);
+        return list;
+    }
+
+    public GameMakerPointerList<T> ReadPointerList<T>(GameMakerPointerList<T>.ListRead? beforeRead = null, GameMakerPointerList<T>.ListRead? afterRead = null, GameMakerPointerList<T>.ListElementRead? elementReader = null)
+        where T : IGameMakerSerializable, new() {
+        var list = new GameMakerPointerList<T>();
+        list.Read(this, beforeRead, afterRead, elementReader);
+        return list;
+    }
 }

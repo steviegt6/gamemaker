@@ -9,14 +9,12 @@ namespace Tomat.GameMaker.IFF.Chunks.BGND;
 public sealed class GameMakerBgndChunk : AbstractChunk {
     public const string NAME = "BGND";
 
-    public GameMakerPointerList<GameMakerBackground>? Backgrounds { get; set; }
+    public GameMakerPointerList<GameMakerBackground> Backgrounds { get; set; } = null!;
 
     public GameMakerBgndChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        Backgrounds = new GameMakerPointerList<GameMakerBackground>();
-        Backgrounds.Read(
-            context,
+        Backgrounds = context.ReadPointerList<GameMakerBackground>(
             elementReader: (ctx, notLast) => {
                 var ptr = ctx.ReadInt32();
 
@@ -29,9 +27,9 @@ public sealed class GameMakerBgndChunk : AbstractChunk {
     }
 
     public override void Write(SerializationContext context) {
-        Backgrounds!.Write(
-            context,
-            beforeWriter: (ctx, i, count) => {
+        context.Write(
+            Backgrounds,
+            beforeWriter: (ctx, _, _) => {
                 ctx.Pad(context.VersionInfo.BackgroundAlignment);
             }
         );
