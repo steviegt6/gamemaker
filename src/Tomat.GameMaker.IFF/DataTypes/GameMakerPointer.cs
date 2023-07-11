@@ -38,10 +38,10 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
     /// </summary>
     public bool IsNull => Address == 0;
 
-    public void ReadObject(DeserializationContext context, bool returnAfter) {
+    public T? GetOrInitializeObject(DeserializationContext context) {
         if (IsNull) {
             Object = default;
-            return;
+            return Object;
         }
 
         if (context.Pointers.TryGetValue(Address, out var obj)) {
@@ -52,10 +52,19 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
             context.Pointers[Address] = Object;
         }
 
+        return Object;
+    }
+
+    public void ReadObject(DeserializationContext context, bool returnAfter) {
+        var obj = GetOrInitializeObject(context);
+        
+        if (IsNull || obj is null)
+            return;
+
         var pos = context.Position;
         context.Position = Address;
 
-        Object.Read(context);
+        obj.Read(context);
 
         if (returnAfter)
             context.Position = pos;
