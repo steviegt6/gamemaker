@@ -18,7 +18,7 @@ public sealed class GameMakerGlyph : IGameMakerSerializable {
 
     public short Offset { get; set; }
 
-    public List<GameMakerKerning> Kerning { get; set; }
+    public List<GameMakerKerning>? Kerning { get; set; }
 
     public void Read(DeserializationContext context) {
         Character = context.Reader.ReadUInt16();

@@ -27,18 +27,18 @@ public sealed class GameMakerRoomLayer : IGameMakerSerializable {
 
     public GameMakerPointer<GameMakerString> EffectType { get; set; }
 
-    public GameMakerList<GameMakerRoomLayerEffectProperty> EffectProperties { get; set; }
+    public GameMakerList<GameMakerRoomLayerEffectProperty>? EffectProperties { get; set; }
 
     // Only one of these are not null at a time.
-    public GameMakerRoomLayerBackground Background { get; set; }
+    public GameMakerRoomLayerBackground? Background { get; set; }
 
-    public GameMakerRoomLayerInstances Instances { get; set; }
+    public GameMakerRoomLayerInstances? Instances { get; set; }
 
-    public GameMakerRoomLayerAssets Assets { get; set; }
+    public GameMakerRoomLayerAssets? Assets { get; set; }
 
-    public GameMakerRoomLayerTiles Tiles { get; set; }
+    public GameMakerRoomLayerTiles? Tiles { get; set; }
 
-    public GameMakerRoomLayerEffect Effect { get; set; }
+    public GameMakerRoomLayerEffect? Effect { get; set; }
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
