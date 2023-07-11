@@ -47,7 +47,7 @@ public sealed class GameMakerGlyph : IGameMakerSerializable {
         context.Write(Shift);
         context.Write(Offset);
         
-        context.Write((ushort)Kerning.Count);
+        context.Write((ushort)Kerning!.Count);
         foreach (var kerning in Kerning)
             kerning.Write(context);
     }
