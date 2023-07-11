@@ -2,7 +2,7 @@
 using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models.AnimationCurve;
 
-namespace Tomat.GameMaker.IFF.Chunks.ARV;
+namespace Tomat.GameMaker.IFF.Chunks.ACRV;
 
 public sealed class GameMakerAcrvChunk : AbstractChunk {
     public const string NAME = "ACRV";
