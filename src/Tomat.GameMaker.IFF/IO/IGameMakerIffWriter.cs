@@ -68,10 +68,12 @@ public static class GameMakerIffWriterExtensions {
         return writer.Position;
     }
 
-    public static void EndLength(this IGameMakerIffWriter writer, int beginPos) {
+    public static int EndLength(this IGameMakerIffWriter writer, int beginPos) {
         var pos = writer.Position;
         writer.Position = beginPos - 4;
-        writer.Write(pos - beginPos);
+        var length = pos - beginPos;
+        writer.Write(length);
         writer.Position = pos;
+        return length;
     }
 }

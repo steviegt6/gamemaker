@@ -307,18 +307,12 @@ public sealed class GameMakerCodeInstruction : IGameMakerSerializable {
             }
 
             case GameMakerCodeInstructionType.Push: {
-                if (DataType1 == GameMakerInstructionDataType.Int16) {
-                    if (Value is not short value)
-                        throw new InvalidOperationException($"Missing value at {context.Position}.");
-
-                    context.Write(value);
-                }
-                else if (DataType1 == GameMakerInstructionDataType.Variable) {
+                if (DataType1 == GameMakerInstructionDataType.Int16)
+                    context.Write(Convert.ToInt16(Value));
+                else if (DataType1 == GameMakerInstructionDataType.Variable)
                     context.Write((short)InstanceType);
-                }
-                else {
+                else
                     context.Write((short)0);
-                }
 
                 context.Write((byte)DataType1);
 
@@ -329,42 +323,27 @@ public sealed class GameMakerCodeInstruction : IGameMakerSerializable {
 
                 switch (DataType1) {
                     case GameMakerInstructionDataType.Double: {
-                        if (Value is not double value)
-                            throw new InvalidOperationException($"Missing value at {context.Position}.");
-
-                        context.Write(value);
+                        context.Write(Convert.ToDouble(Value));
                         break;
                     }
 
                     case GameMakerInstructionDataType.Float: {
-                        if (Value is not float value)
-                            throw new InvalidOperationException($"Missing value at {context.Position}.");
-
-                        context.Write(value);
+                        context.Write(Convert.ToSingle(Value));
                         break;
                     }
 
                     case GameMakerInstructionDataType.Int32: {
-                        if (Value is not int value)
-                            throw new InvalidOperationException($"Missing value at {context.Position}.");
-
-                        context.Write(value);
+                        context.Write(Convert.ToInt32(Value));
                         break;
                     }
 
                     case GameMakerInstructionDataType.Int64: {
-                        if (Value is not long value)
-                            throw new InvalidOperationException($"Missing value at {context.Position}.");
-
-                        context.Write(value);
+                        context.Write(Convert.ToInt64(Value));
                         break;
                     }
 
                     case GameMakerInstructionDataType.Boolean: {
-                        if (Value is not bool value)
-                            throw new InvalidOperationException($"Missing value at {context.Position}.");
-
-                        context.Write(value, wide: true);
+                        context.Write(Convert.ToBoolean(Value), wide: true);
                         break;
                     }
 
@@ -377,10 +356,7 @@ public sealed class GameMakerCodeInstruction : IGameMakerSerializable {
                     }
 
                     case GameMakerInstructionDataType.String: {
-                        if (Value is not int value)
-                            throw new InvalidOperationException($"Missing value at {context.Position}.");
-
-                        context.Write(value); // String ID.
+                        context.Write(Convert.ToInt32(Value)); // String ID.
                         break;
                     }
 
@@ -392,10 +368,7 @@ public sealed class GameMakerCodeInstruction : IGameMakerSerializable {
             }
 
             case GameMakerCodeInstructionType.Call: {
-                if (Value is not short value)
-                    throw new InvalidOperationException($"Missing value at {context.Position}.");
-
-                context.Write(value);
+                context.Write(Convert.ToInt16(Value));
                 context.Write((byte)DataType1);
                 if (context.VersionInfo.FormatId <= 14)
                     context.Write(NewOpcodeToOld((byte)Opcode, 0));
@@ -410,10 +383,7 @@ public sealed class GameMakerCodeInstruction : IGameMakerSerializable {
             }
 
             case GameMakerCodeInstructionType.Break: {
-                if (Value is not ushort value)
-                    throw new InvalidOperationException($"Missing value at {context.Position}.");
-
-                context.Write(value);
+                context.Write(Convert.ToUInt16(Value));
                 context.Write((byte)DataType1);
                 if (context.VersionInfo.FormatId <= 14)
                     context.Write(NewOpcodeToOld((byte)Opcode, 0));

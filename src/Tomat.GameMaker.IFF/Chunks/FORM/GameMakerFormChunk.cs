@@ -141,7 +141,7 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
             if (i != Chunks.Count - 1)
                 context.Pad(context.VersionInfo.ChunkAlignment);
 
-            context.EndLength(chunkLengthPosition);
+            chunk.Size = context.EndLength(chunkLengthPosition);
             i++;
         }
     }

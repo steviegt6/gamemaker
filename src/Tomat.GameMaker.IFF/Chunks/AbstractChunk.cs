@@ -3,7 +3,7 @@
 public abstract class AbstractChunk : IGameMakerChunk {
     public string Name { get; }
 
-    public int Size { get; }
+    public int Size { get; set; }
 
     protected AbstractChunk(string name, int size) {
         Name = name;

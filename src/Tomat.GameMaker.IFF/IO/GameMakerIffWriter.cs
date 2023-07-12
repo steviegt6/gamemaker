@@ -57,12 +57,12 @@ public sealed class GameMakerIffWriter : IGameMakerIffWriter {
     }
 
     private void EnsureCapacity(int size) {
-        if (Data.Length >= size)
-            return;
+        if (Data.Length < size) {
+            var newSize = Math.Max(Data.Length * 2, size);
+            Array.Resize(ref data, newSize);
+        }
 
-        var newSize = Math.Max(Data.Length * 2, size);
-        Array.Resize(ref data, newSize);
-        Length = size;
+        Length = Math.Max(Length, size);
     }
 
     public void Write(Memory<byte> value) {

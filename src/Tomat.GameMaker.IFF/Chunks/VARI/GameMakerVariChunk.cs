@@ -52,7 +52,7 @@ public sealed class GameMakerVariChunk : AbstractChunk {
                 foreach (var variable in Variables!) {
                     if (variable.VariableType == GameMakerCodeInstanceType.Global)
                         VarCount1++;
-                    else if (variable.VariableId >= 0 && variable.VariableType == GameMakerCodeInstanceType.Self)
+                    else if (variable is { VariableId: >= 0, VariableType: GameMakerCodeInstanceType.Self })
                         VarCount2++;
                 }
             }

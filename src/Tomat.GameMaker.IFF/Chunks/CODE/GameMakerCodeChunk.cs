@@ -39,6 +39,9 @@ public sealed class GameMakerCodeChunk : AbstractChunk {
                         if (entry is null)
                             throw new InvalidOperationException("Expected bytecode entry.");
 
+                        if (context.Pointers.ContainsKey(entry))
+                            continue;
+
                         // Same as pointers, but not wrapped in a pointer helper
                         // struct.
                         ctx.Pointers[entry] = ctx.Position;

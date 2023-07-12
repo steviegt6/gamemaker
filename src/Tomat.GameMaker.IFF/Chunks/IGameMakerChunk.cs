@@ -14,5 +14,5 @@ public interface IGameMakerChunk : IGameMakerSerializable {
     /// <summary>
     ///     The size of the chunk, in bytes.
     /// </summary>
-    int Size { get; }
+    int Size { get; set; }
 }

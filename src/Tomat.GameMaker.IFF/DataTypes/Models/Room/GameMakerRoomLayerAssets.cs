@@ -33,7 +33,7 @@ public sealed class GameMakerRoomLayerAssets : IGameMakerSerializable {
         if (context.VersionInfo.IsAtLeast(GM_2_3)) {
             context.Write(Sequences);
             
-            if (context.VersionInfo.IsAtLeast(GM_2_3_2))
+            if (!context.VersionInfo.IsAtLeast(GM_2_3_2))
                 context.Write(NineSlices);
         }
         
@@ -45,7 +45,7 @@ public sealed class GameMakerRoomLayerAssets : IGameMakerSerializable {
 
         context.MarkPointerAndWriteObject(Sequences);
 
-        if (!context.VersionInfo.IsAtLeast(GM_2_3_2))
+        if (context.VersionInfo.IsAtLeast(GM_2_3_2))
             return;
 
         // Even if it's 2.3.2 but we don't detect it, this shouldn't break the

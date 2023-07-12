@@ -46,5 +46,6 @@ public sealed class GameMakerRoomBackground : IGameMakerSerializable {
         context.Write(TileY);
         context.Write(SpeedX);
         context.Write(SpeedY);
+        context.Write(Stretch, wide: true);
     }
 }

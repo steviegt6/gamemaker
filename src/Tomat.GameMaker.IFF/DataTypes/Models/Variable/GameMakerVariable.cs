@@ -61,6 +61,7 @@ public sealed class GameMakerVariable : IGameMakerSerializable {
         else
             Occurrences = 0;
 
+        context.Write(Occurrences);
         if (Occurrences > 0 && references is not null) {
             context.Write(references[0].Item1);
 

@@ -40,6 +40,6 @@ public sealed class GameMakerShdrChunk : AbstractChunk {
         foreach (var shader in Shaders)
             context.Write(shader);
         foreach (var shader in Shaders)
-            shader.WriteObject(context);
+            context.MarkPointerAndWriteObject(shader);
     }
 }
