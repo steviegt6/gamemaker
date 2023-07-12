@@ -1,4 +1,3 @@
-  # gamemaker
+# gamemaker
 
-  Reverse-engineering extraordinaire.
-  
+This is a monorepository for GameMaker reverse engineering.
