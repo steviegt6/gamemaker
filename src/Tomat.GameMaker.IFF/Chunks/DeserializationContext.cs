@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Tomat.GameMaker.IFF.DataTypes;
+using Tomat.GameMaker.IFF.DataTypes.Models.Code;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks;
@@ -17,6 +18,8 @@ namespace Tomat.GameMaker.IFF.Chunks;
 ///     The version information of the GameMaker IFF file being read from.
 /// </param>
 public sealed record DeserializationContext(IGameMakerIffReader Reader, GameMakerIffFile IffFile, GameMakerVersionInfo VersionInfo) : IGameMakerIffReader {
+    public Dictionary<int, GameMakerCodeInstruction> Instructions { get; } = new();
+
 #region IGameMakerIffReader Impl
     public byte[] Data => Reader.Data;
 

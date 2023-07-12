@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.Chunks.FORM;
 using Tomat.GameMaker.IFF.IO;
@@ -54,5 +56,21 @@ public sealed class GameMakerIffFile : IGameMakerSerializable {
         var file = new GameMakerIffFile();
         file.Read(context = new DeserializationContext(reader, file, new GameMakerVersionInfo()));
         return file;
+    }
+}
+
+public static class GameMakerIffFileExtensions {
+    public static IEnumerable<T> GetChunks<T>(this GameMakerIffFile file) where T : IGameMakerChunk {
+        if (file.Form?.Chunks is null)
+            yield break;
+
+        foreach (var chunk in file.Form.Chunks.Values) {
+            if (chunk is T tChunk)
+                yield return tChunk;
+        }
+    }
+
+    public static T GetChunk<T>(this GameMakerIffFile file) where T : IGameMakerChunk {
+        return file.GetChunks<T>().Single();
     }
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Tomat.GameMaker.IFF.DataTypes;
+using Tomat.GameMaker.IFF.DataTypes.Models.Code;
+using Tomat.GameMaker.IFF.DataTypes.Models.FunctionEntry;
+using Tomat.GameMaker.IFF.DataTypes.Models.Variable;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks;
@@ -17,6 +20,9 @@ namespace Tomat.GameMaker.IFF.Chunks;
 ///     The version information of the GameMaker IFF file being read from.
 /// </param>
 public sealed record SerializationContext(IGameMakerIffWriter Writer, GameMakerIffFile IffFile, GameMakerVersionInfo VersionInfo) : IGameMakerIffWriter {
+    public Dictionary<GameMakerVariable, List<(int, GameMakerCodeInstructionVariableType)>> VariableReferences { get; } = new();
+    public Dictionary<GameMakerFunctionEntry, List<(int, GameMakerCodeInstructionVariableType)>> FunctionReferences { get; } = new();
+
 #region IGameMakerIffWriter Impl
     public byte[] Data => Writer.Data;
 

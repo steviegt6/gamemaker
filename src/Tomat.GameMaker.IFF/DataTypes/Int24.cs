@@ -3,7 +3,7 @@
 /// <summary>
 ///     Represents a 24-bit signed integer.
 /// </summary>
-public readonly struct Int24  {
+public readonly struct Int24 {
     /// <summary>
     ///     The size of the data type, in bytes.
     /// </summary>
