@@ -25,7 +25,7 @@ public sealed class GameMakerObject : IGameMakerSerializable {
 
     public GameMakerObjectPhysicsProperties PhysicsProperties;
 
-    public GameMakerPointerList<GameMakerPointerList<GameMakerObjectEvent>>? Events { get; set; }
+    public GameMakerPointerList<GameMakerPointerList<GameMakerObjectEvent>> Events { get; set; } = null!;
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
@@ -59,8 +59,7 @@ public sealed class GameMakerObject : IGameMakerSerializable {
             PhysicsProperties.Vertices.Add(vertex);
         }
 
-        Events = new GameMakerPointerList<GameMakerPointerList<GameMakerObjectEvent>>();
-        Events.Read(context);
+        Events = context.ReadPointerList<GameMakerPointerList<GameMakerObjectEvent>>();
     }
 
     public void Write(SerializationContext context) {
@@ -88,6 +87,6 @@ public sealed class GameMakerObject : IGameMakerSerializable {
         context.Write(PhysicsProperties.IsKinematic, wide: true);
         foreach (var vertex in PhysicsProperties.Vertices)
             vertex.Write(context);
-        Events!.Write(context);
+        context.Write(Events);
     }
 }

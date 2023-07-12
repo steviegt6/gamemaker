@@ -8,13 +8,11 @@ public sealed class GameMakerAnimationCurve : IGameMakerSerializable {
 
     public GameMakerAnimationCurveGraphType GraphType { get; set; }
 
-    public GameMakerList<GameMakerAnimationCurveChannel>? Channels { get; set; }
+    public GameMakerList<GameMakerAnimationCurveChannel> Channels { get; set; } = null!;
 
     private readonly bool includeName;
 
-    public GameMakerAnimationCurve() {
-        includeName = true;
-    }
+    public GameMakerAnimationCurve() : this(true) { }
 
     public GameMakerAnimationCurve(bool includeName) {
         this.includeName = includeName;
@@ -24,14 +22,13 @@ public sealed class GameMakerAnimationCurve : IGameMakerSerializable {
         Name = includeName ? context.ReadPointerAndObject<GameMakerString>() : GameMakerPointer<GameMakerString>.NULL;
         GraphType = (GameMakerAnimationCurveGraphType)context.ReadUInt32();
 
-        Channels = new GameMakerList<GameMakerAnimationCurveChannel>();
-        Channels.Read(context);
+        Channels = context.ReadList<GameMakerAnimationCurveChannel>();
     }
 
     public void Write(SerializationContext context) {
         if (includeName)
             context.Write(Name);
         context.Write((uint)GraphType);
-        Channels!.Write(context);
+        context.Write(Channels);
     }
 }

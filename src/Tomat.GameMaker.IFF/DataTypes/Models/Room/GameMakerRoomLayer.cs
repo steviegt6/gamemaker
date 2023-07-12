@@ -27,7 +27,7 @@ public sealed class GameMakerRoomLayer : IGameMakerSerializable {
 
     public GameMakerPointer<GameMakerString> EffectType { get; set; }
 
-    public GameMakerList<GameMakerRoomLayerEffectProperty>? EffectProperties { get; set; }
+    public GameMakerList<GameMakerRoomLayerEffectProperty> EffectProperties { get; set; } = null!;
 
     // Only one of these are not null at a time.
     public GameMakerRoomLayerBackground? Background { get; set; }
@@ -54,8 +54,7 @@ public sealed class GameMakerRoomLayer : IGameMakerSerializable {
         if (context.VersionInfo.Version.Major >= 2022) {
             EffectEnabled = context.ReadBoolean(wide: true);
             EffectType = context.ReadPointerAndObject<GameMakerString>();
-            EffectProperties = new GameMakerList<GameMakerRoomLayerEffectProperty>();
-            EffectProperties.Read(context);
+            EffectProperties = context.ReadList<GameMakerRoomLayerEffectProperty>();
         }
 
         switch (LayerKind) {
@@ -103,7 +102,7 @@ public sealed class GameMakerRoomLayer : IGameMakerSerializable {
         if (context.VersionInfo.Version.Major >= 2022) {
             context.Write(EffectEnabled, wide: true);
             context.Write(EffectType);
-            EffectProperties!.Write(context);
+            context.Write(EffectProperties);
         }
 
         switch (LayerKind) {

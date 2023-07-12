@@ -17,8 +17,8 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
 
     public Guid? ProductId { get; set; }
 
-    private GameMakerPointer<GameMakerPointerList<GameMakerExtensionFile>>? filesPointer = null;
-    private GameMakerPointerList<GameMakerExtensionFile>? files = null;
+    private GameMakerPointer<GameMakerPointerList<GameMakerExtensionFile>>? filesPointer;
+    private GameMakerPointerList<GameMakerExtensionFile>? files;
 
     public void Read(DeserializationContext context) {
         EmptyString = context.ReadPointerAndObject<GameMakerString>();
@@ -30,8 +30,7 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
             Options = context.ReadPointerAndObject<GameMakerPointerList<GameMakerExtensionOption>>();
         }
         else {
-            files = new GameMakerPointerList<GameMakerExtensionFile>();
-            files.Read(context);
+            files = context.ReadPointerList<GameMakerExtensionFile>();
         }
     }
 
@@ -47,7 +46,7 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
             context.MarkPointerAndWriteObject(Options);
         }
         else {
-            Files!.Write(context);
+            context.Write(files!);
         }
     }
 }

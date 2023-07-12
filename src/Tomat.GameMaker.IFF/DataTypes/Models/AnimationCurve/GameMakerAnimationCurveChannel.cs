@@ -10,21 +10,20 @@ public sealed class GameMakerAnimationCurveChannel : IGameMakerSerializable {
 
     public ushort Iterations { get; set; }
 
-    public GameMakerList<GameMakerAnimationCurveChannelPoint>? Points { get; set; }
+    public GameMakerList<GameMakerAnimationCurveChannelPoint> Points { get; set; } = null!;
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
         FunctionType = (GameMakerAnimationCurveChannelFunctionType)context.ReadInt32();
         Iterations = (ushort)context.ReadUInt32(); // TODO: Uhh... okay?
 
-        Points = new GameMakerList<GameMakerAnimationCurveChannelPoint>();
-        Points.Read(context);
+        Points = context.ReadList<GameMakerAnimationCurveChannelPoint>();
     }
 
     public void Write(SerializationContext context) {
         context.Write(Name);
         context.Write((int)FunctionType);
         context.Write((uint)Iterations); // TODO: Uhh... okay?
-        Points!.Write(context);
+        context.Write(Points);
     }
 }

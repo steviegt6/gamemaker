@@ -4,14 +4,13 @@ using Tomat.GameMaker.IFF.DataTypes.Models.Sequence.Keyframes;
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Track;
 
 public sealed class GameMakerTrackAudioKeyframes : GameMakerTrackKeyframes {
-    public GameMakerList<GameMakerKeyframe<GameMakerTrackAudioKeyframeData>>? Keyframes { get; set; }
+    public GameMakerList<GameMakerKeyframe<GameMakerTrackAudioKeyframeData>> Keyframes { get; set; } = null!;
 
     public override void Read(DeserializationContext context) {
-        Keyframes = new GameMakerList<GameMakerKeyframe<GameMakerTrackAudioKeyframeData>>();
-        Keyframes.Read(context);
+        Keyframes = context.ReadList<GameMakerKeyframe<GameMakerTrackAudioKeyframeData>>();
     }
 
     public override void Write(SerializationContext context) {
-        Keyframes!.Write(context);
+        context.Write(Keyframes);
     }
 }

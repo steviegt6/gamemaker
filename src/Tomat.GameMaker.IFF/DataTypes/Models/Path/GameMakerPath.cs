@@ -12,15 +12,14 @@ public sealed class GameMakerPath : IGameMakerSerializable {
 
     public uint Precision { get; set; }
 
-    public GameMakerList<GameMakerPathPoint>? Points { get; set; }
+    public GameMakerList<GameMakerPathPoint> Points { get; set; } = null!;
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
         Smooth = context.ReadBoolean(wide: true);
         Closed = context.ReadBoolean(wide: true);
         Precision = context.ReadUInt32();
-        Points = new GameMakerList<GameMakerPathPoint>();
-        Points.Read(context);
+        Points = context.ReadList<GameMakerPathPoint>();
     }
 
     public void Write(SerializationContext context) {
@@ -28,6 +27,6 @@ public sealed class GameMakerPath : IGameMakerSerializable {
         context.Write(Smooth, wide: true);
         context.Write(Closed, wide: true);
         context.Write(Precision);
-        Points?.Write(context);
+        context.Write(Points);
     }
 }

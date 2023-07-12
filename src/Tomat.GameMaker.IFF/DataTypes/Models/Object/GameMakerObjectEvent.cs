@@ -5,17 +5,16 @@ namespace Tomat.GameMaker.IFF.DataTypes.Models.Object;
 public sealed class GameMakerObjectEvent : IGameMakerSerializable {
     public int SubType { get; set; }
 
-    public GameMakerPointerList<GameMakerObjectEventAction>? Actions { get; set; }
+    public GameMakerPointerList<GameMakerObjectEventAction> Actions { get; set; } = null!;
 
     public void Read(DeserializationContext context) {
         SubType = context.ReadInt32();
 
-        Actions = new GameMakerPointerList<GameMakerObjectEventAction>();
-        Actions.Read(context);
+        Actions = context.ReadPointerList<GameMakerObjectEventAction>();
     }
 
     public void Write(SerializationContext context) {
         context.Write(SubType);
-        Actions!.Write(context);
+        context.Write(Actions);
     }
 }

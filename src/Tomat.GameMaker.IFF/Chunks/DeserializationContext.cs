@@ -114,4 +114,14 @@ public sealed record DeserializationContext(IGameMakerIffReader Reader, GameMake
         list.Read(this, beforeRead, afterRead, elementReader);
         return list;
     }
+
+    public GameMakerRemotePointerList<T> ReadRemotePointerList<T>(
+        GameMakerRemotePointerList<T>.ListRead? beforeRead = null,
+        GameMakerRemotePointerList<T>.ListRead? afterRead = null,
+        GameMakerRemotePointerList<T>.ListElementRead? elementReader = null)
+        where T : IGameMakerSerializable, new() {
+        var list = new GameMakerRemotePointerList<T>();
+        list.Read(this, beforeRead, afterRead, elementReader);
+        return list;
+    }
 }

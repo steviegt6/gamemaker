@@ -12,15 +12,14 @@ public sealed class GameMakerExtensionFile : IGameMakerSerializable {
 
     public GameMakerExtensionKind ExtensionKind { get; set; }
 
-    public GameMakerPointerList<GameMakerExtensionFunction>? Functions { get; set; }
+    public GameMakerPointerList<GameMakerExtensionFunction> Functions { get; set; } = null!;
 
     public void Read(DeserializationContext context) {
         FileName = context.ReadPointerAndObject<GameMakerString>();
         FinalFunction = context.ReadPointerAndObject<GameMakerString>();
         InitFunction = context.ReadPointerAndObject<GameMakerString>();
         ExtensionKind = (GameMakerExtensionKind)context.ReadUInt32();
-        Functions = new GameMakerPointerList<GameMakerExtensionFunction>();
-        Functions.Read(context);
+        Functions = context.ReadPointerList<GameMakerExtensionFunction>();
     }
 
     public void Write(SerializationContext context) {
@@ -28,6 +27,6 @@ public sealed class GameMakerExtensionFile : IGameMakerSerializable {
         context.Write(FinalFunction);
         context.Write(InitFunction);
         context.Write((uint)ExtensionKind);
-        Functions!.Write(context);
+        context.Write(Functions);
     }
 }

@@ -47,6 +47,20 @@ public sealed class GameMakerAnimationCurveChannelPoint : IGameMakerSerializable
     }
 
     public void Write(SerializationContext context) {
-        throw new System.NotImplementedException();
+        context.Write(X);
+        context.Write(Value);
+
+        if (context.VersionInfo.IsAtLeast(GM_2_3_1)) {
+            context.Write(BezierX0);
+            context.Write(BezierY0);
+            context.Write(BezierX1);
+            context.Write(BezierY1);
+        }
+        else {
+            // Write out the aforementioned should-be-zero int32 values on older
+            // versions.
+            context.Write(0);
+            context.Write(0);
+        }
     }
 }

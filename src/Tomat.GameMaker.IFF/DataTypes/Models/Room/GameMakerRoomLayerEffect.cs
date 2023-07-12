@@ -6,16 +6,15 @@ namespace Tomat.GameMaker.IFF.DataTypes.Models.Room;
 public sealed class GameMakerRoomLayerEffect : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> EffectType { get; set; }
 
-    public GameMakerList<GameMakerRoomLayerEffectProperty>? Properties { get; set; }
+    public GameMakerList<GameMakerRoomLayerEffectProperty> Properties { get; set; } = null!;
 
     public void Read(DeserializationContext context) {
         EffectType = context.ReadPointerAndObject<GameMakerString>();
-        Properties = new GameMakerList<GameMakerRoomLayerEffectProperty>();
-        Properties.Read(context);
+        Properties = context.ReadList<GameMakerRoomLayerEffectProperty>();
     }
 
     public void Write(SerializationContext context) {
         context.Write(EffectType);
-        Properties!.Write(context);
+        context.Write(Properties);
     }
 }

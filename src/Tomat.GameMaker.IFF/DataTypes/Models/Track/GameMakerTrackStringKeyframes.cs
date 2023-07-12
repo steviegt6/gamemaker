@@ -5,14 +5,13 @@ using Tomat.GameMaker.IFF.DataTypes.Models.String;
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Track;
 
 public sealed class GameMakerTrackStringKeyframes : GameMakerTrackKeyframes {
-    public GameMakerList<GameMakerKeyframe<GameMakerString>>? Strings { get; set; }
+    public GameMakerList<GameMakerKeyframe<GameMakerString>> Strings { get; set; } = null!;
 
     public override void Read(DeserializationContext context) {
-        Strings = new GameMakerList<GameMakerKeyframe<GameMakerString>>();
-        Strings.Read(context);
+        Strings = context.ReadList<GameMakerKeyframe<GameMakerString>>();
     }
 
     public override void Write(SerializationContext context) {
-        Strings!.Write(context);
+        context.Write(Strings);
     }
 }

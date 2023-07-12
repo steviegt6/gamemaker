@@ -24,13 +24,13 @@ public sealed class GameMakerSequence : IGameMakerSerializable {
 
     public float Volume { get; set; }
 
-    public GameMakerList<GameMakerKeyframe<GameMakerBroadcastMessage>>? BroadcastMessages { get; set; }
+    public GameMakerList<GameMakerKeyframe<GameMakerBroadcastMessage>> BroadcastMessages { get; set; } = null!;
 
-    public GameMakerList<GameMakerTrack>? Tracks { get; set; }
+    public GameMakerList<GameMakerTrack> Tracks { get; set; } = null!;
 
     public Dictionary<int, GameMakerPointer<GameMakerString>>? FunctionIds { get; set; }
 
-    public GameMakerList<GameMakerKeyframe<GameMakerMoment>>? Moments { get; set; }
+    public GameMakerList<GameMakerKeyframe<GameMakerMoment>> Moments { get; set; } = null!;
 
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
@@ -42,11 +42,8 @@ public sealed class GameMakerSequence : IGameMakerSerializable {
         OriginY = context.ReadInt32();
         Volume = context.ReadSingle();
 
-        BroadcastMessages = new GameMakerList<GameMakerKeyframe<GameMakerBroadcastMessage>>();
-        BroadcastMessages.Read(context);
-
-        Tracks = new GameMakerList<GameMakerTrack>();
-        Tracks.Read(context);
+        BroadcastMessages = context.ReadList<GameMakerKeyframe<GameMakerBroadcastMessage>>();
+        Tracks = context.ReadList<GameMakerTrack>();
 
         var functionIdCount = context.ReadInt32();
         FunctionIds = new Dictionary<int, GameMakerPointer<GameMakerString>>(functionIdCount);
@@ -57,8 +54,7 @@ public sealed class GameMakerSequence : IGameMakerSerializable {
             FunctionIds.Add(functionId, functionName);
         }
 
-        Moments = new GameMakerList<GameMakerKeyframe<GameMakerMoment>>();
-        Moments.Read(context);
+        Moments = context.ReadList<GameMakerKeyframe<GameMakerMoment>>();
     }
 
     public void Write(SerializationContext context) {
@@ -70,11 +66,8 @@ public sealed class GameMakerSequence : IGameMakerSerializable {
         context.Write(OriginX);
         context.Write(OriginY);
         context.Write(Volume);
-
-        BroadcastMessages!.Write(context);
-
-        Tracks!.Write(context);
-
+        context.Write(BroadcastMessages);
+        context.Write(Tracks);
         context.Write(FunctionIds!.Count);
 
         foreach (var (functionId, functionName) in FunctionIds) {
@@ -82,6 +75,6 @@ public sealed class GameMakerSequence : IGameMakerSerializable {
             context.Write(functionName);
         }
 
-        Moments!.Write(context);
+        context.Write(Moments);
     }
 }

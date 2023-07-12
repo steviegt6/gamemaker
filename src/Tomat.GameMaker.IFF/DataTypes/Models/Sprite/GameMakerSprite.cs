@@ -83,8 +83,6 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
         OriginX = context.ReadInt32();
         OriginY = context.ReadInt32();
 
-        TextureItems = new GameMakerRemotePointerList<GameMakerTextureItem>();
-
         if (context.ReadInt32() == -1) {
             SpecialOrGm2 = true;
 
@@ -109,6 +107,7 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
 
             switch (SpriteType) {
                 case GameMakerSpriteType.Normal:
+                    TextureItems = new GameMakerRemotePointerList<GameMakerTextureItem>();
                     TextureItems.Read(context);
                     ParseMaskData(context);
                     break;
@@ -117,6 +116,7 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
                     if (context.ReadInt32() != 8)
                         throw new InvalidDataException("Expected 8, SWF format incorrect.");
 
+                    TextureItems = new GameMakerRemotePointerList<GameMakerTextureItem>();
                     TextureItems.Read(context);
                     context.Pad(4);
                     begin = context.Position;
@@ -166,6 +166,7 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
         else {
             // Normal, GameMaker 1.4 sprite.
             context.Position -= 4;
+            TextureItems = new GameMakerRemotePointerList<GameMakerTextureItem>();
             TextureItems.Read(context);
             ParseMaskData(context);
         }
@@ -211,13 +212,19 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
 
             switch (SpriteType) {
                 case GameMakerSpriteType.Normal:
-                    TextureItems!.Write(context);
+                    if (TextureItems is null)
+                        throw new InvalidOperationException("TextureItems is null.");
+
+                    context.Write(TextureItems);
                     WriteMaskData(context);
                     break;
 
                 case GameMakerSpriteType.Swf:
                     context.Write(8);
-                    TextureItems!.Write(context);
+                    if (TextureItems is null)
+                        throw new InvalidOperationException("TextureItems is null.");
+
+                    context.Write(TextureItems);
                     context.Pad(4);
                     context.Write(SpriteBuffer);
                     break;
@@ -242,7 +249,10 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
             }
         }
         else {
-            TextureItems!.Write(context);
+            if (TextureItems is null)
+                throw new InvalidOperationException("TextureItems is null.");
+
+            context.Write(TextureItems);
             WriteMaskData(context);
         }
     }

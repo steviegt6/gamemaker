@@ -128,4 +128,13 @@ public sealed record SerializationContext(IGameMakerIffWriter Writer, GameMakerI
     ) where T : IGameMakerSerializable, new() {
         list.Write(this, beforeWriter, afterWriter, elementWriter, elementPointerWriter);
     }
+
+    public void Write<T>(
+        GameMakerRemotePointerList<T> list,
+        GameMakerRemotePointerList<T>.ListWrite? beforeWriter = null,
+        GameMakerRemotePointerList<T>.ListWrite? afterWriter = null,
+        GameMakerRemotePointerList<T>.ListElementWrite? elementPointerWriter = null
+    ) where T : IGameMakerSerializable, new() {
+        list.Write(this, beforeWriter, afterWriter, elementPointerWriter);
+    }
 };
