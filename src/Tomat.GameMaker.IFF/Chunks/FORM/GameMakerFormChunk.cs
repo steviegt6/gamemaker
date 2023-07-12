@@ -11,6 +11,7 @@ using Tomat.GameMaker.IFF.Chunks.EXTN;
 using Tomat.GameMaker.IFF.Chunks.FEAT;
 using Tomat.GameMaker.IFF.Chunks.FEDS;
 using Tomat.GameMaker.IFF.Chunks.FONT;
+using Tomat.GameMaker.IFF.Chunks.FUNC;
 using Tomat.GameMaker.IFF.Chunks.GEN8;
 using Tomat.GameMaker.IFF.Chunks.GLOB;
 using Tomat.GameMaker.IFF.Chunks.LANG;
@@ -29,6 +30,7 @@ using Tomat.GameMaker.IFF.Chunks.TGIN;
 using Tomat.GameMaker.IFF.Chunks.TMLN;
 using Tomat.GameMaker.IFF.Chunks.TPAG;
 using Tomat.GameMaker.IFF.Chunks.TXTR;
+using Tomat.GameMaker.IFF.Chunks.VARI;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.FORM;
@@ -81,8 +83,8 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
             { GameMakerTpagChunk.NAME, (c, s) => new GameMakerTpagChunk(c, s) },
             { GameMakerTginChunk.NAME, (c, s) => new GameMakerTginChunk(c, s) },
             { GameMakerCodeChunk.NAME, (c, s) => new GameMakerCodeChunk(c, s) },
-            // { GameMakerVariChunk.NAME, (c, s) => new GameMakerVariChunk(c, s) },
-            // { GameMakerFuncChunk.NAME, (c, s) => new GameMakerFuncChunk(c, s) },
+            { GameMakerVariChunk.NAME, (c, s) => new GameMakerVariChunk(c, s) },
+            { GameMakerFuncChunk.NAME, (c, s) => new GameMakerFuncChunk(c, s) },
             { GameMakerFeatChunk.NAME, (c, s) => new GameMakerFeatChunk(c, s) },
             { GameMakerStrgChunk.NAME, (c, s) => new GameMakerStrgChunk(c, s) },
             { GameMakerTxtrChunk.NAME, (c, s) => new GameMakerTxtrChunk(c, s) },

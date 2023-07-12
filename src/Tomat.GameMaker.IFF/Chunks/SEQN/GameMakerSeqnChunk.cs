@@ -14,7 +14,7 @@ public sealed class GameMakerSeqnChunk : AbstractChunk {
 
     public override void Read(DeserializationContext context) {
         // The chunk can just be empty (4-byte header and int32 length).
-        if (Size == 8)
+        if (Size == 0)
             return;
 
         var chunkVersion = context.ReadInt32();

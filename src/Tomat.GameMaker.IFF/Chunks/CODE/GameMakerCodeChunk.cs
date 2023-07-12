@@ -12,7 +12,7 @@ public sealed class GameMakerCodeChunk : AbstractChunk {
     public GameMakerCodeChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        if (Size == 8)
+        if (Size == 0)
             return; // In YYC, before bytecode 17, CODE is empty.
 
         Code = context.ReadPointerList<GameMakerCode>();
