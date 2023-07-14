@@ -5,6 +5,7 @@ using CliFx.Attributes;
 using CliFx.Infrastructure;
 using Tomat.GameMaker.Decompiler;
 using Tomat.GameMaker.Decompiler.CSharp;
+using Tomat.GameMaker.Decompiler.Disassembler;
 using Tomat.GameMaker.IFF;
 
 namespace Tomat.GameMaker.Samples.Examples;
@@ -26,11 +27,12 @@ public class DecompileCommand : BaseCommand {
         if (form.Chunks is null)
             throw new Exception("FORM chunk's sub-chunks are null!");
 
-        var csharpDecompiler = new CSharpGameMakerDecompiler();
-        var decompilerContext = new DecompilerContext(ctx, csharpDecompiler);
+        // var decompiler = new CSharpGameMakerDecompiler();
+        var decompiler = new DisassemblerGameMakerDecompiler();
+        var decompilerContext = new DecompilerContext(ctx, decompiler);
 
         if (CodeName is null) {
-            var files = csharpDecompiler.DecompileIffFile(decompilerContext);
+            var files = decompiler.DecompileIffFile(decompilerContext);
         }
         else {
             // TODO
