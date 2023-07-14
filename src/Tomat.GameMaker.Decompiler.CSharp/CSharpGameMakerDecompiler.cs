@@ -19,7 +19,7 @@ public sealed class CSharpGameMakerDecompiler : IGameMakerDecompiler {
     /// </summary>
     public Dictionary<DecompilerContext, PEFile> PeFiles { get; set; } = new();
 
-    public DecompilerResult DecompileFunction(DecompilerContext context, GameMakerCode functionEntry) {
+    public DecompilerResult DecompileFunction(DecompilerContext context, GameMakerCode code) {
         var peFile = GetOrCreatePeFile(context);
         throw new NotImplementedException();
     }
@@ -131,13 +131,24 @@ public sealed class CSharpGameMakerDecompiler : IGameMakerDecompiler {
         }
 
         TypeDefinition createType(string @namespace, string name, TypeSystem typeSystem) {
-            return new TypeDefinition(@namespace, name, TypeAttributes.Public | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Class | TypeAttributes.AutoLayout | TypeAttributes.AnsiClass, typeSystem.Object);
+            return new TypeDefinition(
+                @namespace,
+                name,
+                TypeAttributes.Class
+              | TypeAttributes.Public
+              | TypeAttributes.AutoLayout
+              | TypeAttributes.AnsiClass
+              | TypeAttributes.Abstract
+              | TypeAttributes.Sealed
+              | TypeAttributes.BeforeFieldInit,
+                typeSystem.Object
+            );
         }
 
         foreach (var globalScript in globalScripts) {
             var trimmedName = globalScript.Name.ExpectObject().Value!["gml_GlobalScript_".Length..];
             var type = createType(globalNamespace, trimmedName, ts);
-            
+
             // Global scripts don't have any instructions not consumed by child
             // scripts, so we can just ignore them.
 
@@ -157,7 +168,7 @@ public sealed class CSharpGameMakerDecompiler : IGameMakerDecompiler {
 
             var method = CreateMethod(trimmedName, roomScript, ts);
             type.Methods.Add(method);
-            
+
             // Room scripts don't have children... I think?
             /*foreach (var child in roomScript.Children) {
                 scripts.Remove(child);
@@ -172,7 +183,7 @@ public sealed class CSharpGameMakerDecompiler : IGameMakerDecompiler {
 
             var method = CreateMethod(trimmedName, roomCcScript, ts);
             type.Methods.Add(method);
-            
+
             // RoomCC scripts don't have children... I think?
             /*foreach (var child in roomCcScript.Children) {
                 scripts.Remove(child);
@@ -184,7 +195,7 @@ public sealed class CSharpGameMakerDecompiler : IGameMakerDecompiler {
         foreach (var objectScript in objectScripts) {
             var trimmedName = objectScript.Name.ExpectObject().Value!["gml_Object_".Length..];
             var type = createType(objectNamespace, trimmedName, ts);
-            
+
             var method = CreateMethod(trimmedName, objectScript, ts);
             type.Methods.Add(method);
 
@@ -202,15 +213,22 @@ public sealed class CSharpGameMakerDecompiler : IGameMakerDecompiler {
             throw new Exception("Unknown/unhandled scripts found!");
 
         // write to file debug
-        using var ms = new MemoryStream();
+        var ms = new MemoryStream();
         asmDef.Write(ms);
         File.WriteAllBytes(assemblyName + ".dll", ms.ToArray());
 
-        return null!;
+        ms.Seek(0, SeekOrigin.Begin);
+        return ms;
     }
 
     private MethodDefinition CreateMethod(string name, GameMakerCode code, TypeSystem ts) {
-        var method = new MethodDefinition(name, MethodAttributes.Public | MethodAttributes.Static, ts.Void);
+        var method = new MethodDefinition(
+            name,
+            MethodAttributes.Public
+          | MethodAttributes.HideBySig
+          | MethodAttributes.Static,
+            ts.Void
+        );
 
         return method;
     }

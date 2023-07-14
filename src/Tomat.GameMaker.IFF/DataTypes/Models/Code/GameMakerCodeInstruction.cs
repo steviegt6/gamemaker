@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.DataTypes.Models.FunctionEntry;
 using Tomat.GameMaker.IFF.DataTypes.Models.Variable;
@@ -395,6 +396,30 @@ public sealed class GameMakerCodeInstruction : IGameMakerSerializable {
             default:
                 throw new InvalidDataException($"Unknown instruction type {GetInstructionType(Opcode)} from opcode{Opcode}.");
         }
+    }
+
+    public override string ToString() {
+        var sb = new StringBuilder();
+        sb.Append(Opcode.ToString());
+        sb.Append(' ');
+
+        if (Value is not null) {
+            sb.Append(Value);
+            sb.Append(' ');
+        }
+
+        sb.Append('(');
+        sb.Append(Extra.ToString());
+        sb.Append(' ');
+        sb.Append(DataType1.ToString());
+        sb.Append(' ');
+        sb.Append(DataType2.ToString());
+        sb.Append(' ');
+        sb.Append(ComparisonType.ToString());
+        sb.Append(' ');
+        sb.Append(InstanceType.ToString());
+        sb.Append(')');
+        return sb.ToString();
     }
 
     public static int GetDataTypeStackLength(GameMakerInstructionDataType dataType) {
