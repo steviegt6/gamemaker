@@ -1,42 +1,52 @@
 ﻿using System;
 using System.Globalization;
+using System.Reflection;
 using Tomat.GameBreaker.Controls;
+using Tomat.GameBreaker.Util;
 using Tomat.GameBreaker.Views;
 
 namespace Tomat.GameBreaker;
 
 internal static class Program {
+    public static readonly Assembly ASSEMBLY = typeof(Program).Assembly;
+    
+    private const string application_id = "dev.tomat.gamebreaker";
+    
     [STAThread]
     internal static int Main() {
         if (CultureInfo.CurrentCulture.Equals(CultureInfo.InvariantCulture))
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
 
-        var application = Gtk.Application.New("dev.tomat.gamebreaker", Gio.ApplicationFlags.DefaultFlags);
-        var version = typeof(Program).Assembly.GetName().Version ?? new Version(0, 0, 0, 0);
+        var application = Adw.Application.New(application_id, Gio.ApplicationFlags.FlagsNone);
+        var version = ASSEMBLY.GetName().Version ?? new Version(0, 0, 0, 0);
         application.OnActivate += (sender, _) => {
-            if (sender is not Gtk.Application app)
-                throw new InvalidOperationException("OnActivate sender is not a Gtk.Application.");
+            if (sender is not Adw.Application app)
+                throw new InvalidOperationException("OnActivate sender is not an Adw.Application.");
 
             var mainWindowController = new MainWindowController(
-                // AboutDialog options.
+                // Adw.AboutWindow options.
+                ApplicationIcon: "",
+                ApplicationName: "Tomat.GameBreaker",
                 Artists: Array.Empty<string>(),
-                Authors: new[] { "Tomat" },
                 Comments: "Tomat.GameBreaker is a tool for reverse-engineering and modifying in-production GameMaker games.",
                 Copyright: "Copyright © 2023 Tomat and Tomat.GameBreaker contributors 2023\n"
                          + "Copyright © 2023 colinator27 and DogScepter contributors\n"
                          + "Copyright © 2023 krzys-h and UndertaleModTool contributors",
+                DebugInfo: "",
+                DebugInfoFilename: "debug_info.txt",
+                Designers: new [] { "Tomat" },
                 Documenters: new[] { "Tomat" },
+                DeveloperName: "Tomat",
+                Developers: new[] { "Tomat" } ,
+                IssueUrl: "https://github.com/steviegt6/gamemaker/issues/",
                 License: "GNU General Public License, version 3",
                 LicenseType: Gtk.License.Gpl30,
-                Logo: null!,
-                LogoIconName: null,
-                ProgramName: "Tomat.GameBreaker",
-                SystemInformation: null,
-                TranslatorCredits: null,
+                ReleaseNotes: ReleaseNotes.GetReleaseNotes(),
+                ReleaseNotesVersion: ReleaseNotes.RELEASE_NOTES_VERSION,
+                SupportUrl: "https://discord.gg/KvqKGQNbhr",
+                TranslatorCredits: "",
                 Version: version.ToString(),
                 Website: "https://github.com/steviegt6/gamemaker",
-                WebsiteLabel: null,
-                WrapLicense: true,
 
                 // Window display options.
                 WindowTitle: $"Tomat.GameBreaker - {version}",
