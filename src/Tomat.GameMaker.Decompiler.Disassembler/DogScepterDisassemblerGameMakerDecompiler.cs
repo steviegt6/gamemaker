@@ -9,7 +9,10 @@ using Tomat.GameMaker.IFF.DataTypes.Models.Variable;
 
 namespace Tomat.GameMaker.Decompiler.Disassembler;
 
-public sealed class DisassemblerGameMakerDecompiler : IGameMakerDecompiler {
+/// <summary>
+///     Disassembles binary GameMaker bytecode to DogScepter assembly.
+/// </summary>
+public sealed class DogScepterDisassemblerGameMakerDecompiler : IGameMakerDecompiler {
     public static readonly Dictionary<GameMakerInstructionDataType, char> DATA_TYPE_TO_CHAR = new() {
         { GameMakerInstructionDataType.Double,   'd' },
         { GameMakerInstructionDataType.Float,    'f' },
@@ -55,8 +58,8 @@ public sealed class DisassemblerGameMakerDecompiler : IGameMakerDecompiler {
 
         var sb = new StringBuilder();
 
-        sb.AppendLine($"; {code.Name.ExpectObject().Value}");
-        sb.AppendLine($"; 0x{code.BytecodeOffset:X8}");
+        sb.AppendLine($"# {code.Name.ExpectObject().Value}");
+        sb.AppendLine($"# 0x{code.BytecodeOffset:X8}");
 
         var blocks = FindBlockAddresses(bytecode, result);
 

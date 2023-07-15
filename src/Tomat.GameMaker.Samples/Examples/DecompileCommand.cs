@@ -28,7 +28,8 @@ public class DecompileCommand : BaseCommand {
             throw new Exception("FORM chunk's sub-chunks are null!");
 
         // var decompiler = new CSharpGameMakerDecompiler();
-        var decompiler = new DisassemblerGameMakerDecompiler();
+        // var decompiler = new DogScepterDisassemblerGameMakerDecompiler();
+        var decompiler = new UndertaleModToolDisassemblerGameMakerDecompiler();
         var decompilerContext = new DecompilerContext(ctx, decompiler);
 
         if (CodeName is null) {

@@ -398,30 +398,6 @@ public sealed class GameMakerCodeInstruction : IGameMakerSerializable {
         }
     }
 
-    public override string ToString() {
-        var sb = new StringBuilder();
-        sb.Append(Opcode.ToString());
-        sb.Append(' ');
-
-        if (Value is not null) {
-            sb.Append(Value);
-            sb.Append(' ');
-        }
-
-        sb.Append('(');
-        sb.Append(Extra.ToString());
-        sb.Append(' ');
-        sb.Append(DataType1.ToString());
-        sb.Append(' ');
-        sb.Append(DataType2.ToString());
-        sb.Append(' ');
-        sb.Append(ComparisonType.ToString());
-        sb.Append(' ');
-        sb.Append(InstanceType.ToString());
-        sb.Append(')');
-        return sb.ToString();
-    }
-
     public static int GetDataTypeStackLength(GameMakerInstructionDataType dataType) {
         return dataType switch {
             GameMakerInstructionDataType.Int16 or GameMakerInstructionDataType.Int32 or GameMakerInstructionDataType.Float => 4,
