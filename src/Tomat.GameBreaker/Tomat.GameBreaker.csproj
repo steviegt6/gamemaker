@@ -5,10 +5,16 @@
         <TargetFramework>net7.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
+
+        <Version>1.0.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="GirCore.Gtk-4.0" Version="0.3.0"/>
+        <PackageReference Include="GirCore.Gtk-4.0" Version="0.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Localization" />
     </ItemGroup>
 
 </Project>
