@@ -49,11 +49,11 @@ public sealed class DogScepterDisassemblerGameMakerDecompiler : IGameMakerDecomp
     };
 
     public DecompilerResult DecompileFunction(DecompilerContext context, GameMakerCode code) {
+        var result = new DecompilerResult("#");
         var bytecode = code.BytecodeEntry;
         if (bytecode is null)
-            return new DecompilerResult().WithError("Bytecode entry was null.");
+            return result.WithError("Bytecode entry was null.");
 
-        var result = new DecompilerResult();
         var strings = context.DeserializationContext.IffFile.GetChunk<GameMakerStrgChunk>().Strings;
 
         var sb = new StringBuilder();
@@ -101,7 +101,7 @@ public sealed class DogScepterDisassemblerGameMakerDecompiler : IGameMakerDecomp
                     break;
 
                 case GameMakerCodeInstructionType.Comparison:
-                    sb.Append($".{DATA_TYPE_TO_CHAR[instruction.DataType1]}.{DATA_TYPE_TO_CHAR[instruction.DataType2]} {instruction.ComparisonType.ToString().ToLower()}");
+                    sb.Append($".{DATA_TYPE_TO_CHAR[instruction.DataType1]}.{DATA_TYPE_TO_CHAR[instruction.DataType2]} {instruction.ComparisonType.ToString().ToUpper()}");
                     break;
 
                 case GameMakerCodeInstructionType.Branch:
@@ -232,16 +232,6 @@ public sealed class DogScepterDisassemblerGameMakerDecompiler : IGameMakerDecomp
         sb.AppendLine(":[end]");
 
         return result.WithCode(sb.ToString());
-    }
-
-    public Dictionary<string, DecompilerResult> DecompileIffFile(DecompilerContext context) {
-        var result = new Dictionary<string, DecompilerResult>();
-        var codeChunk = context.DeserializationContext.IffFile.GetChunk<GameMakerCodeChunk>();
-
-        foreach (var code in codeChunk.Code!.Select(x => x.ExpectObject()))
-            result[code.Name.ExpectObject().Value!] = DecompileFunction(context, code);
-
-        return result;
     }
 
     private static List<int> FindBlockAddresses(GameMakerCodeBytecode bytecode, DecompilerResult result) {

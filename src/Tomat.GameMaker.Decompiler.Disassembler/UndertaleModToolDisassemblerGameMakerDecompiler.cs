@@ -65,11 +65,11 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
     };
 
     public DecompilerResult DecompileFunction(DecompilerContext context, GameMakerCode code) {
+        var result = new DecompilerResult(";");
         var bytecode = code.BytecodeEntry;
         if (bytecode is null)
-            return new DecompilerResult().WithError("Bytecode entry was null.");
+            return result.WithError("Bytecode entry was null.");
 
-        var result = new DecompilerResult();
         var locals = context.DeserializationContext.IffFile.GetChunk<GameMakerFuncChunk>().Locals;
         var variables = context.DeserializationContext.IffFile.GetChunk<GameMakerVariChunk>().Variables;
         var codeLocals = locals.FirstOrDefault(x => x.Name.ExpectObject().Value == code.Name.ExpectObject().Value);
@@ -81,7 +81,7 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
         if (codeLocals is null)
             result.WithWarning("Could not find locals entry for code entry.");
         else
-            sb.AppendLine(GenerateLocalVarDefinitions(code, variables, codeLocals, result));
+            sb.Append(GenerateLocalVarDefinitions(code, variables, codeLocals, result));
 
         var fragments = new Dictionary<int, string>();
 
@@ -93,7 +93,8 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
 
             childName ??= "<null>";
 
-            fragments.Add(child.BytecodeOffset / 4, $"{childName} (locals={child.LocalsCount}, argc={child.ArgumentsCount})");
+            // UMT divides offset by 4, we don't need to.
+            fragments.Add(child.BytecodeOffset, $"{childName} (locals={child.LocalsCount}, argc={child.ArgumentsCount})");
         }
 
         var blocks = FindBlockAddress(bytecode, result);
@@ -107,7 +108,7 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                 doNewLine = false;
             }
 
-            var index = blocks.IndexOf(instruction.Address);
+            var index = blocks.IndexOf(instruction.Address / 4);
 
             if (index != -1) {
                 if (doNewLine)
@@ -122,16 +123,6 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
         sb.AppendLine(":[end]");
 
         return result.WithCode(sb.ToString());
-    }
-
-    public Dictionary<string, DecompilerResult> DecompileIffFile(DecompilerContext context) {
-        var result = new Dictionary<string, DecompilerResult>();
-        var codeChunk = context.DeserializationContext.IffFile.GetChunk<GameMakerCodeChunk>();
-
-        foreach (var code in codeChunk.Code!.Select(x => x.ExpectObject()))
-            result[code.Name.ExpectObject().Value!] = DecompileFunction(context, code);
-
-        return result;
     }
 
     private static List<int> FindBlockAddress(GameMakerCodeBytecode bytecode, DecompilerResult result) {
@@ -209,7 +200,7 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
 
             // Maybe log when no matches?
             if (refVar is not null)
-                sb.Append(' ' + variables.IndexOf(refVar));
+                sb.Append(" " + variables.IndexOf(refVar));
 
             sb.AppendLine();
         }
@@ -262,10 +253,13 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
 
         switch (GameMakerCodeInstruction.GetInstructionType(instruction.Opcode)) {
             case GameMakerCodeInstructionType.SingleType:
-                sb.Append('.' + DATA_TYPE_TO_CHAR[instruction.DataType1]);
+                sb.Append("." + DATA_TYPE_TO_CHAR[instruction.DataType1]);
 
                 if (instruction.Opcode is GameMakerCodeInstructionOpcode.Dup or GameMakerCodeInstructionOpcode.CallV) {
-                    if (instruction.ComparisonType != 0) {
+                    sb.Append(' ');
+                    sb.Append(instruction.Extra);
+
+                    if (instruction.Opcode == GameMakerCodeInstructionOpcode.Dup && instruction.ComparisonType != 0) {
                         // Special dup instruction with extra parameters.
                         sb.Append(' ');
                         sb.Append((byte)instruction.ComparisonType & 0x7F);
@@ -276,15 +270,15 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                 break;
 
             case GameMakerCodeInstructionType.DoubleType:
-                sb.Append('.' + DATA_TYPE_TO_CHAR[instruction.DataType1]);
-                sb.Append('.' + DATA_TYPE_TO_CHAR[instruction.DataType2]);
+                sb.Append("." + DATA_TYPE_TO_CHAR[instruction.DataType1]);
+                sb.Append("." + DATA_TYPE_TO_CHAR[instruction.DataType2]);
                 break;
 
             case GameMakerCodeInstructionType.Comparison:
-                sb.Append('.' + DATA_TYPE_TO_CHAR[instruction.DataType1]);
-                sb.Append('.' + DATA_TYPE_TO_CHAR[instruction.DataType2]);
+                sb.Append("." + DATA_TYPE_TO_CHAR[instruction.DataType1]);
+                sb.Append("." + DATA_TYPE_TO_CHAR[instruction.DataType2]);
                 sb.Append(' ');
-                sb.Append(instruction.ComparisonType.ToString().ToLower());
+                sb.Append(instruction.ComparisonType.ToString().ToUpper());
                 break;
 
             case GameMakerCodeInstructionType.Branch:
@@ -302,8 +296,8 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                 break;
 
             case GameMakerCodeInstructionType.Pop:
-                sb.Append('.' + DATA_TYPE_TO_CHAR[instruction.DataType1]);
-                sb.Append('.' + DATA_TYPE_TO_CHAR[instruction.DataType2]);
+                sb.Append("." + DATA_TYPE_TO_CHAR[instruction.DataType1]);
+                sb.Append("." + DATA_TYPE_TO_CHAR[instruction.DataType2]);
                 sb.Append(' ');
 
                 if (instruction.DataType1 == GameMakerInstructionDataType.Int16) {
@@ -314,7 +308,7 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                     sb.Append(" ;;; This is a weird GMS2.3+ swap instruction.");
                 }
                 else {
-                    if (instruction.DataType1 == GameMakerInstructionDataType.Variable || instruction.InstanceType == GameMakerCodeInstanceType.Undefined) {
+                    if (instruction.DataType1 == GameMakerInstructionDataType.Variable && instruction.InstanceType != GameMakerCodeInstanceType.Undefined) {
                         sb.Append(instruction.InstanceType.ToString().ToLower(CultureInfo.InvariantCulture));
                         sb.Append('.');
                     }
@@ -325,7 +319,7 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                 break;
 
             case GameMakerCodeInstructionType.Push:
-                sb.Append('.' + DATA_TYPE_TO_CHAR[instruction.DataType1]);
+                sb.Append("." + DATA_TYPE_TO_CHAR[instruction.DataType1]);
                 sb.Append(' ');
 
                 if (instruction.DataType1 == GameMakerInstructionDataType.Variable && instruction.InstanceType != GameMakerCodeInstanceType.Undefined) {
@@ -333,11 +327,17 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                     sb.Append('.');
                 }
 
-                sb.Append((instruction.Value as IFormattable)?.ToString(null, CultureInfo.InvariantCulture) ?? instruction.Value?.ToString());
+                if (instruction.Value is not null)
+                    sb.Append((instruction.Value as IFormattable)?.ToString(null, CultureInfo.InvariantCulture) ?? instruction.Value.ToString());
+                else if (instruction.Variable is not null)
+                    sb.Append(StringifyVariableRef(instruction.Variable));
+                else if (instruction.Function is not null)
+                    sb.Append(StringifyFunctionRef(instruction.Function));
+                // TODO: error here
                 break;
 
             case GameMakerCodeInstructionType.Call:
-                sb.Append('.' + DATA_TYPE_TO_CHAR[instruction.DataType1]);
+                sb.Append("." + DATA_TYPE_TO_CHAR[instruction.DataType1]);
                 sb.Append(' ');
                 sb.Append(StringifyFunctionRef(instruction.Function));
                 sb.Append("(argc=");
@@ -352,7 +352,7 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                 break;
 
             case GameMakerCodeInstructionType.Break:
-                sb.Append('.' + DATA_TYPE_TO_CHAR[instruction.DataType1]);
+                sb.Append("." + DATA_TYPE_TO_CHAR[instruction.DataType1]);
 
                 if (unknownBreak) {
                     sb.Append(' ');
