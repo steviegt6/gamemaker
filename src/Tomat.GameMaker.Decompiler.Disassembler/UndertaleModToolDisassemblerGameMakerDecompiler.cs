@@ -108,7 +108,7 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                 doNewLine = false;
             }
 
-            var index = blocks.IndexOf(instruction.Address / 4);
+            var index = blocks.IndexOf(instruction.Address);
 
             if (index != -1) {
                 if (doNewLine)
@@ -137,18 +137,18 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                 case GameMakerCodeInstructionOpcode.Bf:
                 case GameMakerCodeInstructionOpcode.Bt:
                 case GameMakerCodeInstructionOpcode.PushEnv:
-                    addresses.Add(instruction.Address + 1);
-                    addresses.Add(instruction.Address + instruction.JumpOffset);
+                    addresses.Add(instruction.Address + 4);
+                    addresses.Add(instruction.Address + (instruction.JumpOffset * 4));
                     break;
 
                 case GameMakerCodeInstructionOpcode.PopEnv:
-                    if (instruction.PopenvExitMagic)
-                        addresses.Add(instruction.Address + instruction.JumpOffset);
+                    if (!instruction.PopenvExitMagic)
+                        addresses.Add(instruction.Address + (instruction.JumpOffset * 4));
                     break;
 
                 case GameMakerCodeInstructionOpcode.Exit:
                 case GameMakerCodeInstructionOpcode.Ret:
-                    addresses.Add(instruction.Address + 1);
+                    addresses.Add(instruction.Address + 4);
                     break;
             }
         }
@@ -289,7 +289,7 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                 else if (instruction.PopenvExitMagic)
                     tgt = "<drop>";
                 else if (blocks is not null)
-                    tgt = "[" + blocks.IndexOf(instruction.Address + instruction.JumpOffset) + ']';
+                    tgt = "[" + blocks.IndexOf(instruction.Address + (instruction.JumpOffset * 4)) + ']';
                 else
                     tgt = (instruction.Address + instruction.JumpOffset).ToString("D5");
                 sb.Append(tgt);
