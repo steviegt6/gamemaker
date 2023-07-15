@@ -309,7 +309,7 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                 }
                 else {
                     if (instruction.DataType1 == GameMakerInstructionDataType.Variable && instruction.InstanceType != GameMakerCodeInstanceType.Undefined) {
-                        sb.Append(instruction.InstanceType.ToString().ToLower(CultureInfo.InvariantCulture));
+                        sb.Append(GameMakerCodeInstanceTypeToString(instruction.InstanceType));
                         sb.Append('.');
                     }
 
@@ -323,7 +323,7 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
                 sb.Append(' ');
 
                 if (instruction.DataType1 == GameMakerInstructionDataType.Variable && instruction.InstanceType != GameMakerCodeInstanceType.Undefined) {
-                    sb.Append(instruction.InstanceType.ToString().ToLower(CultureInfo.InvariantCulture));
+                    sb.Append(GameMakerCodeInstanceTypeToString(instruction.InstanceType));
                     sb.Append('.');
                 }
 
@@ -388,5 +388,12 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
         var instanceType = variable.Target?.VariableType.ToString().ToLower(CultureInfo.InvariantCulture) ?? "null";
         var variableString = (variable.Target?.Name.IsNull ?? true) ? "<NULL_VAR_NAME>" : variable.Target.Name.ExpectObject().Value ?? "<NULL_VAR_NAME>";
         return $"[{type}]{instanceType}.{variableString}";
+    }
+
+    private static string GameMakerCodeInstanceTypeToString(GameMakerCodeInstanceType type) {
+        return type switch {
+            GameMakerCodeInstanceType.Argument => "arg",
+            _ => type.ToString().ToLower(),
+        };
     }
 }
