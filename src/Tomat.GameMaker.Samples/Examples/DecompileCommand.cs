@@ -34,7 +34,7 @@ public class DecompileCommand : BaseCommand {
 
         // var decompiler = new CSharpGameMakerDecompiler();
         // var decompiler = new DogScepterDisassemblerGameMakerDecompiler();
-        var decompiler = new DogScepterDisassemblerGameMakerDecompiler();
+        var decompiler = new UndertaleModToolDisassemblerGameMakerDecompiler();
         var decompilerContext = new DecompilerContext(ctx, decompiler);
 
         var codeChunk = wad.GetChunk<GameMakerCodeChunk>();
@@ -74,9 +74,24 @@ public class DecompileCommand : BaseCommand {
                     throw new Exception($"Unknown code name: {name}");
             }
 
+            void logDecompilation(string name, DecompilerResult result) {
+                console.Output.WriteLine($"Decompiled function '{result}' with {result.Warnings.Count} warning(s) and {result.Errors.Count} error(s)");
+
+                if (result.Warnings.Count > 0) {
+                    foreach (var warning in result.Warnings)
+                        console.Output.WriteLine($"  Warning: {warning}");
+                }
+
+                if (result.Errors.Count > 0) {
+                    foreach (var error in result.Errors)
+                        console.Output.WriteLine($"  Error: {error}");
+                }
+            }
+
             foreach (var globalScript in globalScripts) {
                 var result = decompiler.DecompileFunction(decompilerContext, globalScript);
                 var codeName = globalScript.Name!.ExpectObject().Value!;
+                logDecompilation(codeName, result);
                 var codePath = Path.Combine(globalDir, codeName + ".txt");
                 File.WriteAllText(codePath, result.GetCode());
             }
@@ -84,6 +99,7 @@ public class DecompileCommand : BaseCommand {
             foreach (var roomScript in roomScripts) {
                 var result = decompiler.DecompileFunction(decompilerContext, roomScript);
                 var codeName = roomScript.Name!.ExpectObject().Value!;
+                logDecompilation(codeName, result);
                 var codePath = Path.Combine(roomDir, codeName + ".txt");
                 File.WriteAllText(codePath, result.GetCode());
             }
@@ -91,6 +107,7 @@ public class DecompileCommand : BaseCommand {
             foreach (var roomCcScript in roomCcScripts) {
                 var result = decompiler.DecompileFunction(decompilerContext, roomCcScript);
                 var codeName = roomCcScript.Name!.ExpectObject().Value!;
+                logDecompilation(codeName, result);
                 var codePath = Path.Combine(roomCcDir, codeName + ".txt");
                 File.WriteAllText(codePath, result.GetCode());
             }
@@ -98,6 +115,7 @@ public class DecompileCommand : BaseCommand {
             foreach (var objectScript in objectScripts) {
                 var result = decompiler.DecompileFunction(decompilerContext, objectScript);
                 var codeName = objectScript.Name!.ExpectObject().Value!;
+                logDecompilation(codeName, result);
                 var codePath = Path.Combine(objectDir, codeName + ".txt");
                 File.WriteAllText(codePath, result.GetCode());
             }
