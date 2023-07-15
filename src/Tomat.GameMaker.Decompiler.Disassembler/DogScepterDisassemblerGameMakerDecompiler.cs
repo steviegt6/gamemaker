@@ -334,7 +334,7 @@ public sealed class DogScepterDisassemblerGameMakerDecompiler : IGameMakerDecomp
                 variableTypeName = "<error: null variable target>";
             }
             else {
-                variableTypeName = variable.Target.VariableType.ToString();
+                variableTypeName = variable.Target.VariableType.ToString().ToLower();
             }
 
             return $"[{variable.VariableType.ToString().ToLower()}]{variableTypeName}.{variableTargetName}";

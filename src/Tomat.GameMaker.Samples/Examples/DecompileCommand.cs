@@ -34,7 +34,7 @@ public class DecompileCommand : BaseCommand {
 
         // var decompiler = new CSharpGameMakerDecompiler();
         // var decompiler = new DogScepterDisassemblerGameMakerDecompiler();
-        var decompiler = new UndertaleModToolDisassemblerGameMakerDecompiler();
+        var decompiler = new DogScepterDisassemblerGameMakerDecompiler();
         var decompilerContext = new DecompilerContext(ctx, decompiler);
 
         var codeChunk = wad.GetChunk<GameMakerCodeChunk>();
