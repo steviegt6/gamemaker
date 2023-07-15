@@ -72,7 +72,8 @@ public sealed class DogScepterDisassemblerGameMakerDecompiler : IGameMakerDecomp
                 sb.AppendLine($":[{addressIndex}]");
             }
             else {
-                result.WithWarning($"0x{i:X8}: No block address found for instruction address 0x{instruction.Address:X8}.");
+                // This is fine, actually.
+                // result.WithWarning($"0x{i:X8}: No block address found for instruction address 0x{instruction.Address:X8}.");
             }
 
             // If not a break opcode, print the opcode name (without data
