@@ -1,6 +1,8 @@
 ﻿namespace Tomat.GameBreaker.Controls;
 
 public record MainWindowController(
+    string ApplicationId,
+    
     // AboutDialog options.
     string? ApplicationIcon,
     string? ApplicationName,

@@ -10,15 +10,40 @@ public class MainWindow : Gtk.ApplicationWindow {
         this.controller = controller;
         this.application = application;
 
+        //SetIconName(this.controller.ApplicationId);
         SetTitle(this.controller.WindowTitle);
         SetDefaultSize(this.controller.DefaultWidth, this.controller.DefaultHeight);
+
+        var actionAbout = Gio.SimpleAction.New("about", null);
+        actionAbout.OnActivate += AboutOnActivate;
+        AddAction(actionAbout);
+        this.application.SetAccelsForAction("win.about", new[] { "F1" });
+
+        var box = Gtk.Box.New(Gtk.Orientation.Vertical, 0);
+
+        var projectsHeader = Gtk.Label.New("Projects");
+        projectsHeader.SetHalign(Gtk.Align.Start);
+        projectsHeader.SetValign(Gtk.Align.Start);
+        projectsHeader.SetHexpand(true);
+        projectsHeader.SetVexpand(false);
+        projectsHeader.SetMarginStart(10);
+        projectsHeader.SetMarginEnd(10);
+        projectsHeader.SetMarginTop(10);
+        projectsHeader.SetMarginBottom(10);
+        var attributes = Pango.FontDescription;
+        projectsHeader.SetAttributes();
+        box.Append(projectsHeader);
+
+        SetChild(box);
     }
 
     public void Start() {
         application.AddWindow(this);
 
         Show();
+    }
 
+    private void AboutOnActivate(Gio.SimpleAction sender, Gio.SimpleAction.ActivateSignalArgs args) {
         var dialog = Adw.AboutWindow.New();
         dialog.ApplicationIcon = controller.ApplicationIcon;
         dialog.ApplicationName = controller.ApplicationName;

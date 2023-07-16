@@ -9,9 +9,9 @@ namespace Tomat.GameBreaker;
 
 internal static class Program {
     public static readonly Assembly ASSEMBLY = typeof(Program).Assembly;
-    
+
     private const string application_id = "dev.tomat.gamebreaker";
-    
+
     [STAThread]
     internal static int Main() {
         if (CultureInfo.CurrentCulture.Equals(CultureInfo.InvariantCulture))
@@ -24,8 +24,10 @@ internal static class Program {
                 throw new InvalidOperationException("OnActivate sender is not an Adw.Application.");
 
             var mainWindowController = new MainWindowController(
+                ApplicationId: application_id,
+
                 // Adw.AboutWindow options.
-                ApplicationIcon: "",
+                ApplicationIcon: "", //application_id,
                 ApplicationName: "Tomat.GameBreaker",
                 Artists: Array.Empty<string>(),
                 Comments: "Tomat.GameBreaker is a tool for reverse-engineering and modifying in-production GameMaker games.",
