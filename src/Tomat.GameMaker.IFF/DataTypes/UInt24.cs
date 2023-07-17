@@ -3,7 +3,7 @@
 /// <summary>
 ///     Represents a 24-bit unsigned integer.
 /// </summary>
-public readonly struct UInt24  {
+public readonly struct UInt24 {
     /// <summary>
     ///     The size of the data type, in bytes.
     /// </summary>

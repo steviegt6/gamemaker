@@ -16,7 +16,7 @@ public sealed class GameMakerIffFile : IGameMakerSerializable {
     ///     within a GameMaker IFF file, and other chunks are contained within
     ///     this chunk.
     /// </summary>
-    public GameMakerFormChunk? Form { get; set; }
+    public GameMakerFormChunk Form { get; set; } = null!;
 
     public void Read(DeserializationContext context) {
         var formName = new string(context.ReadChars(IGameMakerChunk.NAME_LENGTH));
@@ -60,6 +60,12 @@ public sealed class GameMakerIffFile : IGameMakerSerializable {
 }
 
 public static class GameMakerIffFileExtensions {
+    /// <summary>
+    ///     Gets all chunks of the given type from the IFF file.
+    /// </summary>
+    /// <param name="file">The IFF file to get chunks from.</param>
+    /// <typeparam name="T">The chunk type.</typeparam>
+    /// <returns>A collection of all resolved chunks of the type.</returns>
     public static IEnumerable<T> GetChunks<T>(this GameMakerIffFile file) where T : IGameMakerChunk {
         if (file.Form?.Chunks is null)
             yield break;
@@ -70,6 +76,12 @@ public static class GameMakerIffFileExtensions {
         }
     }
 
+    /// <summary>
+    ///     Expects a single chunk from <see cref="GetChunks{T}"/>.
+    /// </summary>
+    /// <param name="file">The IFF file to get the chunk from.</param>
+    /// <typeparam name="T">The chunk type.</typeparam>
+    /// <returns>The single expected chunk.</returns>
     public static T GetChunk<T>(this GameMakerIffFile file) where T : IGameMakerChunk {
         return file.GetChunks<T>().Single();
     }

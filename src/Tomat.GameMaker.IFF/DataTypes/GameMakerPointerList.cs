@@ -3,6 +3,12 @@ using Tomat.GameMaker.IFF.Chunks;
 
 namespace Tomat.GameMaker.IFF.DataTypes;
 
+/// <summary>
+///     A list of pointers to objects, with the guarantee that the objects are
+///     adjacent to the pointers, meaning serialization will handle serializing
+///     the objects.
+/// </summary>
+/// <typeparam name="T">The GameMaker object type.</typeparam>
 public sealed class GameMakerPointerList<T> : List<GameMakerPointer<T>>,
                                               IGameMakerSerializable where T : IGameMakerSerializable, new() {
     public delegate void ListRead(DeserializationContext context, int index, int count);

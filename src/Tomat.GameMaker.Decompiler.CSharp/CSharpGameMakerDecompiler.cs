@@ -22,35 +22,6 @@ public sealed class CSharpGameMakerDecompiler : IGameMakerDecompiler {
         throw new NotImplementedException();
     }
 
-    //public Dictionary<string, DecompilerResult> DecompileIffFile(DecompilerContext context) {
-    //    // Debugging sanity checks.
-    //    /*var codeChunk = context.DeserializationContext.IffFile.GetChunk<GameMakerCodeChunk>();
-    //
-    //    var hasParent = new List<GameMakerCode>();
-    //    var hasChildren = new List<GameMakerCode>();
-    //
-    //    foreach (var code in codeChunk.Code!) {
-    //        var codeObj = code.ExpectObject();
-    //        if (codeObj.ParentEntry is not null)
-    //            hasParent.Add(codeObj);
-    //
-    //        if (codeObj.Children.Count != 0)
-    //            hasChildren.Add(codeObj);
-    //    }
-    //
-    //    foreach (var code in hasParent) {
-    //        if (code.Children.Count != 0)
-    //            ;
-    //    }
-    //
-    //    foreach (var code in hasChildren) {
-    //        if (code.ParentEntry is not null)
-    //            ;
-    //    }*/
-    //    var peFile = GetOrCreatePeFile(context);
-    //    throw new NotImplementedException();
-    //}
-
     private PEFile GetOrCreatePeFile(DecompilerContext context) {
         if (PeFiles.TryGetValue(context, out var peFile))
             return peFile;

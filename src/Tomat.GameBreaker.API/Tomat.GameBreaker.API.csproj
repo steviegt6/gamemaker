@@ -7,14 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Tomat.GameMaker.Decompiler.CSharp\Tomat.GameMaker.Decompiler.CSharp.csproj"/>
-        <ProjectReference Include="..\Tomat.GameMaker.Decompiler.Disassembler\Tomat.GameMaker.Decompiler.Disassembler.csproj"/>
-        <ProjectReference Include="..\Tomat.GameMaker.Decompiler\Tomat.GameMaker.Decompiler.csproj"/>
-        <ProjectReference Include="..\Tomat.GameMaker.IFF\Tomat.GameMaker.IFF.csproj"/>
+        <ProjectReference Include="..\Tomat.GameMaker.Decompiler.CSharp\Tomat.GameMaker.Decompiler.CSharp.csproj" />
+        <ProjectReference Include="..\Tomat.GameMaker.Decompiler.Disassembler\Tomat.GameMaker.Decompiler.Disassembler.csproj" />
+        <ProjectReference Include="..\Tomat.GameMaker.Decompiler\Tomat.GameMaker.Decompiler.csproj" />
+        <ProjectReference Include="..\Tomat.GameMaker.IFF\Tomat.GameMaker.IFF.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
 </Project>

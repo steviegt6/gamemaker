@@ -28,7 +28,7 @@ public sealed class GameMakerShdrChunk : AbstractChunk {
         Shaders = new List<GameMakerPointer<GameMakerShader>>(count);
 
         for (var i = 0; i < count; i++) {
-            var shader = pointers[i].GetOrInitializeObject(context);
+            var shader = pointers[i].GetOrInitializePointerObject(context);
             context.Position = pointers[i].Address;
             shader!.Read(context, i < count - 1 ? pointers[i + 1].Address : chunkEnd);
             Shaders.Add(pointers[i]);

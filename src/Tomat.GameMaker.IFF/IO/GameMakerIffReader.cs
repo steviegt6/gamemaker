@@ -21,9 +21,6 @@ public sealed class GameMakerIffReader : IGameMakerIffReader {
 
     public int Length => Data.Length;
 
-    /// <summary>
-    ///     A dictionary of pointers to objects that have been read.
-    /// </summary>
     public Dictionary<int, IGameMakerSerializable> Pointers { get; set; } = new();
 
     /// <summary>
@@ -149,13 +146,7 @@ public sealed class GameMakerIffReader : IGameMakerIffReader {
             Address = addr,
         };
 
-        if (Pointers.TryGetValue(addr, out var obj)) {
-            ptr.Object = (T)obj;
-            return ptr;
-        }
-
-        ptr.Object = new T();
-        Pointers.Add(addr, ptr.Object);
+        ptr.GetOrInitializePointerObject(this);
         return ptr;
     }
 

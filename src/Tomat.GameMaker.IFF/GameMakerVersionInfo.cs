@@ -8,7 +8,10 @@ namespace Tomat.GameMaker.IFF;
 ///     along with some other useful IDE-varying information.
 /// </summary>
 public sealed class GameMakerVersionInfo {
-    // public static readonly Version VERSION_UNKNOWN = NormalizeVersion(new Version());
+    /// <summary>
+    ///     The default version of the IDE that we initially set if no value is
+    ///     provided.
+    /// </summary>
     public static readonly Version VERSION_DEFAULT = NormalizeVersion(new Version(1, 0));
 
     /// <summary>
@@ -52,7 +55,7 @@ public sealed class GameMakerVersionInfo {
     /// <remarks>
     ///     This is an approximation, not all IDE versions modify this.
     /// </remarks>
-    public byte FormatId { get; set; } = 0;
+    public byte FormatId { get; set; }
 
     /// <summary>
     ///     What number chunks are aligned to.

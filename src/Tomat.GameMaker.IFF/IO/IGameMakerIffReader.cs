@@ -6,6 +6,9 @@ using Tomat.GameMaker.IFF.DataTypes;
 namespace Tomat.GameMaker.IFF.IO;
 
 public interface IGameMakerIffReader : IGameMakerIffDataHandler {
+    /// <summary>
+    ///     A map of pointer addresses to the objects they point to.
+    /// </summary>
     Dictionary<int, IGameMakerSerializable> Pointers { get; }
 
     Memory<byte> ReadBytes(int count);

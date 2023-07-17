@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Tomat.GameMaker.IFF.Chunks;
+﻿using Tomat.GameMaker.IFF.Chunks;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.String;
 
@@ -10,12 +9,12 @@ public sealed class GameMakerString : IGameMakerSerializable {
     /// <summary>
     ///     The value of the string.
     /// </summary>
-    public string? Value { get; set; }
+    public string Value { get; set; } = null!;
 
     public void Read(DeserializationContext context) {
-        // TODO: Don't ignore length. Apparently unreliable - why? Having length
-        // would make this probably maybe somewhat faster.
-        _ = context.ReadInt32(); // Ignore the length.
+        // Ignore the length, which is unreliable.
+        _ = context.ReadInt32();
+
         var start = context.Position;
         while (context.Data[context.Position] != 0)
             context.Position++;
@@ -27,16 +26,13 @@ public sealed class GameMakerString : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        if (Value is null)
-            throw new IOException("Cannot serialize a null string.");
-
         var length = context.Encoding.GetByteCount(Value);
         context.Write(length);
         context.Write(context.Encoding.GetBytes(Value));
         context.Write((byte)0); // Null terminator.
     }
 
-    public override string? ToString() {
+    public override string ToString() {
         return Value;
     }
 }

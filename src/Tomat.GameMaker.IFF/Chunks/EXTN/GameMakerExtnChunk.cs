@@ -28,8 +28,8 @@ public sealed class GameMakerExtnChunk : AbstractChunk {
         context.Write(Extensions);
 
         foreach (var extension in Extensions!) {
-            if (extension.Object?.ProductId is { } guid)
-                context.Write(guid.ToByteArray());
+            if (extension.TryGetObject(out var obj) && obj.ProductId.HasValue)
+                context.Write(obj.ProductId.Value.ToByteArray());
         }
     }
 

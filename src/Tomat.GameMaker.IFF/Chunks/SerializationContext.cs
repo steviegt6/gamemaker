@@ -110,14 +110,11 @@ public sealed record SerializationContext(IGameMakerIffWriter Writer, GameMakerI
 #endregion
 
     public void MarkPointerAndWriteObject<T>(GameMakerPointer<T> pointer) where T : IGameMakerSerializable, new() {
-        if (pointer.IsNull)
+        if (!pointer.TryGetObject(out var obj))
             throw new InvalidOperationException("Pointer is null.");
 
-        if (pointer.Object is null)
-            throw new InvalidOperationException("Pointer has not been read or its object was incorrectly set to null.");
-
         pointer.WriteObject(this);
-        pointer.ExpectObject().Write(this);
+        obj.Write(this);
     }
 
     public void Write<T>(GameMakerList<T> list, GameMakerList<T>.ListWrite? beforeWrite = null, GameMakerList<T>.ListWrite? afterWrite = null, GameMakerList<T>.ListElementWrite? elementWriter = null)

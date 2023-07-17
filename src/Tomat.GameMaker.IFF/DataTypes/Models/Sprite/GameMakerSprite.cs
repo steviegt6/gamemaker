@@ -238,12 +238,12 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
                     throw new InvalidDataException($"Unknown sprite type {SpriteType.ToString()}.");
             }
 
-            if (Sequence is { IsNull: false, Object: { } }) {
+            if (!Sequence.IsNull) {
                 context.Pad(4);
                 context.MarkPointerAndWriteObject(Sequence);
             }
 
-            if (NineSlice is { IsNull: false, Object: { } }) {
+            if (!NineSlice.IsNull) {
                 context.Pad(4);
                 context.MarkPointerAndWriteObject(NineSlice);
             }

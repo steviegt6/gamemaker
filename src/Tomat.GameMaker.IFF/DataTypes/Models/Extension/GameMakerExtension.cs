@@ -11,7 +11,15 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
 
     public GameMakerPointer<GameMakerString> ClassName { get; set; }
 
-    public GameMakerPointerList<GameMakerExtensionFile>? Files => filesPointer?.Object ?? files ?? null;
+    public GameMakerPointerList<GameMakerExtensionFile>? Files {
+        get {
+            // filesPointer?.Object ?? files ?? null;
+            if (filesPointer.HasValue && filesPointer.Value.TryGetObject(out var obj))
+                return obj;
+
+            return files;
+        }
+    }
 
     public GameMakerPointer<GameMakerPointerList<GameMakerExtensionOption>> Options { get; set; }
 

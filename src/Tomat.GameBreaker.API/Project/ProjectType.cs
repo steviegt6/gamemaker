@@ -1,11 +1,16 @@
-﻿namespace Tomat.GameBreaker.API.Project; 
+﻿namespace Tomat.GameBreaker.API.Project;
 
 /// <summary>
-///     Represents a valid project type.
+///     The project type.
 /// </summary>
 public enum ProjectType {
     /// <summary>
-    ///     A binary WAD project, mea
+    ///     This project deals with a GameMaker game compiled to bytecode.
     /// </summary>
-    BinaryWad,
+    Vm,
+
+    /// <summary>
+    ///     The project deals with a GameMaker game compiled to native.
+    /// </summary>
+    Yyc,
 }

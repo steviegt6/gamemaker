@@ -21,18 +21,9 @@ public sealed class GameMakerIffWriter : IGameMakerIffWriter {
 
     private byte[] data;
 
-    /// <summary>
-    ///     A map of pointers to the addresses in which their objects should be
-    ///     written.
-    /// </summary>
     public Dictionary<IGameMakerSerializable, int> Pointers { get; set; } = new();
 
-    /// <summary>
-    ///     A map of pointers to the addresses in which they are referenced.
-    /// </summary>
     public Dictionary<IGameMakerSerializable, List<(int, bool)>> PointerReferences { get; set; } = new();
-
-    // public List<IGameMakerPointer> 
 
     /// <summary>
     ///     Initializes a new instance of <see cref="GameMakerIffWriter"/>.
@@ -136,18 +127,19 @@ public sealed class GameMakerIffWriter : IGameMakerIffWriter {
     }
 
     public void Write<T>(GameMakerPointer<T> ptr, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
-        // Checking only for null and not just default; pointers should only be
-        // getting used for reference types anyway...
-        if (ptr.Object is null) {
+        if (ptr.IsNull) {
             Write(0);
             return;
         }
 
-        if (PointerReferences.TryGetValue(ptr.Object, out var references)) {
+        if (!ptr.TryGetObject(out var obj))
+            throw new InvalidOperationException("Pointer object was null despite pointer not being null!");
+
+        if (PointerReferences.TryGetValue(obj, out var references)) {
             references.Add((Position, useTypeOffset));
         }
         else {
-            PointerReferences[ptr.Object] = new List<(int, bool)> {
+            PointerReferences[obj] = new List<(int, bool)> {
                 (Position, useTypeOffset),
             };
         }

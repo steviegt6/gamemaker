@@ -97,7 +97,7 @@ public sealed record DeserializationContext(IGameMakerIffReader Reader, GameMake
 
     public GameMakerPointer<T> ReadPointerAndObject<T>(int addr, bool returnAfter = true, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
         var ptr = ReadPointer<T>(addr, useTypeOffset);
-        ptr.ReadObject(this, returnAfter);
+        ptr.ReadPointerObject(this, returnAfter);
         return ptr;
     }
 

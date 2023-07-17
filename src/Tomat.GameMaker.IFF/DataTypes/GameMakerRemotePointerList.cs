@@ -3,6 +3,14 @@ using Tomat.GameMaker.IFF.Chunks;
 
 namespace Tomat.GameMaker.IFF.DataTypes;
 
+/// <summary>
+///     A remote pointer list, which is a list of pointers like a
+///     <see cref="GameMakerPointerList{T}"/>, but without the guarantee that
+///     pointer objects are adjacent to the pointers, meaning serialization will
+///     not handling serializing the objects, which should be handled
+///     separately.
+/// </summary>
+/// <typeparam name="T">The GameMaker object type.</typeparam>
 public sealed class GameMakerRemotePointerList<T> : List<GameMakerPointer<T>>,
                                                     IGameMakerSerializable where T : IGameMakerSerializable, new() {
     public delegate void ListRead(DeserializationContext context, int index, int count);
