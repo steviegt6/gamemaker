@@ -20,7 +20,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         this.application.SetAccelsForAction("win.about", new[] { "F1" });
 
         // Header bar
-        var headerBar = Adw.HeaderBar.New();
+        /*var headerBar = Adw.HeaderBar.New();
         headerBar.TitleWidget = Adw.WindowTitle.New(this.controller.WindowTitle, "");
 
         var menuButton = Gtk.MenuButton.New();
@@ -38,7 +38,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         menuButton.Popover = menuPopover;
         headerBar.PackEnd(menuButton);
 
-        SetTitlebar(headerBar);
+        SetTitlebar(headerBar);*/
 
         // Window contents
         var box = Gtk.Box.New(Gtk.Orientation.Vertical, 0);
