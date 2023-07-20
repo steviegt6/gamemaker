@@ -2,15 +2,15 @@
 
 This is a monorepository for GameMaker reverse engineering.
 
-## `Tomat.GameMaker.*`
+## `gamemaker/`
 
 Projects for reading and writing to GameMaker IFF (WAD) files.
 
-## `Tomat.GameBreaker.*`
+## `gamemaker/gamebreaker/`
 
 Projects for reverse-engineering and modifying GameMaker IFF (WAD) files through
 an opinionated API and user interface.
 
-## `Tomat.Houli.*`
+## `houli/`
 
 Runtime game patcher.
