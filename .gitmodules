@@ -1,0 +1,3 @@
+[submodule "houli/lib/YYToolkit"]
+	path = houli/lib/YYToolkit
+	url = https://github.com/Archie-osu/YYToolkit
