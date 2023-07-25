@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <!-- TODO: Support other platforms -->
+        <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+
+        <PublishAot>true</PublishAot>
+        <IsTrimmable>true</IsTrimmable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <DirectPInvoke Include="user32!MessageBoxW"/>
+    </ItemGroup>
+
+</Project>

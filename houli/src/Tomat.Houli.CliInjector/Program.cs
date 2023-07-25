@@ -25,42 +25,40 @@ internal static class Program {
     }
 
     [SupportedOSPlatform("windows5.1.2600")]
-    internal static void InjectIntoProcess(string applicationPath, string dllPath) {
-        unsafe {
-            // TODO: Add preload support.
-            var process = Process.Start(applicationPath);
+    internal static unsafe void InjectIntoProcess(string applicationPath, string dllPath) {
+        // TODO: Add preload support.
+        var process = Process.Start(applicationPath);
 
-            var processHandle = new SafeProcessHandle(process.Handle, true);
-            var dllPathLength = (dllPath.Length + 1 /*null terminator*/) * Marshal.SizeOf<char>();
+        var processHandle = new SafeProcessHandle(process.Handle, true);
+        var dllPathLength = (dllPath.Length + 1 /*null terminator*/) * Marshal.SizeOf<char>();
 
-            var pLoadLib = PInvoke.GetProcAddress(PInvoke.GetModuleHandle("kernel32.dll"), "LoadLibraryA");
-            var pDllPath = PInvoke.VirtualAllocEx(
-                processHandle,
-                nint.Zero.ToPointer(),
-                (nuint)dllPathLength,
-                VIRTUAL_ALLOCATION_TYPE.MEM_COMMIT
-              | VIRTUAL_ALLOCATION_TYPE.MEM_RESERVE,
-                PAGE_PROTECTION_FLAGS.PAGE_READWRITE
-            );
+        var pLoadLib = PInvoke.GetProcAddress(PInvoke.GetModuleHandle("kernel32.dll"), "LoadLibraryA");
+        var pDllPath = PInvoke.VirtualAllocEx(
+            processHandle,
+            nint.Zero.ToPointer(),
+            (nuint)dllPathLength,
+            VIRTUAL_ALLOCATION_TYPE.MEM_COMMIT
+          | VIRTUAL_ALLOCATION_TYPE.MEM_RESERVE,
+            PAGE_PROTECTION_FLAGS.PAGE_READWRITE
+        );
 
-            PInvoke.WriteProcessMemory(
-                processHandle,
-                pDllPath,
-                GCHandle.Alloc(Encoding.Default.GetBytes(dllPath), GCHandleType.Pinned).AddrOfPinnedObject().ToPointer(),
-                (nuint)dllPathLength,
-                null
-            );
+        PInvoke.WriteProcessMemory(
+            processHandle,
+            pDllPath,
+            GCHandle.Alloc(Encoding.Default.GetBytes(dllPath), GCHandleType.Pinned).AddrOfPinnedObject().ToPointer(),
+            (nuint)dllPathLength,
+            null
+        );
 
-            PInvoke.CreateRemoteThread(
-                processHandle,
-                null,
-                nuint.Zero,
-                pLoadLib.CreateDelegate<LPTHREAD_START_ROUTINE>(),
-                pDllPath,
-                0,
-                null
-            );
-        }
+        PInvoke.CreateRemoteThread(
+            processHandle,
+            null,
+            nuint.Zero,
+            pLoadLib.CreateDelegate<LPTHREAD_START_ROUTINE>(),
+            pDllPath,
+            0,
+            null
+        );
     }
 }
 

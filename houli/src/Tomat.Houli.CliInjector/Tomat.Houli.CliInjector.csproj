@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CliFx" Version="2.3.4" />
+        <PackageReference Include="CliFx" Version="2.3.4"/>
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.18-beta">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
