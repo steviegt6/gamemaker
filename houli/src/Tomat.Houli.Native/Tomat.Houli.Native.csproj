@@ -14,7 +14,27 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <DirectPInvoke Include="user32!MessageBoxW"/>
+        <!-- <NativeLibrary Include="$(NetHostDir)\nethost.lib"/> -->
+        <NativeLibrary Include="$(NetHostDir)\libnethost.lib" />
+
+        <!-- <DirectPInvoke Include="user32!MessageBoxW"/> -->
+        <DirectPInvoke Include="user32" />
+        <DirectPInvoke Include="kernel32" />
+        <!-- <DirectPInvoke Include="nethost!get_hostfxr_path"/> -->
+        <DirectPInvoke Include="nethost" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <NetHostDir>$(NetCoreTargetingPackRoot)\Microsoft.NETCore.App.Host.$(RuntimeIdentifier)\$(BundledNETCoreAppPackageVersion)\runtimes\$(RuntimeIdentifier)\native</NetHostDir>
+        
+        <!-- Add platform for conditional compilation. -->
+        <DefineConstants>$(DefineConstants);$(Platform)</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="$(NetHostDir)\nethost.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
