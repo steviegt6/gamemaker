@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.Houli.Launcher", "Tomat.Houli.Launcher\Tomat.Houli.Launcher.csproj", "{BAAAE125-F62C-43A2-80AF-81E1946821BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.Houli.CliInjector", "Tomat.Houli.CliInjector\Tomat.Houli.CliInjector.csproj", "{798014C0-68EE-4941-B64E-769FC9161B3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{BAAAE125-F62C-43A2-80AF-81E1946821BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAAAE125-F62C-43A2-80AF-81E1946821BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAAAE125-F62C-43A2-80AF-81E1946821BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{798014C0-68EE-4941-B64E-769FC9161B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{798014C0-68EE-4941-B64E-769FC9161B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{798014C0-68EE-4941-B64E-769FC9161B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{798014C0-68EE-4941-B64E-769FC9161B3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
