@@ -89,8 +89,6 @@ internal static class Program {
         }
     }
 
-    private static Hostfxr.Load
-    
     private static nint LoadLibrary(string path) {
         var handle = Kernel32.LoadLibrary(path);
 
