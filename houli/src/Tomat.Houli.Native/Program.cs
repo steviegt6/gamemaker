@@ -5,10 +5,18 @@ using System.Runtime.InteropServices;
 namespace Tomat.Houli.Native;
 
 internal static partial class Program {
+    public const int DLL_PROCESS_ATTACH = 1;
+    public const int DLL_THREAD_ATTACH = 2;
+
     [UnmanagedCallersOnly(EntryPoint = "DllMain", CallConvs = new[] { typeof(CallConvStdcall) })]
     public static bool DllMain(nint hModule, uint ulReasonForCall, nint lpReserved) {
-        Console.WriteLine("test");
-        MessageBox(nint.Zero, "text", "caption", 0);
+        switch (ulReasonForCall) {
+            case DLL_PROCESS_ATTACH:
+            case DLL_THREAD_ATTACH:
+                MessageBox(nint.Zero, "text", "caption", 0);
+                break;
+        }
+
         return true;
     }
 
