@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Tomat.GameMaker.IFF.Chunks.ACRV;
 using Tomat.GameMaker.IFF.Chunks.AGRP;
@@ -43,6 +44,8 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
     public const string NAME = "FORM";
 
     public delegate IGameMakerChunk ChunkFactory(string name, int size);
+
+    public Dictionary<Type, object> ChunkComponents { get; } = new();
 
     public string Name { get; }
 
@@ -145,4 +148,13 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
             i++;
         }
     }
+
+    public bool TryGetComponent<T>(out T? component) where T : class {
+        component = null;
+        return false;
+    }
+
+    public void AddComponent<T>(T component) where T : class { }
+
+    public void AddComponent(Type type, object component) { }
 }

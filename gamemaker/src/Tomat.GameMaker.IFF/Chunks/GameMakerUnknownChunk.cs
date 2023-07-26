@@ -1,8 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks;
 
 public sealed class GameMakerUnknownChunk : IGameMakerChunk {
+    public Dictionary<Type, object> ChunkComponents { get; } = new();
+
     public string Name { get; }
 
     public int Size { get; set; }
@@ -24,4 +28,13 @@ public sealed class GameMakerUnknownChunk : IGameMakerChunk {
 
         context.Write(Data);
     }
+
+    public bool TryGetComponent<T>(out T? component) where T : class {
+        component = null;
+        return false;
+    }
+
+    public void AddComponent<T>(T component) where T : class { }
+
+    public void AddComponent(Type type, object component) { }
 }
