@@ -2,7 +2,7 @@
 
 namespace Tomat.Houli.Native.Import;
 
-internal static partial class NetHost {
+internal static partial class Nethost {
     /*public unsafe struct GetHostfxrParameters {
         public nint Size;
         private nint assemblyPath;
@@ -25,29 +25,19 @@ internal static partial class NetHost {
         }
     }*/
 
-    private const StringMarshalling string_marshalling =
-#if x64
-        StringMarshalling.Utf16;
-#elif x86
-        StringMarshalling.Utf8;
-#elif AnyCPU
-        StringMarshalling.Utf8; // We want to let AnyCPU compile.
-#else
-#error "Unsupported architecture"
-#endif
+    [StructLayout(LayoutKind.Sequential)]
+    public struct GetHostfxrParameters {
+        public readonly nint Size;
+        public readonly nint AssemblyPath;
+        public readonly nint DotnetRoot;
 
-    public unsafe struct GetHostfxrParameters {
-        public nint Size;
-        public char* AssemblyPath;
-        public char* DotnetRoot;
-
-        public GetHostfxrParameters(nint size, char* assemblyPath, char* dotnetRoot) {
+        public GetHostfxrParameters(nint size, nint assemblyPath, nint dotnetRoot) {
             Size = size;
             AssemblyPath = assemblyPath;
             DotnetRoot = dotnetRoot;
         }
     }
 
-    [LibraryImport("nethost.dll", EntryPoint = "get_hostfxr_path", StringMarshalling = string_marshalling)]
+    [LibraryImport("nethost.dll", EntryPoint = "get_hostfxr_path", StringMarshalling = Shared.STRING_MARSHALLING)]
     internal static unsafe partial int GetHostfxrPath(char* buffer, nint* bufferSize, GetHostfxrParameters* parameters);
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
@@ -78,6 +77,7 @@ public class MainCommand : ICommand {
         if (!File.Exists(DllPath))
             throw new FileNotFoundException("DLL path does not exist.", DllPath);
 
+        Directory.SetCurrentDirectory(Path.GetDirectoryName(ApplicationPath)!);
         Program.InjectIntoProcess(ApplicationPath, DllPath);
         return default;
     }

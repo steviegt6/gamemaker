@@ -3,18 +3,6 @@
 namespace Tomat.Houli.Native.Import;
 
 internal static class Hostfxr {
-    public struct HostfxrInitializeParameters {
-        public nint Size;
-        public nint HostPath;
-        public nint DotnetRoot;
-
-        public HostfxrInitializeParameters(nint size, nint hostPath, nint dotnetRoot) {
-            Size = size;
-            HostPath = hostPath;
-            DotnetRoot = dotnetRoot;
-        }
-    }
-
     public enum HostfxrDelegateType {
         HdtComActivation,
         HdtLoadInMemoryAssembly,
@@ -25,100 +13,111 @@ internal static class Hostfxr {
         HdtGetFunctionPointer,
     };
 
-    private const StringMarshalling string_marshalling =
-#if x64
-        StringMarshalling.Utf16;
-#elif x86
-        StringMarshalling.Utf8;
-#elif AnyCPU
-        StringMarshalling.Utf8; // We want to let AnyCPU compile.
-#else
-#error "Unsupported architecture"
-#endif
+    [StructLayout(LayoutKind.Sequential)]
+    public struct HostfxrInitializeParameters {
+        public readonly nint Size;
+        public readonly nint HostPath;
+        public readonly nint DotnetRoot;
 
-    private const UnmanagedType unmanaged_string_type =
-#if x64
-        UnmanagedType.LPWStr;
-#elif x86
-        UnmanagedType.LPUTF8Str;
-#elif AnyCPU
-        UnmanagedType.LPUTF8Str; // We want to let AnyCPU compile.
-#else
-#error "Unsupported architecture"
-#endif
+        public HostfxrInitializeParameters(nint size, nint hostPath, nint dotnetRoot) {
+            Size = size;
+            HostPath = hostPath;
+            DotnetRoot = dotnetRoot;
+        }
+    }
 
-    public delegate nint HostfxrMainFn(int argc, [MarshalAs(UnmanagedType.LPArray, ArraySubType = unmanaged_string_type)] string[] argv);
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate nint HostfxrMainFn(
+        int argc,
+        [MarshalAs(UnmanagedType.LPArray, ArraySubType = Shared.UNMANAGED_STRING_TYPE)]
+        string[] argv
+    );
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate nint HostfxrMainStartupInfoFn(
         int argc,
-        [MarshalAs(UnmanagedType.LPArray, ArraySubType = unmanaged_string_type)]
+        [MarshalAs(UnmanagedType.LPArray, ArraySubType = Shared.UNMANAGED_STRING_TYPE)]
         string[] argv,
-        [MarshalAs(unmanaged_string_type)]
+        [MarshalAs(Shared.UNMANAGED_STRING_TYPE)]
         string hostPath,
-        [MarshalAs(unmanaged_string_type)]
+        [MarshalAs(Shared.UNMANAGED_STRING_TYPE)]
         string dotnetRoot,
-        [MarshalAs(unmanaged_string_type)]
+        [MarshalAs(Shared.UNMANAGED_STRING_TYPE)]
         string appPath
     );
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int HostfxrMainBundleStartupinfoFn(
         int argc,
-        [MarshalAs(UnmanagedType.LPArray, ArraySubType = unmanaged_string_type)]
+        [MarshalAs(UnmanagedType.LPArray, ArraySubType = Shared.UNMANAGED_STRING_TYPE)]
         string[] argv,
-        [MarshalAs(unmanaged_string_type)]
+        [MarshalAs(Shared.UNMANAGED_STRING_TYPE)]
         string hostPath,
-        [MarshalAs(unmanaged_string_type)]
+        [MarshalAs(Shared.UNMANAGED_STRING_TYPE)]
         string dotnetRoot,
-        [MarshalAs(unmanaged_string_type)]
+        [MarshalAs(Shared.UNMANAGED_STRING_TYPE)]
         string appPath,
         long bundleHeaderOffset
     );
 
-    public delegate void HostfxrErrorWriterFn([MarshalAs(unmanaged_string_type)] string message);
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void HostfxrErrorWriterFn(
+        [MarshalAs(Shared.UNMANAGED_STRING_TYPE)]
+        string message
+    );
 
-    // TODO: idk if this is valid but I never use it lol
-    public delegate HostfxrErrorWriterFn SetErrorWriterFn(HostfxrErrorWriterFn errorWriter);
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate HostfxrErrorWriterFn SetErrorWriterFn(
+        HostfxrErrorWriterFn errorWriter
+    );
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public unsafe delegate int HostfxrInitializeForDotnetCommandLineFn(
         int argc,
-        [MarshalAs(UnmanagedType.LPArray, ArraySubType = unmanaged_string_type)]
+        [MarshalAs(UnmanagedType.LPArray, ArraySubType = Shared.UNMANAGED_STRING_TYPE)]
         string[] argv,
-        HostfxrInitializeParameters* parameters,
+        in HostfxrInitializeParameters parameters,
         out nint hostfxrHandle
     );
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public unsafe delegate int HostfxrInitializeForRuntimeConfigFn(
-        [MarshalAs(unmanaged_string_type)]
+        [MarshalAs(Shared.UNMANAGED_STRING_TYPE)]
         string runtimeConfigPath,
-        HostfxrInitializeParameters* parameters,
+        /*in HostfxrInitializeParameters*/ HostfxrInitializeParameters* parameters,
         out nint hostfxrHandle
     );
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int HostfxrGetRuntimePropertyFn(
         nint hostfxrHandle,
-        [MarshalAs(unmanaged_string_type)]
+        [MarshalAs(Shared.UNMANAGED_STRING_TYPE)]
         string name,
         out nint value
     );
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int HostfxrSetRuntimePropertyFn(
         nint hostfxrHandle,
-        [MarshalAs(unmanaged_string_type)]
+        [MarshalAs(Shared.UNMANAGED_STRING_TYPE)]
         string name,
-        [MarshalAs(unmanaged_string_type)]
+        [MarshalAs(Shared.UNMANAGED_STRING_TYPE)]
         string value
     );
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int HostfxrRunAppFn(
         nint hostfxrHandle
     );
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int HostfxrGetRuntimeDelegateFn(
         nint hostfxrHandle,
         HostfxrDelegateType type,
         out nint functionPointer
     );
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int HostfxrCloseFn(
         nint hostfxrHandle
     );

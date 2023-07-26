@@ -14,7 +14,7 @@ internal static class Program {
 
         GenerateBindings(new[] { Path.Combine("headers", "coreclr_delegates") }, "", "Tomat.Houli.Native.Import", "CoreclrDelegates");
         GenerateBindings(new[] { Path.Combine("headers", "hostfxr") }, "", "Tomat.Houli.Native.Import", "Hostfxr");
-        GenerateBindings(new[] { Path.Combine("headers", "nethost") }, "", "Tomat.Houli.Native.Import", "Nethost");
+        GenerateBindings(new[] { Path.Combine("headers", "nethost") }, "\"nethost.dll\"", "Tomat.Houli.Native.Import", "Nethost");
     }
 
     private static void GenerateBindings(IEnumerable<string> headerDirectories, string libName, string outputNamespace, string outputClass) {

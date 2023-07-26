@@ -6,27 +6,39 @@
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
-        <!-- TODO: Support other platforms -->
-        <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
-
         <PublishAot>true</PublishAot>
         <IsTrimmable>true</IsTrimmable>
+        <Configurations>Debug;Release;ReleaseWinX64;ReleaseWinX86</Configurations>
+
+        <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'ReleaseWinX64'">
+        <Platform>x64</Platform>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <DefineConstants>$(DefineConstants);x64</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'ReleaseWinX86'">
+        <Platform>x86</Platform>
+        <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+        <DefineConstants>$(DefineConstants);x86</DefineConstants>
     </PropertyGroup>
 
     <ItemGroup>
         <!-- <NativeLibrary Include="$(NetHostDir)\nethost.lib"/> -->
-        <NativeLibrary Include="$(NetHostDir)\libnethost.lib" />
+        <NativeLibrary Include="$(NetHostDir)\libnethost.lib"/>
 
         <!-- <DirectPInvoke Include="user32!MessageBoxW"/> -->
-        <DirectPInvoke Include="user32" />
-        <DirectPInvoke Include="kernel32" />
+        <DirectPInvoke Include="user32"/>
+        <DirectPInvoke Include="kernel32"/>
         <!-- <DirectPInvoke Include="nethost!get_hostfxr_path"/> -->
-        <DirectPInvoke Include="nethost" />
+        <DirectPInvoke Include="nethost"/>
     </ItemGroup>
 
     <PropertyGroup>
         <NetHostDir>$(NetCoreTargetingPackRoot)\Microsoft.NETCore.App.Host.$(RuntimeIdentifier)\$(BundledNETCoreAppPackageVersion)\runtimes\$(RuntimeIdentifier)\native</NetHostDir>
-        
+
         <!-- Add platform for conditional compilation. -->
         <DefineConstants>$(DefineConstants);$(Platform)</DefineConstants>
     </PropertyGroup>
