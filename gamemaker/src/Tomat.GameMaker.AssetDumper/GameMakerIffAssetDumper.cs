@@ -1,4 +1,5 @@
 ﻿using Tomat.GameMaker.AssetDumper.Chunks;
+using Tomat.GameMaker.AssetDumper.Chunks.FORM;
 using Tomat.GameMaker.Decompiler;
 using Tomat.GameMaker.IFF.Chunks;
 
@@ -16,7 +17,7 @@ public sealed class GameMakerIffAssetDumper {
     public void DumpTo(string directory) {
         Directory.CreateDirectory(directory);
 
-        new UnknownChunkDumper().DumpChunk(context, context.IffFile.Form, decompiler, Path.Combine(directory, "FORM"));
+        new FormChunkDumper().DumpChunk(context, context.IffFile.Form, decompiler, directory /*Path.Combine(directory, "FORM")*/);
 
         foreach (var chunk in context.IffFile.Form.Chunks) {
             switch (chunk.Value) {
