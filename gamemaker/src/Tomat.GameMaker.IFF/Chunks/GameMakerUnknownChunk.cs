@@ -6,7 +6,7 @@ using System.IO;
 namespace Tomat.GameMaker.IFF.Chunks;
 
 public sealed class GameMakerUnknownChunk : IGameMakerChunk {
-    public Dictionary<Type, object> ChunkComponents { get; } = new();
+    public Dictionary<Type, object> Components { get; } = new();
 
     public string Name { get; }
 

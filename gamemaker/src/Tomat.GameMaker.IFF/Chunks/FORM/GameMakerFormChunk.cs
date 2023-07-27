@@ -46,7 +46,7 @@ internal sealed class GameMakerFormChunk : IFormChunk {
 
     public delegate IGameMakerChunk ChunkFactory(string name, int size);
 
-    public Dictionary<Type, object> ChunkComponents { get; } = new();
+    public Dictionary<Type, object> Components { get; } = new();
 
     public string Name { get; }
 
