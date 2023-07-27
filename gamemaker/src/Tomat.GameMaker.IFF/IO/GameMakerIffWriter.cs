@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.DataTypes;
 
@@ -147,7 +148,7 @@ public sealed class GameMakerIffWriter : IGameMakerIffWriter {
     }
 
     public void FinalizePointers() {
-        foreach (var kvp in PointerReferences) {
+        /*foreach (var kvp in PointerReferences) {
             if (Pointers.TryGetValue(kvp.Key, out var ptr)) {
                 foreach (var addr in kvp.Value)
                     this.WriteAt(addr.Item1, ptr + (addr.Item2 ? GameMakerPointerExtensions.GetPointerOffset(kvp.Key.GetType()) : 0));
@@ -156,7 +157,7 @@ public sealed class GameMakerIffWriter : IGameMakerIffWriter {
                 foreach (var addr in kvp.Value)
                     this.WriteAt(addr.Item1, 0);
             }
-        }
+        }*/
         /*Parallel.ForEach(
             PointerReferences,
             kvp => {
@@ -170,5 +171,36 @@ public sealed class GameMakerIffWriter : IGameMakerIffWriter {
                 }
             }
         );*/
+
+        // Since we use Parallel.ForEach, we use a custom implementation that
+        // stands independent of any other data. Using the regular methods
+        // modifies Position which causes issues.
+        // TODO: Which is faster?
+        /*void writeInt32(int addr, int value) {
+            Data[addr] = (byte)(value & 0xFF);
+            Data[addr + 1] = (byte)((value >> 8) & 0xFF);
+            Data[addr + 2] = (byte)((value >> 16) & 0xFF);
+            Data[addr + 3] = (byte)((value >> 24) & 0xFF);
+        }*/
+        
+        void writeInt32(int addr, int value) {
+            Unsafe.As<byte, int>(ref Data[addr]) = value;
+            // Pretty sure Unsafe.WriteUnaligned just calls Unsafe.As...
+            // Unsafe.WriteUnaligned(ref Data[Position], Unsafe.As<T, byte>(ref value));
+        }
+
+        Parallel.ForEach(
+            PointerReferences,
+            kvp => {
+                if (Pointers.TryGetValue(kvp.Key, out var ptr)) {
+                    foreach (var addr in kvp.Value)
+                        writeInt32(addr.Item1, ptr + (addr.Item2 ? GameMakerPointerExtensions.GetPointerOffset(kvp.Key.GetType()) : 0));
+                }
+                else {
+                    foreach (var addr in kvp.Value)
+                        writeInt32(addr.Item1, 0);
+                }
+            }
+        );
     }
 }
