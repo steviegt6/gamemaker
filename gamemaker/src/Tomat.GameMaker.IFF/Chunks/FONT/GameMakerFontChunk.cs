@@ -10,6 +10,8 @@ internal sealed class GameMakerFontChunk : AbstractChunk,
                                            IFontChunk {
     public const string NAME = "FONT";
 
+    private static Memory<byte>? cachedPadding = null;
+
     public GameMakerPointerList<GameMakerFont> Fonts { get; set; } = null!;
 
     public Memory<byte>? Padding { get; set; }
@@ -27,10 +29,19 @@ internal sealed class GameMakerFontChunk : AbstractChunk,
         context.Write(Fonts);
 
         if (!Padding.HasValue) {
-            for (var i = 0; i < 0x80; i++)
-                context.Write((ushort)i);
-            for (var i = 0; i < 0x80; i++)
-                context.Write((ushort)0x3f);
+            if (cachedPadding.HasValue) {
+                context.Write(cachedPadding.Value);
+            }
+            else {
+                for (var i = 0; i < 0x80; i++)
+                    context.Write((ushort)i);
+                for (var i = 0; i < 0x80; i++)
+                    context.Write((ushort)0x3f);
+
+                // 512
+                const int length = 0x80 * sizeof(ushort) * 2;
+                cachedPadding = new Memory<byte>(context.Data, context.Position - length, length);
+            }
         }
         else {
             context.Write(Padding.Value);
