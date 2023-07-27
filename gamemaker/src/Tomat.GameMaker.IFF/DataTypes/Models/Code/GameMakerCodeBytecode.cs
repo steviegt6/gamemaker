@@ -33,6 +33,6 @@ public sealed class GameMakerCodeBytecode : IGameMakerSerializable {
     }
     
     void IGameMakerSerializable.Read(DeserializationContext context) {
-        throw new NotImplementedException("Attempted to read a bytecode entry without a given length.");
+        throw new InvalidOperationException("Attempted to read a bytecode entry without a given length.");
     }
 }
