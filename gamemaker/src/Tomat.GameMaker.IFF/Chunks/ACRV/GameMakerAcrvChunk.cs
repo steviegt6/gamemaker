@@ -4,23 +4,32 @@ using Tomat.GameMaker.IFF.DataTypes.Models.AnimationCurve;
 
 namespace Tomat.GameMaker.IFF.Chunks.ACRV;
 
-public sealed class GameMakerAcrvChunk : AbstractChunk {
+/// <summary>
+///     <c>ACRV</c> chunk
+/// </summary>
+internal sealed class GameMakerAcrvChunk : AbstractChunk,
+                                           IAcrvChunk {
     public const string NAME = "ACRV";
+
+    public int ChunkVersion { get; set; }
 
     public GameMakerPointerList<GameMakerAnimationCurve> AnimationCurves { get; set; } = null!;
 
     public GameMakerAcrvChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        var chunkVersion = context.ReadInt32();
-        if (chunkVersion != 1)
-            throw new InvalidDataException($"Expected chunk version 1, got {chunkVersion}.");
+        ChunkVersion = context.ReadInt32();
+        if (ChunkVersion != 1)
+            throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}.");
 
         AnimationCurves = context.ReadPointerList<GameMakerAnimationCurve>();
     }
 
     public override void Write(SerializationContext context) {
-        context.Write(1);
+        if (ChunkVersion != 1)
+            throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}.");
+
+        context.Write(ChunkVersion);
         context.Write(AnimationCurves);
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Font;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.FONT;
 
-public sealed class GameMakerFontChunk : AbstractChunk {
+// TODO: Statically cache the generated padding.
+internal sealed class GameMakerFontChunk : AbstractChunk,
+                                           IFontChunk {
     public const string NAME = "FONT";
 
     public GameMakerPointerList<GameMakerFont> Fonts { get; set; } = null!;

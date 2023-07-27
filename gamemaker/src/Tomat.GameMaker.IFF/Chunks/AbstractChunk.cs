@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Tomat.GameMaker.IFF.Chunks;
 
@@ -19,7 +20,7 @@ public abstract class AbstractChunk : IGameMakerChunk {
 
     public abstract void Write(SerializationContext context);
 
-    public bool TryGetComponent<T>(out T? component) where T : class {
+    public bool TryGetComponent<T>([NotNullWhen(returnValue: true)] out T? component) where T : class {
         ChunkComponents.TryGetValue(typeof(T), out var value);
         component = value as T;
         return component != null;

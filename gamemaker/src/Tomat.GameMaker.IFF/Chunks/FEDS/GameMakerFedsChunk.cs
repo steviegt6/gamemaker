@@ -5,8 +5,11 @@ using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.FEDS;
 
-public sealed class GameMakerFedsChunk : AbstractChunk {
+internal sealed class GameMakerFedsChunk : AbstractChunk,
+                                           IFedsChunk {
     public const string NAME = "FEDS";
+
+    public int ChunkVersion { get; set; }
 
     public GameMakerPointerList<GameMakerFilterEffect> FilterEffects { get; set; } = null!;
 
@@ -15,16 +18,20 @@ public sealed class GameMakerFedsChunk : AbstractChunk {
     public override void Read(DeserializationContext context) {
         context.Pad(4);
 
-        var chunkVersion = context.ReadInt32();
-        if (chunkVersion != 1)
-            throw new InvalidDataException($"Expected chunk version 1, got {chunkVersion}.");
+        ChunkVersion = context.ReadInt32();
+        if (ChunkVersion != 1)
+            throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}.");
 
         FilterEffects = context.ReadPointerList<GameMakerFilterEffect>();
     }
 
     public override void Write(SerializationContext context) {
         context.Pad(4);
-        context.Write(1);
+
+        if (ChunkVersion != 1)
+            throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}.");
+
+        context.Write(ChunkVersion);
         context.Write(FilterEffects);
     }
 }

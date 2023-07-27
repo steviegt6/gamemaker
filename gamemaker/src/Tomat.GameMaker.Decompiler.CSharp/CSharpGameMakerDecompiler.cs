@@ -26,7 +26,7 @@ public sealed class CSharpGameMakerDecompiler : IGameMakerDecompiler {
         if (PeFiles.TryGetValue(context, out var peFile))
             return peFile;
 
-        var gen8 = context.DeserializationContext.IffFile.GetChunk<GameMakerGen8Chunk>();
+        var gen8 = context.DeserializationContext.IffFile.GetChunk<IGen8Chunk>();
         var name = gen8.FileName.ExpectObject().Value!;
         using var moduleStream = ConvertIffFileToModuleStream(context, name);
         return PeFiles[context] = new PEFile(name + ".dll", moduleStream);
@@ -75,14 +75,17 @@ public sealed class CSharpGameMakerDecompiler : IGameMakerDecompiler {
             }
         }*/
 
-        var codeChunk = iffFile.GetChunk<GameMakerCodeChunk>();
+        var codeChunk = iffFile.GetChunk<ICodeChunk>();
+        if (!codeChunk.TryGetComponent<ICodeChunkCodeComponent>(out var component))
+            throw new Exception("Code chunk does not have a code component!");
+
         var globalScripts = new List<GameMakerCode>();
         var roomScripts = new List<GameMakerCode>();
         var roomCcScripts = new List<GameMakerCode>();
         var objectScripts = new List<GameMakerCode>();
         var scripts = new List<GameMakerCode>();
 
-        foreach (var code in codeChunk.Code!.Select(x => x.ExpectObject())) {
+        foreach (var code in component.Code!.Select(x => x.ExpectObject())) {
             var name = code.Name.ExpectObject().Value!;
 
             if (name.StartsWith("gml_GlobalScript_"))

@@ -70,8 +70,8 @@ public sealed class UndertaleModToolDisassemblerGameMakerDecompiler : IGameMaker
         if (bytecode is null)
             return result.WithError("Bytecode entry was null.");
 
-        var locals = context.DeserializationContext.IffFile.GetChunk<GameMakerFuncChunk>().Locals;
-        var variables = context.DeserializationContext.IffFile.GetChunk<GameMakerVariChunk>().Variables;
+        var locals = context.DeserializationContext.IffFile.GetChunk<IFuncChunk>().Locals;
+        var variables = context.DeserializationContext.IffFile.GetChunk<IVariChunk>().Variables;
         var codeLocals = locals.FirstOrDefault(x => x.Name.ExpectObject().Value == code.Name.ExpectObject().Value);
 
         var sb = new StringBuilder();

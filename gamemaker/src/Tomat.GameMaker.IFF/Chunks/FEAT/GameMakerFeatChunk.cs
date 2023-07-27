@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.String;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.FEAT;
 
-public sealed class GameMakerFeatChunk : AbstractChunk {
+internal sealed class GameMakerFeatChunk : AbstractChunk,
+                                           IFeatChunk {
     public const string NAME = "FEAT";
 
     public List<GameMakerPointer<GameMakerString>> FeatureFlags { get; set; } = null!;

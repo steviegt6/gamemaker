@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Texture;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.TXTR;
 
-public sealed class GameMakerTxtrChunk : AbstractChunk {
+internal sealed class GameMakerTxtrChunk : AbstractChunk,
+                                           ITxtrChunk {
     public const string NAME = "TXTR";
 
     public GameMakerPointerList<GameMakerTexturePage> TexturePages { get; set; } = null!;

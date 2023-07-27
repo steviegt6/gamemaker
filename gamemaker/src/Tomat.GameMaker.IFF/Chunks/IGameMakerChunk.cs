@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Tomat.GameMaker.IFF.Chunks;
 
@@ -21,7 +22,7 @@ public interface IGameMakerChunk : IGameMakerSerializable {
     /// </summary>
     int Size { get; set; }
 
-    bool TryGetComponent<T>(out T? component) where T : class;
+    bool TryGetComponent<T>([NotNullWhen(returnValue: true)] out T? component) where T : class;
 
     void AddComponent<T>(T component) where T : class;
 

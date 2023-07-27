@@ -1,11 +1,11 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Audio;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.AUDO;
 
-public sealed class GameMakerAudoChunk : AbstractChunk {
+internal sealed class GameMakerAudoChunk : AbstractChunk,
+                                           IAudoChunk {
     public const string NAME = "AUDO";
 
     public GameMakerPointerList<GameMakerAudio> Audio { get; set; } = null!;

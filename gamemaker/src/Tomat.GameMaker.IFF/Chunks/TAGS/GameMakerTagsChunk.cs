@@ -7,10 +7,13 @@ using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.TAGS;
 
-public sealed class GameMakerTagsChunk : AbstractChunk {
+internal sealed class GameMakerTagsChunk : AbstractChunk,
+                                           ITagsChunk {
     public const string NAME = "TAGS";
 
-    public List<GameMakerPointer<GameMakerString>>? Tags { get; set; }
+    public int ChunkVersion { get; set; }
+
+    public List<GameMakerPointer<GameMakerString>> Tags { get; set; } = null!;
 
     public GameMakerPointerList<GameMakerAssetTag> AssetTags { get; set; } = null!;
 
@@ -19,9 +22,9 @@ public sealed class GameMakerTagsChunk : AbstractChunk {
     public override void Read(DeserializationContext context) {
         context.Pad(4);
 
-        var chunkVersion = context.ReadInt32();
-        if (chunkVersion != 1)
-            throw new InvalidDataException($"Expected chunk version 1, got {chunkVersion}.");
+        ChunkVersion = context.ReadInt32();
+        if (ChunkVersion != 1)
+            throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}.");
 
         var count = context.ReadInt32();
         Tags = new List<GameMakerPointer<GameMakerString>>(count);
@@ -33,7 +36,11 @@ public sealed class GameMakerTagsChunk : AbstractChunk {
 
     public override void Write(SerializationContext context) {
         context.Pad(4);
-        context.Write(1);
+
+        if (ChunkVersion != 1)
+            throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}.");
+
+        context.Write(ChunkVersion);
 
         context.Write(Tags!.Count);
         foreach (var tag in Tags)

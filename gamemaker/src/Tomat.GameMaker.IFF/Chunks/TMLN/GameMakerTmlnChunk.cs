@@ -1,10 +1,10 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Timeline;
 
 namespace Tomat.GameMaker.IFF.Chunks.TMLN;
 
-public sealed class GameMakerTmlnChunk : AbstractChunk {
+internal sealed class GameMakerTmlnChunk : AbstractChunk,
+                                           ITmlnChunk {
     public const string NAME = "TMLN";
 
     public GameMakerPointerList<GameMakerTimeline> Timelines { get; set; } = null!;

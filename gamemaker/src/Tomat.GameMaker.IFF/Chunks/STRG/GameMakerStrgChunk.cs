@@ -1,11 +1,11 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.String;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.STRG;
 
-public sealed class GameMakerStrgChunk : AbstractChunk {
+internal sealed class GameMakerStrgChunk : AbstractChunk,
+                                           IStrgChunk {
     public const string NAME = "STRG";
 
     public GameMakerPointerList<GameMakerString> Strings { get; set; } = null!;

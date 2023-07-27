@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks;
@@ -29,7 +30,7 @@ public sealed class GameMakerUnknownChunk : IGameMakerChunk {
         context.Write(Data);
     }
 
-    public bool TryGetComponent<T>(out T? component) where T : class {
+    public bool TryGetComponent<T>([NotNullWhen(returnValue: true)] out T? component) where T : class {
         component = null;
         return false;
     }

@@ -54,7 +54,7 @@ public sealed class DogScepterDisassemblerGameMakerDecompiler : IGameMakerDecomp
         if (bytecode is null)
             return result.WithError("Bytecode entry was null.");
 
-        var strings = context.DeserializationContext.IffFile.GetChunk<GameMakerStrgChunk>().Strings;
+        var strings = context.DeserializationContext.IffFile.GetChunk<IStrgChunk>().Strings;
 
         var sb = new StringBuilder();
 

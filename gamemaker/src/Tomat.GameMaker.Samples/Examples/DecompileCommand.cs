@@ -37,7 +37,9 @@ public class DecompileCommand : BaseCommand {
         var decompiler = new UndertaleModToolDisassemblerGameMakerDecompiler();
         var decompilerContext = new DecompilerContext(ctx, decompiler);
 
-        var codeChunk = wad.GetChunk<GameMakerCodeChunk>();
+        var codeChunk = wad.GetChunk<ICodeChunk>();
+        if (!codeChunk.TryGetComponent<ICodeChunkCodeComponent>(out var codeComponent))
+            throw new Exception("CODE chunk does not have a code component!");
 
         var outDir = Path.Combine(Path.GetDirectoryName(WadPath)!, Path.GetFileNameWithoutExtension(WadPath) + "_decompiled");
         var globalDir = Path.Combine(outDir, "global");
@@ -57,7 +59,7 @@ public class DecompileCommand : BaseCommand {
             var objectScripts = new List<GameMakerCode>();
             var scripts = new List<GameMakerCode>();
 
-            foreach (var code in codeChunk.Code!.Select(x => x.ExpectObject())) {
+            foreach (var code in codeComponent.Code!.Select(x => x.ExpectObject())) {
                 var name = code.Name.ExpectObject().Value!;
 
                 if (name.StartsWith("gml_GlobalScript_"))
@@ -124,7 +126,7 @@ public class DecompileCommand : BaseCommand {
             // GlobalScripts and Objects.
         }
         else {
-            var code = codeChunk.Code!.FirstOrDefault(c => c.ExpectObject().Name!.ExpectObject().Value == CodeName);
+            var code = codeComponent.Code!.FirstOrDefault(c => c.ExpectObject().Name!.ExpectObject().Value == CodeName);
 
             if (!code.IsNull) {
                 var codeObj = code.ExpectObject();

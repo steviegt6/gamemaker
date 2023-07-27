@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Tomat.GameMaker.IFF.Chunks.ACRV;
 using Tomat.GameMaker.IFF.Chunks.AGRP;
@@ -40,7 +41,7 @@ namespace Tomat.GameMaker.IFF.Chunks.FORM;
 ///     The FORM chunk making up the entire GameMaker IFF file. This chunk may
 ///     contain many smaller chunks, as it contains its own IFF file structure.
 /// </summary>
-public sealed class GameMakerFormChunk : IGameMakerChunk {
+internal sealed class GameMakerFormChunk : IFormChunk {
     public const string NAME = "FORM";
 
     public delegate IGameMakerChunk ChunkFactory(string name, int size);
@@ -51,7 +52,7 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
 
     public int Size { get; set; }
 
-    public Dictionary<string, IGameMakerChunk>? Chunks { get; set; }
+    public Dictionary<string, IGameMakerChunk> Chunks { get; set; } = null!;
 
     public Dictionary<string, ChunkFactory> ChunkFactories { get; }
 
@@ -149,7 +150,7 @@ public sealed class GameMakerFormChunk : IGameMakerChunk {
         }
     }
 
-    public bool TryGetComponent<T>(out T? component) where T : class {
+    public bool TryGetComponent<T>([NotNullWhen(returnValue: true)] out T? component) where T : class {
         component = null;
         return false;
     }

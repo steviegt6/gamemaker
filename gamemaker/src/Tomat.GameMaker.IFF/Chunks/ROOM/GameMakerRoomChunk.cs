@@ -3,7 +3,8 @@ using Tomat.GameMaker.IFF.DataTypes.Models.Room;
 
 namespace Tomat.GameMaker.IFF.Chunks.ROOM;
 
-public sealed class GameMakerRoomChunk : AbstractChunk {
+internal sealed class GameMakerRoomChunk : AbstractChunk,
+                                           IRoomChunk {
     public const string NAME = "ROOM";
 
     public GameMakerPointerList<GameMakerRoom> Rooms { get; set; } = null!;

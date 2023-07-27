@@ -4,7 +4,8 @@ using Tomat.GameMaker.IFF.DataTypes.Models.Local;
 
 namespace Tomat.GameMaker.IFF.Chunks.FUNC;
 
-public sealed class GameMakerFuncChunk : AbstractChunk {
+internal sealed class GameMakerFuncChunk : AbstractChunk,
+                                           IFuncChunk {
     public const string NAME = "FUNC";
 
     public GameMakerList<GameMakerFunctionEntry> FunctionEntries { get; set; } = null!;

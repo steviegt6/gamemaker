@@ -1,11 +1,11 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Extension;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.EXTN;
 
-public sealed class GameMakerExtnChunk : AbstractChunk {
+internal sealed class GameMakerExtnChunk : AbstractChunk,
+                                           IExtnChunk {
     public const string NAME = "EXTN";
 
     public GameMakerPointerList<GameMakerExtension> Extensions { get; set; } = null!;

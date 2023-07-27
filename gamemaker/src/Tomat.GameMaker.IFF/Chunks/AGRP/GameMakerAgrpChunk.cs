@@ -1,11 +1,11 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Audio;
 
 namespace Tomat.GameMaker.IFF.Chunks.AGRP;
 
 // TODO: Load audio group files (audiogroup{x}.dat).
-public sealed class GameMakerAgrpChunk : AbstractChunk {
+internal sealed class GameMakerAgrpChunk : AbstractChunk,
+                                           IAgrpChunk {
     public const string NAME = "AGRP";
 
     public GameMakerPointerList<GameMakerAudioGroup> AudioGroups { get; set; } = null!;

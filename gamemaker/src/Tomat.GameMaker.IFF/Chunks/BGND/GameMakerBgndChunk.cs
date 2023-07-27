@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Background;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.BGND;
 
-public sealed class GameMakerBgndChunk : AbstractChunk {
+internal sealed class GameMakerBgndChunk : AbstractChunk,
+                                           IBgndChunk {
     public const string NAME = "BGND";
 
     public GameMakerPointerList<GameMakerBackground> Backgrounds { get; set; } = null!;

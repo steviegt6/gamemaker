@@ -3,7 +3,8 @@ using Tomat.GameMaker.IFF.DataTypes.Models.Object;
 
 namespace Tomat.GameMaker.IFF.Chunks.OBJT;
 
-public sealed class GameMakerObjtChunk : AbstractChunk {
+internal sealed class GameMakerObjtChunk : AbstractChunk,
+                                           IObjtChunk {
     public const string NAME = "OBJT";
 
     public GameMakerPointerList<GameMakerObject> Objects { get; set; } = null!;

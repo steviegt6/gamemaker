@@ -4,17 +4,20 @@ using Tomat.GameMaker.IFF.DataTypes.Models.TextureGroupInfo;
 
 namespace Tomat.GameMaker.IFF.Chunks.TGIN;
 
-public sealed class GameMakerTginChunk : AbstractChunk {
+internal sealed class GameMakerTginChunk : AbstractChunk,
+                                           ITginChunk {
     public const string NAME = "TGIN";
+
+    public int ChunkVersion { get; set; }
 
     public GameMakerPointerList<GameMakerTextureGroupInfo> TextureGroupInfos { get; set; } = null!;
 
     public GameMakerTginChunk(string name, int size) : base(name, size) { }
 
     public override void Read(DeserializationContext context) {
-        var chunkVersion = context.Reader.ReadInt32();
-        if (chunkVersion != 1)
-            throw new InvalidDataException($"Expected chunk version 1, got {chunkVersion}!");
+        ChunkVersion = context.Reader.ReadInt32();
+        if (ChunkVersion != 1)
+            throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}!");
 
         DoFormatCheck(context);
 
@@ -22,7 +25,10 @@ public sealed class GameMakerTginChunk : AbstractChunk {
     }
 
     public override void Write(SerializationContext context) {
-        context.Writer.Write(1);
+        if (ChunkVersion != 1)
+            throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}!");
+
+        context.Writer.Write(ChunkVersion);
         context.Write(TextureGroupInfos);
     }
 

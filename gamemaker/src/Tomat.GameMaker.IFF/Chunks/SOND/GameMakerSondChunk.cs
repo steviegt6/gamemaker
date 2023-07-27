@@ -1,10 +1,10 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Sound;
 
 namespace Tomat.GameMaker.IFF.Chunks.SOND;
 
-public sealed class GameMakerSondChunk : AbstractChunk {
+internal sealed class GameMakerSondChunk : AbstractChunk,
+                                           ISondChunk {
     public const string NAME = "SOND";
 
     public GameMakerPointerList<GameMakerSound> Sounds { get; set; } = null!;

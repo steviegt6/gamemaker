@@ -1,10 +1,10 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Sprite;
 
 namespace Tomat.GameMaker.IFF.Chunks.SPRT;
 
-public sealed class GameMakerSprtChunk : AbstractChunk {
+internal sealed class GameMakerSprtChunk : AbstractChunk,
+                                           ISprtChunk {
     public const string NAME = "SPRT";
 
     public GameMakerPointerList<GameMakerSprite> Sprites { get; set; } = null!;

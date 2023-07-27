@@ -1,10 +1,10 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Path;
 
 namespace Tomat.GameMaker.IFF.Chunks.PATH;
 
-public sealed class GameMakerPathChunk : AbstractChunk {
+internal sealed class GameMakerPathChunk : AbstractChunk,
+                                           IPathChunk {
     public const string NAME = "PATH";
 
     public GameMakerPointerList<GameMakerPath> Paths { get; set; } = null!;

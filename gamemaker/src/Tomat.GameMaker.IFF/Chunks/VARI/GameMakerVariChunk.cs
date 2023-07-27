@@ -6,16 +6,11 @@ using Tomat.GameMaker.IFF.DataTypes.Models.Variable;
 
 namespace Tomat.GameMaker.IFF.Chunks.VARI;
 
-public sealed class GameMakerVariChunk : AbstractChunk {
+internal sealed class GameMakerVariChunk : AbstractChunk,
+                                           IVariChunk {
     public const string NAME = "VARI";
 
-    public List<GameMakerVariable>? Variables { get; set; }
-
-    public int VarCount1 { get; set; }
-
-    public int VarCount2 { get; set; }
-
-    public int MaxLocalVarCount { get; set; }
+    public List<GameMakerVariable> Variables { get; set; } = null!;
 
     public GameMakerVariChunk(string name, int size) : base(name, size) { }
 
@@ -23,12 +18,18 @@ public sealed class GameMakerVariChunk : AbstractChunk {
         var startPos = context.Position;
 
         if (context.VersionInfo.FormatId > 14) {
-            VarCount1 = context.ReadInt32();
-            VarCount2 = context.ReadInt32();
-            MaxLocalVarCount = context.ReadInt32();
+            var varCount1 = context.ReadInt32();
+            var varCount2 = context.ReadInt32();
+            var maxLocalVarCount = context.ReadInt32();
 
-            if (VarCount1 != VarCount2)
+            if (varCount1 != varCount2)
                 context.VersionInfo.DifferentVarCounts = true;
+
+            AddComponent<IVariChunkVariableCountComponent>(new VariChunkVariableCountComponent {
+                VarCount1 = varCount1,
+                VarCount2 = varCount2,
+                MaxLocalVarCount = maxLocalVarCount,
+            });
         }
 
         var varLength = (context.VersionInfo.FormatId > 14) ? 20 : 12;
@@ -44,39 +45,42 @@ public sealed class GameMakerVariChunk : AbstractChunk {
 
     public override void Write(SerializationContext context) {
         if (context.VersionInfo.FormatId > 14) {
+            if (!TryGetComponent<IVariChunkVariableCountComponent>(out var component))
+                throw new InvalidOperationException("Missing component.");
+
             // Count instance/global variables.
             if (context.VersionInfo.DifferentVarCounts) {
-                VarCount1 = 0;
-                VarCount2 = 0;
+                component.VarCount1 = 0;
+                component.VarCount2 = 0;
 
                 foreach (var variable in Variables!) {
                     if (variable.VariableType == GameMakerCodeInstanceType.Global)
-                        VarCount1++;
+                        component.VarCount1++;
                     else if (variable is { VariableId: >= 0, VariableType: GameMakerCodeInstanceType.Self })
-                        VarCount2++;
+                        component.VarCount2++;
                 }
             }
             else {
-                VarCount1 = -1;
+                component.VarCount1 = -1;
 
                 foreach (var variable in Variables!) {
                     if (variable.VariableType is GameMakerCodeInstanceType.Global or GameMakerCodeInstanceType.Self)
-                        VarCount1 = Math.Max(VarCount1, variable.VariableId);
+                        component.VarCount1 = Math.Max(component.VarCount1, variable.VariableId);
                 }
 
-                VarCount1 += 1;
-                VarCount2 = VarCount1;
+                component.VarCount1 += 1;
+                component.VarCount2 = component.VarCount1;
             }
 
-            context.Write(VarCount1);
-            context.Write(VarCount2);
+            context.Write(component.VarCount1);
+            context.Write(component.VarCount2);
 
             // Set to highest amount of locals within all entries.
-            MaxLocalVarCount = 0;
+            component.MaxLocalVarCount = 0;
             foreach (var item in context.IffFile.GetChunk<GameMakerFuncChunk>().Locals)
-                MaxLocalVarCount = Math.Max(MaxLocalVarCount, item.Entries!.Count);
+                component.MaxLocalVarCount = Math.Max(component.MaxLocalVarCount, item.Entries!.Count);
 
-            context.Write(MaxLocalVarCount);
+            context.Write(component.MaxLocalVarCount);
         }
 
         foreach (var variable in Variables!)

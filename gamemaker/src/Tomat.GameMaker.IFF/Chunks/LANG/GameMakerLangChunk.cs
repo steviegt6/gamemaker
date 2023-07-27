@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Language;
 using Tomat.GameMaker.IFF.DataTypes.Models.String;
 
 namespace Tomat.GameMaker.IFF.Chunks.LANG;
 
-public sealed class GameMakerLangChunk : AbstractChunk {
+internal sealed class GameMakerLangChunk : AbstractChunk,
+                                           ILangChunk {
     public const string NAME = "LANG";
 
     public int UnknownInt32 { get; set; }
@@ -15,9 +15,9 @@ public sealed class GameMakerLangChunk : AbstractChunk {
 
     public int EntryCount { get; set; }
 
-    public List<GameMakerPointer<GameMakerString>>? EntryIds { get; set; }
+    public List<GameMakerPointer<GameMakerString>> EntryIds { get; set; } = null!;
 
-    public List<GameMakerLanguage>? Languages { get; set; }
+    public List<GameMakerLanguage> Languages { get; set; } = null!;
 
     public GameMakerLangChunk(string name, int size) : base(name, size) { }
 
@@ -41,15 +41,15 @@ public sealed class GameMakerLangChunk : AbstractChunk {
 
     public override void Write(SerializationContext context) {
         context.Write(UnknownInt32);
-        LanguageCount = Languages!.Count;
+        LanguageCount = Languages.Count;
         context.Write(LanguageCount);
-        EntryCount = EntryIds!.Count;
+        EntryCount = EntryIds.Count;
         context.Write(EntryCount);
 
-        foreach (var entry in EntryIds!)
+        foreach (var entry in EntryIds)
             context.Write(entry);
 
-        foreach (var language in Languages!)
+        foreach (var language in Languages)
             language.Write(context);
     }
 }

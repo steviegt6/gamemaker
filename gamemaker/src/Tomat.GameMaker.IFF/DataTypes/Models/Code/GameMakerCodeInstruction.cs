@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.DataTypes.Models.FunctionEntry;
 using Tomat.GameMaker.IFF.DataTypes.Models.Variable;

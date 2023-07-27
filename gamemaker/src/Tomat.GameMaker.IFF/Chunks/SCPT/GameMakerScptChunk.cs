@@ -1,10 +1,10 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Script;
 
 namespace Tomat.GameMaker.IFF.Chunks.SCPT;
 
-public sealed class GameMakerScptChunk : AbstractChunk {
+internal sealed class GameMakerScptChunk : AbstractChunk,
+                                           IScptChunk {
     public const string NAME = "SCPT";
 
     public GameMakerPointerList<GameMakerScript> Scripts { get; set; } = null!;

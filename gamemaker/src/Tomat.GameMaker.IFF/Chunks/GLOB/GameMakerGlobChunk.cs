@@ -2,10 +2,11 @@
 
 namespace Tomat.GameMaker.IFF.Chunks.GLOB;
 
-public sealed class GameMakerGlobChunk : AbstractChunk {
+internal sealed class GameMakerGlobChunk : AbstractChunk,
+                                           IGlobChunk {
     public const string NAME = "GLOB";
 
-    public List<int>? GlobalCodeIds { get; set; }
+    public List<int> GlobalCodeIds { get; set; } = null!;
 
     public GameMakerGlobChunk(string name, int size) : base(name, size) { }
 

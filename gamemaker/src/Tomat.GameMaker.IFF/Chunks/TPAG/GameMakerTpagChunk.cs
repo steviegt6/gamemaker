@@ -3,7 +3,8 @@ using Tomat.GameMaker.IFF.DataTypes.Models.Texture;
 
 namespace Tomat.GameMaker.IFF.Chunks.TPAG;
 
-public sealed class GameMakerTpagChunk : AbstractChunk {
+internal sealed class GameMakerTpagChunk : AbstractChunk,
+                                           ITpagChunk {
     public const string NAME = "TPAG";
 
     public GameMakerPointerList<GameMakerTextureItem> TexturePageItems { get; set; } = null!;

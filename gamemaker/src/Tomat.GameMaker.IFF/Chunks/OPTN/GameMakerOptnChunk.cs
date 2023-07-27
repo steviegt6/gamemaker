@@ -1,11 +1,12 @@
 ﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Constant;
 using Tomat.GameMaker.IFF.DataTypes.Models.Texture;
+using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.OPTN;
 
-public sealed class GameMakerOptnChunk : AbstractChunk {
+internal sealed class GameMakerOptnChunk : AbstractChunk,
+                                           IOptnChunk {
     public const string NAME = "OPTN";
 
     public ulong UnknownUInt64 { get; set; }
@@ -156,12 +157,12 @@ public sealed class GameMakerOptnChunk : AbstractChunk {
         context.Write(Constants);
     }
 
-    private void ReadOptionFlag(DeserializationContext context, OptnOptionFlags flag) {
-        if (context.ReadBoolean(wide: true))
+    private void ReadOptionFlag(IGameMakerIffReader reader, OptnOptionFlags flag) {
+        if (reader.ReadBoolean(wide: true))
             Options |= flag;
     }
 
-    private void WriteOptionFlag(SerializationContext context, OptnOptionFlags flag) {
-        context.Write((Options & flag) == flag, wide: true);
+    private void WriteOptionFlag(IGameMakerIffWriter writer, OptnOptionFlags flag) {
+        writer.Write((Options & flag) == flag, wide: true);
     }
 }

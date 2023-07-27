@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.Shader;
 
 namespace Tomat.GameMaker.IFF.Chunks.SHDR;
 
-public sealed class GameMakerShdrChunk : AbstractChunk {
+internal sealed class GameMakerShdrChunk : AbstractChunk,
+                                           IShdrChunk {
     public const string NAME = "SHDR";
 
-    public List<GameMakerPointer<GameMakerShader>>? Shaders { get; set; }
+    public List<GameMakerPointer<GameMakerShader>> Shaders { get; set; } = null!;
 
     public GameMakerShdrChunk(string name, int size) : base(name, size) { }
 

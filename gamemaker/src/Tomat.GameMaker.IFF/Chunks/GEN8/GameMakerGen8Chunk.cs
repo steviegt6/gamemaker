@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.DataTypes.Models.String;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.GEN8;
 
-public sealed class GameMakerGen8Chunk : AbstractChunk {
+internal sealed class GameMakerGen8Chunk : AbstractChunk,
+                                           IGen8Chunk {
     public const string NAME = "GEN8";
 
     public bool DisableDebug { get; set; }
@@ -58,17 +58,7 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
 
     public int SteamAppId { get; set; }
 
-    public int DebuggerPort { get; set; }
-
-    public List<int>? RoomOrder { get; set; }
-
-    public List<long>? GameMaker2RandomUid { get; set; }
-
-    public float GameMaker2Fps { get; set; }
-
-    public bool GameMaker2AllowStatistics { get; set; }
-
-    public Guid GameMaker2GameGuid { get; set; }
+    public List<int> RoomOrder { get; set; } = null!;
 
     public GameMakerGen8Chunk(string name, int size) : base(name, size) { }
 
@@ -99,8 +89,12 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         FunctionClassifications = (Gen8FunctionClassification)context.ReadInt64();
         SteamAppId = context.ReadInt32();
 
-        if (FormatId >= 14)
-            DebuggerPort = context.ReadInt32();
+        if (FormatId >= 14) {
+            var debuggerPort = context.ReadInt32();
+            AddComponent<IGen8ChunkDebuggerPortComponent>(new Gen8ChunkDebuggerPortComponent {
+                DebuggerPort = debuggerPort,
+            });
+        }
 
         var roomCount = context.ReadInt32();
         RoomOrder = new List<int>(roomCount);
@@ -110,10 +104,16 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         if (!context.VersionInfo.IsAtLeast(GM_2))
             return;
 
-        GameMaker2RandomUid = ReadRandomUid(context);
-        GameMaker2Fps = context.ReadSingle();
-        GameMaker2AllowStatistics = context.ReadBoolean(wide: true);
-        GameMaker2GameGuid = context.ReadGuid();
+        var randomUid = ReadRandomUid(context);
+        var fps = context.ReadSingle();
+        var allowStatistics = context.ReadBoolean(wide: true);
+        var gameGuid = context.ReadGuid();
+        AddComponent<IGen8ChunkGms2Component>(new Gen8ChunkGms2Component {
+            RandomUid = randomUid,
+            Fps = fps,
+            AllowStatistics = allowStatistics,
+            GameGuid = gameGuid,
+        });
     }
 
     public override void Write(SerializationContext context) {
@@ -143,20 +143,27 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         context.Write((ulong)FunctionClassifications);
         context.Write(SteamAppId);
 
-        if (FormatId >= 14)
-            context.Write(DebuggerPort);
+        if (FormatId >= 14) {
+            if (!TryGetComponent<IGen8ChunkDebuggerPortComponent>(out var debuggerPortComponent))
+                throw new Exception("Debugger port component not found");
+
+            context.Write(debuggerPortComponent.DebuggerPort);
+        }
+
+        context.Write(RoomOrder.Count);
+        foreach (var room in RoomOrder)
+            context.Write(room);
 
         if (!context.VersionInfo.IsAtLeast(GM_2))
             return;
 
-        context.Write(RoomOrder!.Count);
-        foreach (var room in RoomOrder)
-            context.Write(room);
+        if (!TryGetComponent<IGen8ChunkGms2Component>(out var gms2Component))
+            throw new Exception("GMS2 component not found");
 
-        WriteRandomUid(context);
-        context.Write(GameMaker2Fps);
-        context.Write(GameMaker2AllowStatistics, wide: true);
-        context.Write(GameMaker2GameGuid.ToByteArray());
+        WriteRandomUid(context, gms2Component);
+        context.Write(gms2Component.Fps);
+        context.Write(gms2Component.AllowStatistics, wide: true);
+        context.Write(gms2Component.GameGuid.ToByteArray());
     }
 
     private List<long> ReadRandomUid(DeserializationContext context) {
@@ -199,8 +206,8 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         return list;
     }
 
-    private void WriteRandomUid(SerializationContext context) {
-        GameMaker2RandomUid!.Clear();
+    private void WriteRandomUid(SerializationContext context, IGen8ChunkGms2Component gms2Component) {
+        gms2Component.RandomUid!.Clear();
 
         var rand = new Random((int)(Timestamp & 4294967295L));
         var firstRand = (long)rand.Next() << 32 | (long)rand.Next();
@@ -208,19 +215,19 @@ public sealed class GameMakerGen8Chunk : AbstractChunk {
         var infoLocation = Math.Abs((int)(Timestamp & (long)ushort.MaxValue) / 7 + (GameId - DefaultWindowWidth) + RoomOrder!.Count) % 4;
 
         context.Write(firstRand);
-        GameMaker2RandomUid.Add(infoNumber);
+        gms2Component.RandomUid.Add(infoNumber);
 
         for (var i = 0; i < 4; i++) {
             if (i == infoLocation) {
                 context.Write(infoNumber);
-                GameMaker2RandomUid.Add(infoNumber);
+                gms2Component.RandomUid.Add(infoNumber);
             }
             else {
                 var first = rand.Next();
                 var second = rand.Next();
                 context.Write(first);
                 context.Write(second);
-                GameMaker2RandomUid.Add(((long)first << 32) | (long)second);
+                gms2Component.RandomUid.Add(((long)first << 32) | (long)second);
             }
         }
     }
