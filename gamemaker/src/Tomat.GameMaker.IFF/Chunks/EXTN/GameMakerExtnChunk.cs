@@ -10,7 +10,7 @@ internal sealed class GameMakerExtnChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerExtension> Extensions { get; set; } = null!;
 
-    public GameMakerExtnChunk(string name, int size) : base(name, size) { }
+    public GameMakerExtnChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         Extensions = context.ReadPointerList<GameMakerExtension>();

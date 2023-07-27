@@ -15,4 +15,14 @@ public interface IGameMakerChunk : IGameMakerSerializableWithComponents {
     ///     The size of the chunk, in bytes.
     /// </summary>
     int Size { get; set; }
+
+    /// <summary>
+    ///     The position of the chunk, in bytes.
+    /// </summary>
+    int StartPosition { get; set; }
+
+    /// <summary>
+    ///     The position of the chunk, in bytes, relative to the end of the file.
+    /// </summary>
+    int EndPosition => StartPosition + Size;
 }

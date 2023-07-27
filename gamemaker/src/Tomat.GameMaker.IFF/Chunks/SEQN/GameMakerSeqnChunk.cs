@@ -7,7 +7,7 @@ internal sealed class GameMakerSeqnChunk : AbstractChunk,
                                            ISeqnChunk {
     public const string NAME = "SEQN";
 
-    public GameMakerSeqnChunk(string name, int size) : base(name, size) { }
+    public GameMakerSeqnChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         // The chunk can just be empty (4-byte header and int32 length).

@@ -44,7 +44,7 @@ namespace Tomat.GameMaker.IFF.Chunks.FORM;
 internal sealed class GameMakerFormChunk : IFormChunk {
     public const string NAME = "FORM";
 
-    public delegate IGameMakerChunk ChunkFactory(string name, int size);
+    public delegate IGameMakerChunk ChunkFactory(string name, int size, int startPosition);
 
     public Dictionary<Type, object> Components { get; } = new();
 
@@ -52,49 +52,52 @@ internal sealed class GameMakerFormChunk : IFormChunk {
 
     public int Size { get; set; }
 
+    public int StartPosition { get; set; }
+
     public Dictionary<string, IGameMakerChunk> Chunks { get; set; } = null!;
 
     public Dictionary<string, ChunkFactory> ChunkFactories { get; }
 
     public ChunkFactory DefaultChunkFactory { get; }
 
-    public GameMakerFormChunk(string name, int size) {
+    public GameMakerFormChunk(string name, int size, int startPosition) {
         Name = name;
         Size = size;
+        StartPosition = startPosition;
         ChunkFactories = new Dictionary<string, ChunkFactory> {
-            { GameMakerGen8Chunk.NAME, (c, s) => new GameMakerGen8Chunk(c, s) },
-            { GameMakerOptnChunk.NAME, (c, s) => new GameMakerOptnChunk(c, s) },
-            { GameMakerLangChunk.NAME, (c, s) => new GameMakerLangChunk(c, s) },
-            { GameMakerExtnChunk.NAME, (c, s) => new GameMakerExtnChunk(c, s) },
-            { GameMakerSondChunk.NAME, (c, s) => new GameMakerSondChunk(c, s) },
-            { GameMakerAgrpChunk.NAME, (c, s) => new GameMakerAgrpChunk(c, s) },
-            { GameMakerSprtChunk.NAME, (c, s) => new GameMakerSprtChunk(c, s) },
-            { GameMakerBgndChunk.NAME, (c, s) => new GameMakerBgndChunk(c, s) },
-            { GameMakerPathChunk.NAME, (c, s) => new GameMakerPathChunk(c, s) },
-            { GameMakerScptChunk.NAME, (c, s) => new GameMakerScptChunk(c, s) },
-            { GameMakerGlobChunk.NAME, (c, s) => new GameMakerGlobChunk(c, s) },
-            { GameMakerShdrChunk.NAME, (c, s) => new GameMakerShdrChunk(c, s) },
-            { GameMakerFontChunk.NAME, (c, s) => new GameMakerFontChunk(c, s) },
-            { GameMakerTmlnChunk.NAME, (c, s) => new GameMakerTmlnChunk(c, s) },
-            { GameMakerObjtChunk.NAME, (c, s) => new GameMakerObjtChunk(c, s) },
-            { GameMakerFedsChunk.NAME, (c, s) => new GameMakerFedsChunk(c, s) },
-            { GameMakerAcrvChunk.NAME, (c, s) => new GameMakerAcrvChunk(c, s) },
-            { GameMakerSeqnChunk.NAME, (c, s) => new GameMakerSeqnChunk(c, s) },
-            { GameMakerTagsChunk.NAME, (c, s) => new GameMakerTagsChunk(c, s) },
-            { GameMakerRoomChunk.NAME, (c, s) => new GameMakerRoomChunk(c, s) },
-            { GameMakerDaflChunk.NAME, (c, s) => new GameMakerDaflChunk(c, s) },
-            { GameMakerEmbiChunk.NAME, (c, s) => new GameMakerEmbiChunk(c, s) },
-            { GameMakerTpagChunk.NAME, (c, s) => new GameMakerTpagChunk(c, s) },
-            { GameMakerTginChunk.NAME, (c, s) => new GameMakerTginChunk(c, s) },
-            { GameMakerCodeChunk.NAME, (c, s) => new GameMakerCodeChunk(c, s) },
-            { GameMakerVariChunk.NAME, (c, s) => new GameMakerVariChunk(c, s) },
-            { GameMakerFuncChunk.NAME, (c, s) => new GameMakerFuncChunk(c, s) },
-            { GameMakerFeatChunk.NAME, (c, s) => new GameMakerFeatChunk(c, s) },
-            { GameMakerStrgChunk.NAME, (c, s) => new GameMakerStrgChunk(c, s) },
-            { GameMakerTxtrChunk.NAME, (c, s) => new GameMakerTxtrChunk(c, s) },
-            { GameMakerAudoChunk.NAME, (c, s) => new GameMakerAudoChunk(c, s) },
+            { GameMakerGen8Chunk.NAME, (c, s, p) => new GameMakerGen8Chunk(c, s, p) },
+            { GameMakerOptnChunk.NAME, (c, s, p) => new GameMakerOptnChunk(c, s, p) },
+            { GameMakerLangChunk.NAME, (c, s, p) => new GameMakerLangChunk(c, s, p) },
+            { GameMakerExtnChunk.NAME, (c, s, p) => new GameMakerExtnChunk(c, s, p) },
+            { GameMakerSondChunk.NAME, (c, s, p) => new GameMakerSondChunk(c, s, p) },
+            { GameMakerAgrpChunk.NAME, (c, s, p) => new GameMakerAgrpChunk(c, s, p) },
+            { GameMakerSprtChunk.NAME, (c, s, p) => new GameMakerSprtChunk(c, s, p) },
+            { GameMakerBgndChunk.NAME, (c, s, p) => new GameMakerBgndChunk(c, s, p) },
+            { GameMakerPathChunk.NAME, (c, s, p) => new GameMakerPathChunk(c, s, p) },
+            { GameMakerScptChunk.NAME, (c, s, p) => new GameMakerScptChunk(c, s, p) },
+            { GameMakerGlobChunk.NAME, (c, s, p) => new GameMakerGlobChunk(c, s, p) },
+            { GameMakerShdrChunk.NAME, (c, s, p) => new GameMakerShdrChunk(c, s, p) },
+            { GameMakerFontChunk.NAME, (c, s, p) => new GameMakerFontChunk(c, s, p) },
+            { GameMakerTmlnChunk.NAME, (c, s, p) => new GameMakerTmlnChunk(c, s, p) },
+            { GameMakerObjtChunk.NAME, (c, s, p) => new GameMakerObjtChunk(c, s, p) },
+            { GameMakerFedsChunk.NAME, (c, s, p) => new GameMakerFedsChunk(c, s, p) },
+            { GameMakerAcrvChunk.NAME, (c, s, p) => new GameMakerAcrvChunk(c, s, p) },
+            { GameMakerSeqnChunk.NAME, (c, s, p) => new GameMakerSeqnChunk(c, s, p) },
+            { GameMakerTagsChunk.NAME, (c, s, p) => new GameMakerTagsChunk(c, s, p) },
+            { GameMakerRoomChunk.NAME, (c, s, p) => new GameMakerRoomChunk(c, s, p) },
+            { GameMakerDaflChunk.NAME, (c, s, p) => new GameMakerDaflChunk(c, s, p) },
+            { GameMakerEmbiChunk.NAME, (c, s, p) => new GameMakerEmbiChunk(c, s, p) },
+            { GameMakerTpagChunk.NAME, (c, s, p) => new GameMakerTpagChunk(c, s, p) },
+            { GameMakerTginChunk.NAME, (c, s, p) => new GameMakerTginChunk(c, s, p) },
+            { GameMakerCodeChunk.NAME, (c, s, p) => new GameMakerCodeChunk(c, s, p) },
+            { GameMakerVariChunk.NAME, (c, s, p) => new GameMakerVariChunk(c, s, p) },
+            { GameMakerFuncChunk.NAME, (c, s, p) => new GameMakerFuncChunk(c, s, p) },
+            { GameMakerFeatChunk.NAME, (c, s, p) => new GameMakerFeatChunk(c, s, p) },
+            { GameMakerStrgChunk.NAME, (c, s, p) => new GameMakerStrgChunk(c, s, p) },
+            { GameMakerTxtrChunk.NAME, (c, s, p) => new GameMakerTxtrChunk(c, s, p) },
+            { GameMakerAudoChunk.NAME, (c, s, p) => new GameMakerAudoChunk(c, s, p) },
         };
-        DefaultChunkFactory = (c, s) => new GameMakerUnknownChunk(c, s);
+        DefaultChunkFactory = (c, s, p) => new GameMakerUnknownChunk(c, s, p);
     }
 
     public void Read(DeserializationContext context) {
@@ -125,8 +128,8 @@ internal sealed class GameMakerFormChunk : IFormChunk {
         foreach (var ((chunkName, chunkLength), chunkPos) in foundChunks) {
             context.Position = chunkPos;
             Chunks[chunkName] = ChunkFactories.TryGetValue(chunkName, out var factory)
-                ? factory(chunkName, chunkLength)
-                : DefaultChunkFactory(chunkName, chunkLength);
+                ? factory(chunkName, chunkLength, chunkPos)
+                : DefaultChunkFactory(chunkName, chunkLength, chunkPos);
             Chunks[chunkName].Read(context);
         }
     }

@@ -9,7 +9,7 @@ internal sealed class GameMakerPathChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerPath> Paths { get; set; } = null!;
 
-    public GameMakerPathChunk(string name, int size) : base(name, size) { }
+    public GameMakerPathChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         Paths = context.ReadPointerList<GameMakerPath>();

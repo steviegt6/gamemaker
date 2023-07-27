@@ -11,7 +11,7 @@ internal sealed class GameMakerBgndChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerBackground> Backgrounds { get; set; } = null!;
 
-    public GameMakerBgndChunk(string name, int size) : base(name, size) { }
+    public GameMakerBgndChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         Backgrounds = context.ReadPointerList<GameMakerBackground>(

@@ -13,7 +13,7 @@ internal sealed class GameMakerFedsChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerFilterEffect> FilterEffects { get; set; } = null!;
 
-    public GameMakerFedsChunk(string name, int size) : base(name, size) { }
+    public GameMakerFedsChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         context.Pad(4);

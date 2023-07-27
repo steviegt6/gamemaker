@@ -12,11 +12,14 @@ public sealed class GameMakerUnknownChunk : IGameMakerChunk {
 
     public int Size { get; set; }
 
+    public int StartPosition { get; set; }
+
     public byte[]? Data { get; set; }
 
-    public GameMakerUnknownChunk(string name, int size) {
+    public GameMakerUnknownChunk(string name, int size, int startPosition) {
         Name = name;
         Size = size;
+        StartPosition = startPosition;
     }
 
     public void Read(DeserializationContext context) {

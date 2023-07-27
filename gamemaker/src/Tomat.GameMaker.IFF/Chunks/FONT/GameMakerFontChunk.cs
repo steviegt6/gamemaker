@@ -16,7 +16,7 @@ internal sealed class GameMakerFontChunk : AbstractChunk,
 
     public Memory<byte>? Padding { get; set; }
 
-    public GameMakerFontChunk(string name, int size) : base(name, size) { }
+    public GameMakerFontChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         DoFormatCheck(context);

@@ -24,7 +24,7 @@ public sealed class GameMakerIffFile : IGameMakerSerializable {
             throw new IOException("IFF file does not start with FORM chunk.");
 
         var formSize = context.ReadInt32();
-        Form = new GameMakerFormChunk(formName, formSize);
+        Form = new GameMakerFormChunk(formName, formSize, context.Position);
         Form.Read(context);
     }
 

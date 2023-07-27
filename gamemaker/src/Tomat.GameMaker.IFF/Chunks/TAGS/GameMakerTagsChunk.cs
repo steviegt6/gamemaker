@@ -17,7 +17,7 @@ internal sealed class GameMakerTagsChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerAssetTag> AssetTags { get; set; } = null!;
 
-    public GameMakerTagsChunk(string name, int size) : base(name, size) { }
+    public GameMakerTagsChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         context.Pad(4);

@@ -11,7 +11,7 @@ internal sealed class GameMakerTxtrChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerTexturePage> TexturePages { get; set; } = null!;
 
-    public GameMakerTxtrChunk(string name, int size) : base(name, size) { }
+    public GameMakerTxtrChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         DoFormatCheck(context);

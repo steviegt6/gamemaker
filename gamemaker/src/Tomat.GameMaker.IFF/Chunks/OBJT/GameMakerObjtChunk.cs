@@ -9,7 +9,7 @@ internal sealed class GameMakerObjtChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerObject> Objects { get; set; } = null!;
 
-    public GameMakerObjtChunk(string name, int size) : base(name, size) { }
+    public GameMakerObjtChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         DoFormatCheck(context);

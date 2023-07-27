@@ -37,7 +37,7 @@ internal sealed class GameMakerOptnChunk : AbstractChunk,
 
     public GameMakerList<GameMakerConstant> Constants { get; set; } = null!;
 
-    public GameMakerOptnChunk(string name, int size) : base(name, size) { }
+    public GameMakerOptnChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         context.VersionInfo.OptionBitflag = context.ReadInt32() == int.MinValue;

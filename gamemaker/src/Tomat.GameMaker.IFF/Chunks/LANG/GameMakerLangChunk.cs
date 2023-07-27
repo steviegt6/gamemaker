@@ -19,7 +19,7 @@ internal sealed class GameMakerLangChunk : AbstractChunk,
 
     public List<GameMakerLanguage> Languages { get; set; } = null!;
 
-    public GameMakerLangChunk(string name, int size) : base(name, size) { }
+    public GameMakerLangChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         UnknownInt32 = context.ReadInt32();

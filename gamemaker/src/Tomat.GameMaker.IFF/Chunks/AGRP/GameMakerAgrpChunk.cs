@@ -10,7 +10,7 @@ internal sealed class GameMakerAgrpChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerAudioGroup> AudioGroups { get; set; } = null!;
 
-    public GameMakerAgrpChunk(string name, int size) : base(name, size) { }
+    public GameMakerAgrpChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         AudioGroups = context.ReadPointerList<GameMakerAudioGroup>();

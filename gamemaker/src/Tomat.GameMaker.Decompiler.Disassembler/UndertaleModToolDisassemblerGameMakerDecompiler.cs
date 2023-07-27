@@ -1,10 +1,8 @@
 ﻿using System.Globalization;
 using System.Text;
 using Tomat.GameMaker.IFF;
-using Tomat.GameMaker.IFF.Chunks.CODE;
 using Tomat.GameMaker.IFF.Chunks.FUNC;
 using Tomat.GameMaker.IFF.Chunks.VARI;
-using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models.Code;
 using Tomat.GameMaker.IFF.DataTypes.Models.FunctionEntry;
 using Tomat.GameMaker.IFF.DataTypes.Models.Local;

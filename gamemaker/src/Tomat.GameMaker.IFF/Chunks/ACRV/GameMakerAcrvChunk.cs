@@ -15,7 +15,7 @@ internal sealed class GameMakerAcrvChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerAnimationCurve> AnimationCurves { get; set; } = null!;
 
-    public GameMakerAcrvChunk(string name, int size) : base(name, size) { }
+    public GameMakerAcrvChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         ChunkVersion = context.ReadInt32();

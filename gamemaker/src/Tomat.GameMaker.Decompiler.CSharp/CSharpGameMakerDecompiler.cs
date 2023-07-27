@@ -3,7 +3,6 @@ using Mono.Cecil;
 using Tomat.GameMaker.IFF;
 using Tomat.GameMaker.IFF.Chunks.CODE;
 using Tomat.GameMaker.IFF.Chunks.GEN8;
-using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models.Code;
 
 namespace Tomat.GameMaker.Decompiler.CSharp;

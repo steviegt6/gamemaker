@@ -11,9 +11,12 @@ public abstract class AbstractChunk : IGameMakerChunk {
 
     public int Size { get; set; }
 
-    protected AbstractChunk(string name, int size) {
+    public int StartPosition { get; set; }
+
+    protected AbstractChunk(string name, int size, int startPosition) {
         Name = name;
         Size = size;
+        StartPosition = startPosition;
     }
 
     public abstract void Read(DeserializationContext context);

@@ -9,7 +9,7 @@ internal sealed class GameMakerTpagChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerTextureItem> TexturePageItems { get; set; } = null!;
 
-    public GameMakerTpagChunk(string name, int size) : base(name, size) { }
+    public GameMakerTpagChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         TexturePageItems = context.ReadPointerList<GameMakerTextureItem>();

@@ -10,7 +10,7 @@ internal sealed class GameMakerAudoChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerAudio> Audio { get; set; } = null!;
 
-    public GameMakerAudoChunk(string name, int size) : base(name, size) { }
+    public GameMakerAudoChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         Audio = context.ReadPointerList<GameMakerAudio>();

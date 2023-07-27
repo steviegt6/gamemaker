@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 using CliFx.Attributes;
 using CliFx.Infrastructure;
 using Tomat.GameMaker.Decompiler;
-using Tomat.GameMaker.Decompiler.CSharp;
 using Tomat.GameMaker.Decompiler.Disassembler;
 using Tomat.GameMaker.IFF;
 using Tomat.GameMaker.IFF.Chunks.CODE;
-using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models.Code;
 
 namespace Tomat.GameMaker.Samples.Examples;

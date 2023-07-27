@@ -11,7 +11,7 @@ internal sealed class GameMakerFeatChunk : AbstractChunk,
 
     public List<GameMakerPointer<GameMakerString>> FeatureFlags { get; set; } = null!;
 
-    public GameMakerFeatChunk(string name, int size) : base(name, size) { }
+    public GameMakerFeatChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         context.Pad(4);

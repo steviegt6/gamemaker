@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker.API", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker", "..\gamebreaker\src\Tomat.GameBreaker\Tomat.GameBreaker.csproj", "{0976CBA8-5E79-423A-BE53-58A732737AB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.AssetDumper", "Tomat.GameMaker.AssetDumper\Tomat.GameMaker.AssetDumper.csproj", "{6855BA5F-7F78-4499-85C4-5D54BCF6580E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{0976CBA8-5E79-423A-BE53-58A732737AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0976CBA8-5E79-423A-BE53-58A732737AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0976CBA8-5E79-423A-BE53-58A732737AB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FB431FEB-3116-4490-8B49-474F9C692435} = {9BA607AE-2533-497F-B4EF-02E406285CC2}

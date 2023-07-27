@@ -8,7 +8,7 @@ internal sealed class GameMakerGlobChunk : AbstractChunk,
 
     public List<int> GlobalCodeIds { get; set; } = null!;
 
-    public GameMakerGlobChunk(string name, int size) : base(name, size) { }
+    public GameMakerGlobChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         var count = context.ReadInt32();

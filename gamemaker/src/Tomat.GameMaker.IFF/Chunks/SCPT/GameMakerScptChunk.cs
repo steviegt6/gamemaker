@@ -9,7 +9,7 @@ internal sealed class GameMakerScptChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerScript> Scripts { get; set; } = null!;
 
-    public GameMakerScptChunk(string name, int size) : base(name, size) { }
+    public GameMakerScptChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         Scripts = context.ReadPointerList<GameMakerScript>();

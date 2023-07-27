@@ -9,7 +9,7 @@ internal sealed class GameMakerTmlnChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerTimeline> Timelines { get; set; } = null!;
 
-    public GameMakerTmlnChunk(string name, int size) : base(name, size) { }
+    public GameMakerTmlnChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         Timelines = context.ReadPointerList<GameMakerTimeline>();

@@ -9,7 +9,7 @@ internal sealed class GameMakerSondChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerSound> Sounds { get; set; } = null!;
 
-    public GameMakerSondChunk(string name, int size) : base(name, size) { }
+    public GameMakerSondChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         Sounds = context.ReadPointerList<GameMakerSound>();

@@ -12,7 +12,7 @@ internal sealed class GameMakerTginChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerTextureGroupInfo> TextureGroupInfos { get; set; } = null!;
 
-    public GameMakerTginChunk(string name, int size) : base(name, size) { }
+    public GameMakerTginChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         ChunkVersion = context.Reader.ReadInt32();

@@ -12,7 +12,7 @@ internal sealed class GameMakerFuncChunk : AbstractChunk,
 
     public GameMakerList<GameMakerLocalsEntry> Locals { get; set; } = null!;
 
-    public GameMakerFuncChunk(string name, int size) : base(name, size) { }
+    public GameMakerFuncChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         FunctionEntries = new GameMakerList<GameMakerFunctionEntry>();

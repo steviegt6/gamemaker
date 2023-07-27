@@ -12,7 +12,7 @@ internal sealed class GameMakerVariChunk : AbstractChunk,
 
     public List<GameMakerVariable> Variables { get; set; } = null!;
 
-    public GameMakerVariChunk(string name, int size) : base(name, size) { }
+    public GameMakerVariChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         var startPos = context.Position;

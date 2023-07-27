@@ -60,7 +60,7 @@ internal sealed class GameMakerGen8Chunk : AbstractChunk,
 
     public List<int> RoomOrder { get; set; } = null!;
 
-    public GameMakerGen8Chunk(string name, int size) : base(name, size) { }
+    public GameMakerGen8Chunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         DisableDebug = context.ReadBoolean(wide: false);

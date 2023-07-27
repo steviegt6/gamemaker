@@ -10,7 +10,7 @@ internal sealed class GameMakerShdrChunk : AbstractChunk,
 
     public List<GameMakerPointer<GameMakerShader>> Shaders { get; set; } = null!;
 
-    public GameMakerShdrChunk(string name, int size) : base(name, size) { }
+    public GameMakerShdrChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         context.Position -= 4;

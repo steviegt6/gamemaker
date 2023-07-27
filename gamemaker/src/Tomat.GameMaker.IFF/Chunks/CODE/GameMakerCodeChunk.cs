@@ -7,7 +7,7 @@ internal sealed class GameMakerCodeChunk : AbstractChunk,
                                            ICodeChunk {
     public const string NAME = "CODE";
 
-    public GameMakerCodeChunk(string name, int size) : base(name, size) { }
+    public GameMakerCodeChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         if (Size == 0)

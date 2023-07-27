@@ -12,7 +12,7 @@ internal sealed class GameMakerEmbiChunk : AbstractChunk,
 
     public GameMakerList<GameMakerEmbeddedImage> EmbeddedImages { get; set; } = null!;
 
-    public GameMakerEmbiChunk(string name, int size) : base(name, size) { }
+    public GameMakerEmbiChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         ChunkVersion = context.ReadInt32();

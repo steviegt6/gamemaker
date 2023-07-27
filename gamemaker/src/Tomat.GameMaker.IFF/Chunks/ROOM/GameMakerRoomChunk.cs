@@ -9,7 +9,7 @@ internal sealed class GameMakerRoomChunk : AbstractChunk,
 
     public GameMakerPointerList<GameMakerRoom> Rooms { get; set; } = null!;
 
-    public GameMakerRoomChunk(string name, int size) : base(name, size) { }
+    public GameMakerRoomChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         Rooms = context.ReadPointerList<GameMakerRoom>();
