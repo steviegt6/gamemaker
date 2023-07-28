@@ -10,6 +10,6 @@ public abstract class AbstractChunkDumper<T> where T : IGameMakerChunk {
 
         var chunkInfo = new DumpedChunkInfo(chunk.Name, chunk.StartPosition, chunk.Size);
         var chunkInfoJson = JsonConvert.SerializeObject(chunkInfo, Formatting.Indented);
-        File.WriteAllText(Path.Combine(directory, "chunk.json"), chunkInfoJson);
+        File.WriteAllText(Path.Combine(directory, $"{chunk.Name}.chunk.json"), chunkInfoJson);
     }
 }
