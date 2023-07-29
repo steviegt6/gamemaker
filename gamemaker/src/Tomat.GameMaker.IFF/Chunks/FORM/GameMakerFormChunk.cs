@@ -65,6 +65,8 @@ internal sealed class GameMakerFormChunk : IFormChunk {
 
     public ChunkFactory DefaultChunkFactory { get; }
 
+    private bool hasGen8;
+
     public GameMakerFormChunk(string name, int size, int startPosition) {
         Name = name;
         Size = size;
@@ -79,7 +81,7 @@ internal sealed class GameMakerFormChunk : IFormChunk {
             { GameMakerSprtChunk.NAME, (c, s, p) => new GameMakerSprtChunk(c, s, p) },
             { GameMakerBgndChunk.NAME, (c, s, p) => new GameMakerBgndChunk(c, s, p) },
             { GameMakerPathChunk.NAME, (c, s, p) => new GameMakerPathChunk(c, s, p) },
-            { GameMakerScptChunk.NAME, (c, s, p) => new GameMakerScptChunk(c, s, p) },
+            { GameMakerScptChunk.NAME, (c, s, p) => hasGen8 ? new GameMakerScptChunk(c, s, p) : new GameMakerDebugScptChunk(c, s, p) },
             { GameMakerGlobChunk.NAME, (c, s, p) => new GameMakerGlobChunk(c, s, p) },
             { GameMakerGmenChunk.NAME, (c, s, p) => new GameMakerGmenChunk(c, s, p) },
             { GameMakerShdrChunk.NAME, (c, s, p) => new GameMakerShdrChunk(c, s, p) },
@@ -120,12 +122,23 @@ internal sealed class GameMakerFormChunk : IFormChunk {
             foundChunks.Add((chunkName, chunkSize), context.Position);
             context.Position += chunkSize;
 
-            if (chunkName == "SEQN")
-                context.VersionInfo.UpdateTo(GM_2_3);
-            else if (chunkName == "FEDS")
-                context.VersionInfo.UpdateTo(GM_2_3_6);
-            else if (chunkName == "FEAT")
-                context.VersionInfo.UpdateTo(GM_2022_8);
+            switch (chunkName) {
+                case "GEN8":
+                    hasGen8 = true;
+                    break;
+
+                case "SEQN":
+                    context.VersionInfo.UpdateTo(GM_2_3);
+                    break;
+
+                case "FEDS":
+                    context.VersionInfo.UpdateTo(GM_2_3_6);
+                    break;
+
+                case "FEAT":
+                    context.VersionInfo.UpdateTo(GM_2022_8);
+                    break;
+            }
 
             // Final chunk isn't aligned, which we can infer by whether the end
             // of the chunk is also the end of the file.
