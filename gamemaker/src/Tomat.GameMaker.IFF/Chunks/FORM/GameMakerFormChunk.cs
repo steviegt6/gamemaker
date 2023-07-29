@@ -23,6 +23,7 @@ using Tomat.GameMaker.IFF.Chunks.OPTN;
 using Tomat.GameMaker.IFF.Chunks.PATH;
 using Tomat.GameMaker.IFF.Chunks.PSEM;
 using Tomat.GameMaker.IFF.Chunks.PSPS;
+using Tomat.GameMaker.IFF.Chunks.PSYS;
 using Tomat.GameMaker.IFF.Chunks.ROOM;
 using Tomat.GameMaker.IFF.Chunks.SCPT;
 using Tomat.GameMaker.IFF.Chunks.SEQN;
@@ -93,6 +94,7 @@ internal sealed class GameMakerFormChunk : IFormChunk {
             { GameMakerDaflChunk.NAME, (c, s, p) => new GameMakerDaflChunk(c, s, p) },
             { GameMakerEmbiChunk.NAME, (c, s, p) => new GameMakerEmbiChunk(c, s, p) },
             { GameMakerPsemChunk.NAME, (c, s, p) => new GameMakerPsemChunk(c, s, p) },
+            { GameMakerPsysChunk.NAME, (c, s, p) => new GameMakerPsysChunk(c, s, p) },
             { GameMakerTpagChunk.NAME, (c, s, p) => new GameMakerTpagChunk(c, s, p) },
             { GameMakerTginChunk.NAME, (c, s, p) => new GameMakerTginChunk(c, s, p) },
             { GameMakerCodeChunk.NAME, (c, s, p) => new GameMakerCodeChunk(c, s, p) },
