@@ -14,16 +14,21 @@ internal sealed class GameMakerTxtrChunk : AbstractChunk,
     public GameMakerTxtrChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
+        // TODO: Align to 512?
+
         DoFormatCheck(context);
 
         TexturePages = context.ReadPointerList<GameMakerTexturePage>();
     }
 
     public override void Write(SerializationContext context) {
+        // TODO: Align to 512?
+
         context.Write(TexturePages);
         foreach (var page in TexturePages)
             page.ExpectObject().TextureData.ExpectObject().Write(context);
 
+        // TODO: Not necessarily alignment padding, Write((int)0)?
         context.Pad(4);
     }
 
