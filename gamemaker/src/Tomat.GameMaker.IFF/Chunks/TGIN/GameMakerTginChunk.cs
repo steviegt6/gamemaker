@@ -15,7 +15,7 @@ internal sealed class GameMakerTginChunk : AbstractChunk,
     public GameMakerTginChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
-        ChunkVersion = context.Reader.ReadInt32();
+        ChunkVersion = context.ReadInt32();
         if (ChunkVersion != 1)
             throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}!");
 
@@ -28,7 +28,7 @@ internal sealed class GameMakerTginChunk : AbstractChunk,
         if (ChunkVersion != 1)
             throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}!");
 
-        context.Writer.Write(ChunkVersion);
+        context.Write(ChunkVersion);
         context.Write(TextureGroupInfos);
     }
 

@@ -29,7 +29,7 @@ public sealed class GameMakerTextureGroupInfo : IGameMakerSerializable {
         if (context.VersionInfo.IsAtLeast(GM_2022_9)) {
             Directory = context.ReadPointerAndObject<GameMakerString>();
             Extension = context.ReadPointerAndObject<GameMakerString>();
-            LoadType = (GameMakerTextureGroupInfoLoadType)context.Reader.ReadInt32();
+            LoadType = (GameMakerTextureGroupInfoLoadType)context.ReadInt32();
         }
 
         TexturePageIds = context.ReadPointerAndObject<GameMakerList<GameMakerTextureGroupInfoResourceId>>();
@@ -48,7 +48,7 @@ public sealed class GameMakerTextureGroupInfo : IGameMakerSerializable {
         if (context.VersionInfo.IsAtLeast(GM_2022_9)) {
             context.Write(Directory);
             context.Write(Extension);
-            context.Writer.Write((int)LoadType);
+            context.Write((int)LoadType);
         }
 
         context.Write(TexturePageIds);

@@ -26,7 +26,7 @@ public sealed class GameMakerCodeInstructionReference<T> : IGameMakerSerializabl
     }
 
     public void Read(DeserializationContext context) {
-        var value = context.Reader.ReadInt32();
+        var value = context.ReadInt32();
         NextOccurence = value & 0x07FFFFFF;
         VariableType = (GameMakerCodeInstructionVariableType)((value >> 24) & 0xF8);
     }

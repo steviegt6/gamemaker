@@ -9,7 +9,7 @@ public sealed class GameMakerLocal : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> Name { get; set; }
 
     public void Read(DeserializationContext context) {
-        Index = context.Reader.ReadInt32();
+        Index = context.ReadInt32();
         Name = context.ReadPointerAndObject<GameMakerString>();
     }
 

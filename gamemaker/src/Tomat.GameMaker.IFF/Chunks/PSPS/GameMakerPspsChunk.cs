@@ -12,13 +12,13 @@ internal sealed class GameMakerPspsChunk : AbstractChunk,
     public GameMakerPspsChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
-        Passcode = context.Reader.ReadBytes(passcode_length);
+        Passcode = context.ReadBytes(passcode_length);
     }
 
     public override void Write(SerializationContext context) {
         if (Passcode.Length != passcode_length)
             throw new InvalidOperationException($"Passcode must be {passcode_length} bytes long.");
 
-        context.Writer.Write(Passcode);
+        context.Write(Passcode);
     }
 }

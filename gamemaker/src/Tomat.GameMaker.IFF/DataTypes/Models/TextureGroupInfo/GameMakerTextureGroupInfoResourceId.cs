@@ -6,10 +6,10 @@ public sealed class GameMakerTextureGroupInfoResourceId : IGameMakerSerializable
     public int Id { get; set; }
 
     public void Read(DeserializationContext context) {
-        Id = context.Reader.ReadInt32();
+        Id = context.ReadInt32();
     }
 
     public void Write(SerializationContext context) {
-        context.Writer.Write(Id);
+        context.Write(Id);
     }
 }

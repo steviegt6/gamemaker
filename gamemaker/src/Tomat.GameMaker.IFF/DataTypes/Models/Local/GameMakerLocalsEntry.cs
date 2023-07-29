@@ -12,7 +12,7 @@ public sealed class GameMakerLocalsEntry : IGameMakerSerializable {
     public void Read(DeserializationContext context) {
         Entries = new List<GameMakerLocal>();
 
-        var count = context.Reader.ReadInt32();
+        var count = context.ReadInt32();
         Name = context.ReadPointerAndObject<GameMakerString>();
 
         for (var i = 0; i < count; i++) {
