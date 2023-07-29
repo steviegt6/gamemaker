@@ -12,5 +12,5 @@ public interface ISeqnChunkSequenceComponent {
 internal sealed class SeqnChunkSequenceComponent : ISeqnChunkSequenceComponent {
     public required int ChunkVersion { get; set; }
 
-    public required GameMakerPointerList<GameMakerSequence>? Sequences { get; set; }
+    public required GameMakerPointerList<GameMakerSequence> Sequences { get; set; }
 }
