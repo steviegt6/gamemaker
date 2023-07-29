@@ -38,6 +38,7 @@ using Tomat.GameMaker.IFF.Chunks.TMLN;
 using Tomat.GameMaker.IFF.Chunks.TPAG;
 using Tomat.GameMaker.IFF.Chunks.TXTR;
 using Tomat.GameMaker.IFF.Chunks.VARI;
+using Tomat.GameMaker.IFF.DataTypes.Models.DebugCodeEntry;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.FORM;
@@ -82,6 +83,7 @@ internal sealed class GameMakerFormChunk : IFormChunk {
             { GameMakerBgndChunk.NAME, (c, s, p) => new GameMakerBgndChunk(c, s, p) },
             { GameMakerPathChunk.NAME, (c, s, p) => new GameMakerPathChunk(c, s, p) },
             { GameMakerScptChunk.NAME, (c, s, p) => hasGen8 ? new GameMakerScptChunk(c, s, p) : new GameMakerDebugScptChunk(c, s, p) },
+            { GameMakerDbgiChunk.NAME, (c, s, p) => new GameMakerDbgiChunk(c, s, p) },
             { GameMakerGlobChunk.NAME, (c, s, p) => new GameMakerGlobChunk(c, s, p) },
             { GameMakerGmenChunk.NAME, (c, s, p) => new GameMakerGmenChunk(c, s, p) },
             { GameMakerShdrChunk.NAME, (c, s, p) => new GameMakerShdrChunk(c, s, p) },
