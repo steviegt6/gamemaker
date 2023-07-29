@@ -4,9 +4,6 @@ using Tomat.GameMaker.IFF.DataTypes.Models.AnimationCurve;
 
 namespace Tomat.GameMaker.IFF.Chunks.ACRV;
 
-/// <summary>
-///     <c>ACRV</c> chunk
-/// </summary>
 internal sealed class GameMakerAcrvChunk : AbstractChunk,
                                            IAcrvChunk {
     public const string NAME = "ACRV";

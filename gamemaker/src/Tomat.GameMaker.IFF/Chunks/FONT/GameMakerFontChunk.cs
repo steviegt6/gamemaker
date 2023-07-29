@@ -10,7 +10,7 @@ internal sealed class GameMakerFontChunk : AbstractChunk,
                                            IFontChunk {
     public const string NAME = "FONT";
 
-    private static Memory<byte>? cachedPadding = null;
+    private static Memory<byte>? cachedPadding;
 
     public GameMakerPointerList<GameMakerFont> Fonts { get; set; } = null!;
 

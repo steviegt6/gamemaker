@@ -44,7 +44,7 @@ internal sealed class GameMakerGen8Chunk : AbstractChunk,
 
     public Gen8InfoFlags Info { get; set; }
 
-    public int LicenseCrc32 { get; set; }
+    public uint LicenseCrc32 { get; set; }
 
     public Memory<byte> LicenseMd5 { get; set; }
 
@@ -81,7 +81,7 @@ internal sealed class GameMakerGen8Chunk : AbstractChunk,
         DefaultWindowWidth = context.ReadInt32();
         DefaultWindowHeight = context.ReadInt32();
         Info = (Gen8InfoFlags)context.ReadInt32();
-        LicenseCrc32 = context.ReadInt32();
+        LicenseCrc32 = context.ReadUInt32();
         LicenseMd5 = context.ReadBytes(16);
         Timestamp = context.ReadInt64();
         DisplayName = context.ReadPointerAndObject<GameMakerString>();
