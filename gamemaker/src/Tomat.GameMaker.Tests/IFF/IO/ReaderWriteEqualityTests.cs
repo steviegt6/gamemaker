@@ -25,13 +25,19 @@ public static class ReaderWriteEqualityTests {
         var wad = GameMakerIffFile.FromStream(stream, out var deserCtx);
         var readBytes = deserCtx.Data;
         var chunkLengths = wad.Form!.Chunks!.ToDictionary(x => x.Key, x => x.Value.Size);
+        var chunkSlices = wad.Form.Chunks.ToDictionary(x => x.Key, x => readBytes[x.Value.StartPosition..x.Value.EndPosition]);
         var writer = new GameMakerIffWriter(wad.Form!.Size + 8);
         wad.Write(new SerializationContext(writer, wad, deserCtx.VersionInfo));
         var writtenBytes = writer.Data;
 
-        foreach (var chunkName in chunkLengths.Keys)
-            Assert.That(chunkLengths[chunkName], Is.EqualTo(wad.Form.Chunks![chunkName].Size));
-        Assert.That(writer, Has.Length.EqualTo(readBytes.Length));
+        //foreach (var chunkName in chunkLengths.Keys)
+        //    Assert.That(chunkLengths[chunkName], Is.EqualTo(wad.Form.Chunks![chunkName].Size));
+        //Assert.That(writer, Has.Length.EqualTo(readBytes.Length));
+
+        foreach (var chunkName in wad.Form.Chunks.Keys) {
+            var currChunk = wad.Form.Chunks[chunkName];
+            CollectionAssert.AreEqual(chunkSlices[chunkName], writtenBytes[currChunk.StartPosition..currChunk.EndPosition]);
+        }
 
         using var newStream = new MemoryStream(writtenBytes);
         newStream.Seek(0, SeekOrigin.Begin);

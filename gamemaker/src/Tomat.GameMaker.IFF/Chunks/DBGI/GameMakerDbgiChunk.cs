@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.Chunks.DBGI;
+using Tomat.GameMaker.IFF.DataTypes;
+using Tomat.GameMaker.IFF.DataTypes.Models.DebugCodeEntry;
 
-namespace Tomat.GameMaker.IFF.DataTypes.Models.DebugCodeEntry;
+namespace Tomat.GameMaker.IFF.Chunks.DBGI;
 
 internal sealed class GameMakerDbgiChunk : AbstractChunk,
                                            IDbgiChunk {

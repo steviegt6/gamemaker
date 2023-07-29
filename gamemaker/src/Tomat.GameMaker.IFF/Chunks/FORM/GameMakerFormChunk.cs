@@ -8,6 +8,8 @@ using Tomat.GameMaker.IFF.Chunks.AUDO;
 using Tomat.GameMaker.IFF.Chunks.BGND;
 using Tomat.GameMaker.IFF.Chunks.CODE;
 using Tomat.GameMaker.IFF.Chunks.DAFL;
+using Tomat.GameMaker.IFF.Chunks.DBGI;
+using Tomat.GameMaker.IFF.Chunks.DFNC;
 using Tomat.GameMaker.IFF.Chunks.EMBI;
 using Tomat.GameMaker.IFF.Chunks.EXTN;
 using Tomat.GameMaker.IFF.Chunks.FEAT;
@@ -88,6 +90,7 @@ internal sealed class GameMakerFormChunk : IFormChunk {
             { GameMakerDbgiChunk.NAME, (c, s, p) => new GameMakerDbgiChunk(c, s, p) },
             { GameMakerInstChunk.NAME, (c, s, p) => new GameMakerInstChunk(c, s, p) },
             { GameMakerLoclChunk.NAME, (c, s, p) => new GameMakerLoclChunk(c, s, p) },
+            { GameMakerDfncChunk.NAME, (c, s, p) => new GameMakerDfncChunk(c, s, p) },
             { GameMakerGlobChunk.NAME, (c, s, p) => new GameMakerGlobChunk(c, s, p) },
             { GameMakerGmenChunk.NAME, (c, s, p) => new GameMakerGmenChunk(c, s, p) },
             { GameMakerShdrChunk.NAME, (c, s, p) => new GameMakerShdrChunk(c, s, p) },
