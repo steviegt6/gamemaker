@@ -127,4 +127,16 @@ public sealed record DeserializationContext(IGameMakerIffReader Reader, GameMake
         list.Read(this, beforeRead, afterRead, elementReader);
         return list;
     }
+
+    public string ReadNullTerminatedString(Encoding encoding) {
+        var startPos = Position;
+
+        while (ReadByte() != 0) { }
+
+        var endPos = Position;
+        Position = startPos;
+        var str = encoding.GetString(ReadBytes(endPos - startPos - 1).Span);
+        Position++; // Skip the null terminator.
+        return str;
+    }
 }

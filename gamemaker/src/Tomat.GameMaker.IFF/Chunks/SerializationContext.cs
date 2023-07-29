@@ -21,6 +21,7 @@ namespace Tomat.GameMaker.IFF.Chunks;
 /// </param>
 public sealed record SerializationContext(IGameMakerIffWriter Writer, GameMakerIffFile IffFile, GameMakerVersionInfo VersionInfo) : IGameMakerIffWriter {
     public Dictionary<GameMakerVariable, List<(int, GameMakerCodeInstructionVariableType)>> VariableReferences { get; } = new();
+
     public Dictionary<GameMakerFunctionEntry, List<(int, GameMakerCodeInstructionVariableType)>> FunctionReferences { get; } = new();
 
 #region IGameMakerIffWriter Impl
@@ -139,5 +140,11 @@ public sealed record SerializationContext(IGameMakerIffWriter Writer, GameMakerI
         GameMakerRemotePointerList<T>.ListElementWrite? elementPointerWriter = null
     ) where T : IGameMakerSerializable, new() {
         list.Write(this, beforeWriter, afterWriter, elementPointerWriter);
+    }
+
+    public void WriteNullTerminatedString(string value, Encoding encoding) {
+        var bytes = encoding.GetBytes(value);
+        Write(bytes);
+        Write((byte)0);
     }
 };
