@@ -17,12 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.Decompiler.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.Decompiler.Disassembler", "Tomat.GameMaker.Decompiler.Disassembler\Tomat.GameMaker.Decompiler.Disassembler.csproj", "{FEF115D1-B3D3-43E4-9A71-543362EB1300}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gamebreaker", "gamebreaker", "{9BA607AE-2533-497F-B4EF-02E406285CC2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker.API", "..\gamebreaker\src\Tomat.GameBreaker.API\Tomat.GameBreaker.API.csproj", "{FB431FEB-3116-4490-8B49-474F9C692435}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker", "..\gamebreaker\src\Tomat.GameBreaker\Tomat.GameBreaker.csproj", "{0976CBA8-5E79-423A-BE53-58A732737AB6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.AssetDumper", "Tomat.GameMaker.AssetDumper\Tomat.GameMaker.AssetDumper.csproj", "{6855BA5F-7F78-4499-85C4-5D54BCF6580E}"
 EndProject
 Global
@@ -62,21 +56,11 @@ Global
 		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB431FEB-3116-4490-8B49-474F9C692435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB431FEB-3116-4490-8B49-474F9C692435}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB431FEB-3116-4490-8B49-474F9C692435}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB431FEB-3116-4490-8B49-474F9C692435}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0976CBA8-5E79-423A-BE53-58A732737AB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0976CBA8-5E79-423A-BE53-58A732737AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0976CBA8-5E79-423A-BE53-58A732737AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0976CBA8-5E79-423A-BE53-58A732737AB6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FB431FEB-3116-4490-8B49-474F9C692435} = {9BA607AE-2533-497F-B4EF-02E406285CC2}
-		{0976CBA8-5E79-423A-BE53-58A732737AB6} = {9BA607AE-2533-497F-B4EF-02E406285CC2}
 	EndGlobalSection
 EndGlobal

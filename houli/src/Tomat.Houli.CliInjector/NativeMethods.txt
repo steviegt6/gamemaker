@@ -1,5 +1,0 @@
-﻿GetProcAddress
-GetModuleHandle
-VirtualAllocEx
-WriteProcessMemory
-CreateRemoteThread
