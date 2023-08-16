@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.Decompiler.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.Decompiler.Disassembler", "Tomat.GameMaker.Decompiler.Disassembler\Tomat.GameMaker.Decompiler.Disassembler.csproj", "{FEF115D1-B3D3-43E4-9A71-543362EB1300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.AssetDumper", "Tomat.GameMaker.AssetDumper\Tomat.GameMaker.AssetDumper.csproj", "{6855BA5F-7F78-4499-85C4-5D54BCF6580E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker.Runner", "Tomat.GameBreaker.Runner\Tomat.GameBreaker.Runner.csproj", "{08746A2D-9DB7-4410-9646-DA0EC45B648A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,10 +56,10 @@ Global
 		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6855BA5F-7F78-4499-85C4-5D54BCF6580E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
