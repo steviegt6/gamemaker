@@ -9,7 +9,7 @@
 // https://github.com/Archie-osu/Uniprox
 // GNU General Public License, version 3
 
-void thread_main(HMODULE)
+void thread_main(LPVOID*)
 {
     TCHAR cwd_buf[MAX_PATH];
     GetModuleFileName(nullptr, cwd_buf, MAX_PATH);

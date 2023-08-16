@@ -1,6 +1,7 @@
 ﻿#include <string>
 #include <windows.h>
 #include "config.h"
+#include "log.h"
 
 bool init_config(const std::wstring& cwd)
 {
@@ -13,17 +14,17 @@ bool init_config(const std::wstring& cwd)
 
         if (error == ERROR_FILE_NOT_FOUND)
         {
-            MessageBox(nullptr, L"Config file not found.", L"GameBreaker", MB_OK | MB_ICONERROR);
+            msg(light_red, "Config file not found.\n");
             return false;
         }
 
-        MessageBox(nullptr, (L"Failed to get config file with error code " + std::to_wstring(error) + L".").c_str(), L"GameBreaker", MB_OK | MB_ICONERROR);
+        msg(light_red, "Failed to get config file with error code %d.\n", error);
         return false;
     }
 
     if (config_file_attributes & FILE_ATTRIBUTE_DIRECTORY)
     {
-        MessageBox(nullptr, L"Config file is a directory.", L"GameBreaker", MB_OK | MB_ICONERROR);
+        msg(light_red, "Config file is a directory.\n");
         return false;
     }
 
