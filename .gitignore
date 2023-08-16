@@ -5,5 +5,8 @@
 bin/
 obj/
 target/
+Debug/
+Release/
+x64/
 
 *.user
