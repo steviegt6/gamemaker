@@ -1,5 +1,6 @@
 ﻿#pragma once
 
 #include <string>
+#include "include/json.hpp"
 
-bool init_config(const std::wstring& cwd);
+nlohmann::json* init_config(const std::wstring& cwd);
