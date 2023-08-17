@@ -3,4 +3,4 @@
 #include <string>
 #include "include/json.hpp"
 
-nlohmann::json* init_config(const std::wstring& cwd);
+nlohmann::json* init_config(const std::wstring& cwd, const std::wstring& managed_host_dir);

@@ -57,10 +57,24 @@ DWORD thread_main(LPVOID)
 
     init_console();
 
-    const nlohmann::json* p_json = init_config(cwd);
+    size_t required_size;
+    _wgetenv_s(&required_size, nullptr, 0, L"APPDATA");
+    std::wstring appdata_dir(required_size, L'\0');
+    _wgetenv_s(&required_size, appdata_dir.data(), required_size, L"APPDATA");
+    appdata_dir.resize(required_size - 1); // Remove null terminator.
+    const std::wstring gamebreaker_dir = appdata_dir + L"\\gamebreaker";
+    const std::wstring managed_host_dir = gamebreaker_dir + L"\\managed_host";
+
+    const nlohmann::json* p_json = init_config(cwd, managed_host_dir);
     if (!p_json)
     {
         MessageBox(nullptr, L"Failed to initialize config, cancelling injection.", L"Tomat.GameBreaker.Host", MB_OK | MB_ICONERROR);
+        return 0;
+    }
+
+    if (!std::filesystem::exists(managed_host_dir))
+    {
+        msg(yellow, "Managed host directory doesn't exist, this may cause failures.");
         return 0;
     }
 
@@ -70,6 +84,8 @@ DWORD thread_main(LPVOID)
 
     if (json["actAsUniprox"].get<bool>())
         load_uniprox_dlls(cwd);
+
+    delete p_json;
 
     while (true)
         Sleep(1000);

@@ -4,7 +4,7 @@
 #include "config.h"
 #include "log.h"
 
-nlohmann::json* init_config(const std::wstring& cwd)
+nlohmann::json* init_config(const std::wstring& cwd, const std::wstring& managed_host_dir)
 {
     const std::wstring config_path = cwd + L"\\gamebreaker.json";
 
@@ -44,9 +44,20 @@ nlohmann::json* init_config(const std::wstring& cwd)
     auto json = nlohmann::json::parse(config_file);
 
     json["actAsUniprox"] = json.contains("actAsUniprox") ? json["actAsUniprox"].get<bool>() : false;
+    json["dotnet_runtimeconfig_path"] = json.contains("dotnet_runtimeconfig_path") ? json["dotnet_runtimeconfig_path"].get<std::string>() : "Tomat.GameBreaker.ManagedHost.runtimeconfig.json";
+    json["dotnet_assembly_path"] = json.contains("dotnet_assembly_path") ? json["dotnet_assembly_path"].get<std::string>() : "Tomat.GameBreaker.ManagedHost.dll";
+    json["dotnet_assembly_type_name"] = json.contains("dotnet_assembly_type_name") ? json["dotnet_assembly_type_name"].get<std::string>() : "Tomat.GameBreaker.ManagedHost.Program, Tomat.GameBreaker.ManagedHost";
+    json["dotnet_assembly_method_name"] = json.contains("dotnet_assembly_method_name") ? json["dotnet_assembly_method_name"].get<std::string>() : "Main";
 
-    msg(gray, "Loaded config:\n");
-    msg(gray, "actAsUniprox: %s\n", json["actAsUniprox"].get<bool>() ? "true" : "false");
+    msg(gray, "Loaded config: {\n");
+    msg(gray, "    actAsUniprox: %s\n", json["actAsUniprox"].get<bool>() ? "true" : "false");
+    msg(gray, "    dotnet_runtimeconfig_path: %s\n", json["dotnet_runtimeconfig_path"].get<std::string>().c_str());
+    msg(gray, "    dotnet_assembly_path: %s\n", json["dotnet_assembly_path"].get<std::string>().c_str());
+    msg(gray, "    dotnet_assembly_type_name: %s\n", json["dotnet_assembly_type_name"].get<std::string>().c_str());
+    msg(gray, "    dotnet_assembly_method_name: %s\n", json["dotnet_assembly_method_name"].get<std::string>().c_str());
+    msg(gray, "}\n");
+
+    msg(white, "For any relative dotnet paths, '%ws' will be used as the base directory, NOT the current working directory.\n", managed_host_dir.c_str());
 
     return new nlohmann::json(json);
 }
