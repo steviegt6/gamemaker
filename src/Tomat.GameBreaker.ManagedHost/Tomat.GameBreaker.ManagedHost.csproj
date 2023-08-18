@@ -8,4 +8,8 @@
         <EnableDynamicLoading>true</EnableDynamicLoading>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MinHook.NET" Version="1.1.1" />
+    </ItemGroup>
+
 </Project>
