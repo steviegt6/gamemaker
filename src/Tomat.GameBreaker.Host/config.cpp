@@ -1,7 +1,10 @@
-﻿#include <string>
+﻿#include "config.h"
+
+#include <fstream>
+#include <string>
 #include <windows.h>
-#include "include/json.hpp"
-#include "config.h"
+
+#include "json.hpp"
 #include "log.h"
 
 nlohmann::json* init_config(const std::wstring& cwd, const std::wstring& managed_host_dir)
@@ -31,13 +34,12 @@ nlohmann::json* init_config(const std::wstring& cwd, const std::wstring& managed
         return nullptr;
     }
 
-    FILE* config_file;
-    (void)_wfopen_s(&config_file, config_path.c_str(), L"r");
-    if (config_file == nullptr)
+    std::ifstream config_file(config_path.c_str());
+    /*if (config_file == nullptr)
     {
         msg(light_red, "Failed to open config file.\n");
         return nullptr;
-    }
+    }*/
 
     // nlohmann::json* json = new nlohmann::json();
 
@@ -57,7 +59,8 @@ nlohmann::json* init_config(const std::wstring& cwd, const std::wstring& managed
     msg(gray, "    dotnet_assembly_method_name: %s\n", json["dotnet_assembly_method_name"].get<std::string>().c_str());
     msg(gray, "}\n");
 
-    msg(white, "For any relative dotnet paths, '%ws' will be used as the base directory, NOT the current working directory.\n", managed_host_dir.c_str());
+    // msg(white, "For any relative dotnet paths, '%ws' will be used as the base directory, NOT the current working directory.\n", managed_host_dir.c_str());
+    msg(white, "For any relative dotnet paths, '%ws' will be used as the base directory if the file is not resolved relative to the current working directory.\n", managed_host_dir.c_str());
 
     return new nlohmann::json(json);
 }

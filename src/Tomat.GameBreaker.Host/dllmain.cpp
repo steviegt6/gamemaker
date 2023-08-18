@@ -72,15 +72,13 @@ DWORD thread_main(LPVOID)
         return 0;
     }
 
-    if (!std::filesystem::exists(managed_host_dir))
-    {
-        msg(yellow, "Managed host directory doesn't exist, this may cause failures.");
-        return 0;
-    }
-
     const nlohmann::json json = *p_json;
 
-    init_dotnet();
+    if (!init_dotnet(json, cwd, managed_host_dir))
+    {
+        MessageBox(nullptr, L"Failed to initialize .NET, cancelling injection.", L"Tomat.GameBreaker.Host", MB_OK | MB_ICONERROR);
+        return 0;
+    }
 
     if (json["actAsUniprox"].get<bool>())
         load_uniprox_dlls(cwd);

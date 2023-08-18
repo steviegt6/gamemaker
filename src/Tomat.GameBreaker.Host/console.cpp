@@ -1,7 +1,8 @@
-﻿#include <cstdio>
+﻿#include "console.h"
+
+#include <cstdio>
 #include <string>
 #include <windows.h>
-#include "console.h"
 
 #include "log.h"
 

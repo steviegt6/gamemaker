@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker.Runner", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tomat.GameBreaker.Host", "Tomat.GameBreaker.Host\Tomat.GameBreaker.Host.vcxproj", "{D80BA414-369C-4610-8604-0436E169C3EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker.ManagedHost", "Tomat.GameBreaker.ManagedHost\Tomat.GameBreaker.ManagedHost.csproj", "{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{D80BA414-369C-4610-8604-0436E169C3EF}.Release|Any CPU.Build.0 = Release|Win32
 		{D80BA414-369C-4610-8604-0436E169C3EF}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{D80BA414-369C-4610-8604-0436E169C3EF}.Debug|Any CPU.Build.0 = Debug|x64
+		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

@@ -1,7 +1,8 @@
-﻿#include <cstdio>
+﻿#include "log.h"
+
+#include <cstdio>
 #include <string>
 #include <windows.h>
-#include "log.h"
 
 // https://github.com/Archie-osu/YYToolkit/blob/stable/YYToolkit/Src/Core/Utils/Logging/Logging.cpp
 
@@ -20,7 +21,7 @@ void msg(console_color color, const char* format, ...)
 
     if (strlen(format) >= max_buffer_size)
     {
-        msg(light_red, "Attempted to log too long of a message!");
+        msg(light_red, "Attempted to log too long of a message!\n");
         return;
     }
 
