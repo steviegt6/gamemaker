@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using MinHook;
 
 namespace Tomat.GameBreaker.ManagedHost.Hooks;
@@ -13,6 +14,12 @@ public class MessageBoxWHook : AbstractHook {
     }
 
     private int DelegateHook(nint hWnd, string lpText, string lpCaption, int uType) {
-        return original!(hWnd, "HOOKED BY GAMEBREAKER: " + lpText, lpCaption, uType);
+        if (!lpText.StartsWith("Win32 function failed"))
+            return original!(hWnd, lpText, lpCaption, uType);
+
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.WriteLine($"Caught Win32 function failed message: [{lpCaption}] {lpText}");
+        Console.ResetColor();
+        return 0;
     }
 }
