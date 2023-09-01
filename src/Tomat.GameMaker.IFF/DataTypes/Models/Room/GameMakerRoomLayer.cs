@@ -58,6 +58,9 @@ public sealed class GameMakerRoomLayer : IGameMakerSerializable {
         }
 
         switch (LayerKind) {
+            case GameMakerRoomLayerKind.Path:
+                break;
+
             case GameMakerRoomLayerKind.Background:
                 Background = new GameMakerRoomLayerBackground();
                 Background.Read(context);
@@ -106,6 +109,9 @@ public sealed class GameMakerRoomLayer : IGameMakerSerializable {
         }
 
         switch (LayerKind) {
+            case GameMakerRoomLayerKind.Path:
+                break;
+
             case GameMakerRoomLayerKind.Background:
                 Background!.Write(context);
                 break;
