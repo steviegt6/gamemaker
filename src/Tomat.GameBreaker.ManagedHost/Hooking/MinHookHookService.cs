@@ -7,7 +7,7 @@ namespace Tomat.GameBreaker.ManagedHost.Hooking;
 /// <summary>
 ///     Provides a hook service using MinHook.
 /// </summary>
-public sealed class MinHookHookService : IHookService {
+internal sealed class MinHookHookService : IHookService {
     private readonly HookEngine hookEngine = new();
 
     public TDelegate CreateHook<TDelegate>(string moduleName, string functionName, TDelegate callback) where TDelegate : Delegate {

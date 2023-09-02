@@ -5,7 +5,7 @@ using Tomat.GameBreaker.ManagedHost.Hooking;
 
 namespace Tomat.GameBreaker.ManagedHost;
 
-public sealed class ManagedHostGame : Game {
+internal sealed class ManagedHostGame : Game {
     public override IServiceProvider ServiceProvider { get; }
 
     public ManagedHostGame() {
