@@ -11,5 +11,7 @@ internal static class Program {
 
         Console.WriteLine("Setting up game...");
         var game = new ManagedHostGame();
+        game.Initialize();
+        game.WaitForProcessExit(Environment.ProcessId);
     }
 }

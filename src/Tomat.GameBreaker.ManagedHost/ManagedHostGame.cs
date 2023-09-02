@@ -12,6 +12,10 @@ internal sealed class ManagedHostGame : Game {
         ServiceProvider = CreateServiceProvider();
     }
 
+    public override void Initialize() {
+        HookManager.CreateHooksForGame(this);
+    }
+
     private IServiceProvider CreateServiceProvider() {
         var provider = new DefaultServiceProvider();
         provider.RegisterService(this);
