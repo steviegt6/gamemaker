@@ -97,7 +97,9 @@ BOOL APIENTRY DllMain(const HMODULE instance, const DWORD reason, LPVOID)
     if (reason != DLL_PROCESS_ATTACH)
         return true;
 
+    DebugActiveProcess(GetCurrentProcessId());
     CloseHandle(CreateThread(nullptr, 0, thread_main, instance, 0, nullptr));
+    DebugActiveProcessStop(GetCurrentProcessId());
     return true;
 }
 
