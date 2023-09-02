@@ -99,7 +99,7 @@ BOOL APIENTRY DllMain(const HMODULE instance, const DWORD reason, LPVOID)
 
     DebugActiveProcess(GetCurrentProcessId());
     CloseHandle(CreateThread(nullptr, 0, thread_main, instance, 0, nullptr));
-    DebugActiveProcessStop(GetCurrentProcessId());
+    // DebugActiveProcessStop(GetCurrentProcessId());
     return true;
 }
 

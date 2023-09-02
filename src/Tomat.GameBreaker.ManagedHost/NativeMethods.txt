@@ -1,0 +1,4 @@
+﻿GetModuleHandle
+GetProcAddress
+K32GetModuleInformation
+DebugActiveProcessStop
