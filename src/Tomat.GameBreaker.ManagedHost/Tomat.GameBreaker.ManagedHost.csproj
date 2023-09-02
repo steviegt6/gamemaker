@@ -9,7 +9,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MinHook.NET" Version="1.1.1" />
+        <PackageReference Include="MinHook.NET" Version="1.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Tomat.GameBreaker.API\Tomat.GameBreaker.API.csproj" />
     </ItemGroup>
 
 </Project>
