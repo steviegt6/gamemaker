@@ -74,17 +74,14 @@ DWORD thread_main(LPVOID)
 
     const nlohmann::json json = *p_json;
 
-    if (json["actAsUniprox"].get<bool>())
-    {
-        load_uniprox_dlls(cwd);
-        Sleep(5000);
-    }
-
     if (!init_dotnet(json, cwd, managed_host_dir))
     {
         MessageBox(nullptr, L"Failed to initialize .NET, cancelling injection.", L"Tomat.GameBreaker.Host", MB_OK | MB_ICONERROR);
         return 0;
     }
+
+    if (json["actAsUniprox"].get<bool>())
+        load_uniprox_dlls(cwd);
 
     delete p_json;
 

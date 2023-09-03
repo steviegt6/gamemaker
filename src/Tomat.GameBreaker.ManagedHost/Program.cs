@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using Windows.Win32;
+using Tomat.GameBreaker.API;
 using Tomat.GameBreaker.ManagedHost.Utilities;
 
 namespace Tomat.GameBreaker.ManagedHost;
@@ -13,9 +14,8 @@ internal static class Program {
         Console.WriteLine($"Managed context recognizing current directory: '{NativeUtil.ReadWCharPtr(cwd)}'");
 
         Console.WriteLine("Setting up game...");
-        var game = new ManagedHostGame();
+        Game game = new ManagedHostGame();
         game.Initialize();
         PInvoke.DebugActiveProcessStop((uint)Environment.ProcessId);
-        game.WaitForProcessExit(Environment.ProcessId);
     }
 }
