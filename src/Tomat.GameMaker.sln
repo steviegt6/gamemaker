@@ -3,88 +3,157 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.IFF", "Tomat.GameMaker.IFF\Tomat.GameMaker.IFF.csproj", "{A9E3BB04-4C37-4590-B815-58849FA6188B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.IFF", "Tomat.GameMaker.IFF\Tomat.GameMaker.IFF.csproj", "{A9E3BB04-4C37-4590-B815-58849FA6188B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.Tests", "Tomat.GameMaker.Tests\Tomat.GameMaker.Tests.csproj", "{F9B742F9-8358-4494-BB7F-D57F1C0F3792}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.Tests", "Tomat.GameMaker.Tests\Tomat.GameMaker.Tests.csproj", "{F9B742F9-8358-4494-BB7F-D57F1C0F3792}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.Benchmarks", "Tomat.GameMaker.Benchmarks\Tomat.GameMaker.Benchmarks.csproj", "{CC24BB75-A131-4A4F-84BD-7A6705B999F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.Benchmarks", "Tomat.GameMaker.Benchmarks\Tomat.GameMaker.Benchmarks.csproj", "{CC24BB75-A131-4A4F-84BD-7A6705B999F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.Samples", "Tomat.GameMaker.Samples\Tomat.GameMaker.Samples.csproj", "{C465DB76-3C6C-49FE-BD41-14DC31494BFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.Samples", "Tomat.GameMaker.Samples\Tomat.GameMaker.Samples.csproj", "{C465DB76-3C6C-49FE-BD41-14DC31494BFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.Decompiler", "Tomat.GameMaker.Decompiler\Tomat.GameMaker.Decompiler.csproj", "{53C19408-08F9-427B-9F0A-562CC0EE90B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.Decompiler", "Tomat.GameMaker.Decompiler\Tomat.GameMaker.Decompiler.csproj", "{53C19408-08F9-427B-9F0A-562CC0EE90B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameMaker.Decompiler.Disassembler", "Tomat.GameMaker.Decompiler.Disassembler\Tomat.GameMaker.Decompiler.Disassembler.csproj", "{FEF115D1-B3D3-43E4-9A71-543362EB1300}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.Decompiler.Disassembler", "Tomat.GameMaker.Decompiler.Disassembler\Tomat.GameMaker.Decompiler.Disassembler.csproj", "{FEF115D1-B3D3-43E4-9A71-543362EB1300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker.Runner", "Tomat.GameBreaker.Runner\Tomat.GameBreaker.Runner.csproj", "{08746A2D-9DB7-4410-9646-DA0EC45B648A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.Runner", "Tomat.GameBreaker.Runner\Tomat.GameBreaker.Runner.csproj", "{08746A2D-9DB7-4410-9646-DA0EC45B648A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tomat.GameBreaker.Host", "Tomat.GameBreaker.Host\Tomat.GameBreaker.Host.vcxproj", "{D80BA414-369C-4610-8604-0436E169C3EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker.ManagedHost", "Tomat.GameBreaker.ManagedHost\Tomat.GameBreaker.ManagedHost.csproj", "{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.ManagedHost", "Tomat.GameBreaker.ManagedHost\Tomat.GameBreaker.ManagedHost.csproj", "{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker.API", "Tomat.GameBreaker.API\Tomat.GameBreaker.API.csproj", "{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.API", "Tomat.GameBreaker.API\Tomat.GameBreaker.API.csproj", "{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker.Compiler.CSharp", "Tomat.GameBreaker.Compiler.CSharp\Tomat.GameBreaker.Compiler.CSharp.csproj", "{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.Compiler.CSharp", "Tomat.GameBreaker.Compiler.CSharp\Tomat.GameBreaker.Compiler.CSharp.csproj", "{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.GameBreaker.Compiler.CSharp.Runner", "Tomat.GameBreaker.Compiler.CSharp.Runner\Tomat.GameBreaker.Compiler.CSharp.Runner.csproj", "{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.Compiler.CSharp.Runner", "Tomat.GameBreaker.Compiler.CSharp.Runner\Tomat.GameBreaker.Compiler.CSharp.Runner.csproj", "{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}"
+EndProject
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "HoloCure", "..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\HoloCure\HoloCure.exe", "{0B8D48F8-BF43-40B0-9850-26E1C6E0A598}"
+	ProjectSection(DebuggerProjectSystem) = preProject
+		PortSupplier = 00000000-0000-0000-0000-000000000000
+		Executable = C:\Program Files (x86)\Steam\steamapps\common\HoloCure\HoloCure.exe
+		RemoteMachine = DESKTOP-QDVKBTH
+		StartingDirectory = C:\Program Files (x86)\Steam\steamapps\common\HoloCure
+		Environment = Default
+		LaunchingEngine = e55ccc87-77c9-4222-8310-09f38e24c40f
+		UseLegacyDebugEngines = No
+		LaunchSQLEngine = No
+		AttachLaunchAction = No
+		IORedirection = Auto
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A9E3BB04-4C37-4590-B815-58849FA6188B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9E3BB04-4C37-4590-B815-58849FA6188B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E3BB04-4C37-4590-B815-58849FA6188B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A9E3BB04-4C37-4590-B815-58849FA6188B}.Debug|x64.Build.0 = Debug|Any CPU
 		{A9E3BB04-4C37-4590-B815-58849FA6188B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9E3BB04-4C37-4590-B815-58849FA6188B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E3BB04-4C37-4590-B815-58849FA6188B}.Release|x64.ActiveCfg = Release|Any CPU
+		{A9E3BB04-4C37-4590-B815-58849FA6188B}.Release|x64.Build.0 = Release|Any CPU
 		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Debug|x64.Build.0 = Debug|Any CPU
 		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Release|x64.ActiveCfg = Release|Any CPU
+		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Release|x64.Build.0 = Release|Any CPU
 		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Debug|x64.Build.0 = Debug|Any CPU
 		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Release|x64.ActiveCfg = Release|Any CPU
+		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Release|x64.Build.0 = Release|Any CPU
 		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Debug|x64.Build.0 = Debug|Any CPU
 		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Release|x64.ActiveCfg = Release|Any CPU
+		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Release|x64.Build.0 = Release|Any CPU
 		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Debug|x64.Build.0 = Debug|Any CPU
 		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Release|x64.ActiveCfg = Release|Any CPU
+		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Release|x64.Build.0 = Release|Any CPU
 		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Debug|x64.Build.0 = Debug|Any CPU
 		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|x64.ActiveCfg = Release|Any CPU
+		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|x64.Build.0 = Release|Any CPU
 		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Debug|x64.Build.0 = Debug|Any CPU
 		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D80BA414-369C-4610-8604-0436E169C3EF}.Release|Any CPU.ActiveCfg = Release|Win32
-		{D80BA414-369C-4610-8604-0436E169C3EF}.Release|Any CPU.Build.0 = Release|Win32
+		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Release|x64.ActiveCfg = Release|Any CPU
+		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Release|x64.Build.0 = Release|Any CPU
 		{D80BA414-369C-4610-8604-0436E169C3EF}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{D80BA414-369C-4610-8604-0436E169C3EF}.Debug|Any CPU.Build.0 = Debug|x64
+		{D80BA414-369C-4610-8604-0436E169C3EF}.Debug|x64.ActiveCfg = Debug|x64
+		{D80BA414-369C-4610-8604-0436E169C3EF}.Debug|x64.Build.0 = Debug|x64
+		{D80BA414-369C-4610-8604-0436E169C3EF}.Release|Any CPU.ActiveCfg = Release|Win32
+		{D80BA414-369C-4610-8604-0436E169C3EF}.Release|Any CPU.Build.0 = Release|Win32
+		{D80BA414-369C-4610-8604-0436E169C3EF}.Release|x64.ActiveCfg = Release|x64
+		{D80BA414-369C-4610-8604-0436E169C3EF}.Release|x64.Build.0 = Release|x64
 		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Debug|x64.Build.0 = Debug|Any CPU
 		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Release|x64.ActiveCfg = Release|Any CPU
+		{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}.Release|x64.Build.0 = Release|Any CPU
 		{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}.Debug|x64.Build.0 = Debug|Any CPU
 		{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}.Release|x64.ActiveCfg = Release|Any CPU
+		{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}.Release|x64.Build.0 = Release|Any CPU
 		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Debug|x64.Build.0 = Debug|Any CPU
 		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Release|x64.ActiveCfg = Release|Any CPU
+		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Release|x64.Build.0 = Release|Any CPU
 		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Debug|x64.Build.0 = Debug|Any CPU
 		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Release|x64.ActiveCfg = Release|Any CPU
+		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Release|x64.Build.0 = Release|Any CPU
+		{0B8D48F8-BF43-40B0-9850-26E1C6E0A598}.Debug|Any CPU.ActiveCfg = Release|x64
+		{0B8D48F8-BF43-40B0-9850-26E1C6E0A598}.Debug|x64.ActiveCfg = Release|x64
+		{0B8D48F8-BF43-40B0-9850-26E1C6E0A598}.Release|Any CPU.ActiveCfg = Release|x64
+		{0B8D48F8-BF43-40B0-9850-26E1C6E0A598}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31DEB421-5898-442A-9243-74531A0DEC92}
 	EndGlobalSection
 EndGlobal

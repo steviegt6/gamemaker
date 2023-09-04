@@ -1,5 +1,7 @@
 ﻿#include "api.h"
 
+#include <cstdio>
+
 extern "C" __declspec(dllexport) BOOL find_byte_array(const byte* pattern, const int pattern_length, const byte* mask, const int mask_length, uintptr_t region_base, uintptr_t region_size, uintptr_t& result)
 {
     result = 0;
@@ -13,6 +15,9 @@ extern "C" __declspec(dllexport) BOOL find_byte_array(const byte* pattern, const
         region_base = reinterpret_cast<uintptr_t>(module_info.lpBaseOfDll);
         region_size = module_info.SizeOfImage;
     }
+
+    printf("region_base: %p\n", reinterpret_cast<void*>(region_base));
+    printf("region_size: %p\n", reinterpret_cast<void*>(region_size));
 
     const size_t pattern_size = pattern_length < mask_length ? pattern_length : mask_length;
     for (unsigned i = 0; i < region_size - pattern_size; i++)
