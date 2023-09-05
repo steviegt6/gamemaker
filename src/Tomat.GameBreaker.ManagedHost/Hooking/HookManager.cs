@@ -14,6 +14,7 @@ internal static class HookManager {
 
         serviceProvider.RegisterService<IMessageBoxWHook>(ExecuteHook(new MessageBoxWHook(), hookService));
         serviceProvider.RegisterService<IReadBundleFileHook>(ExecuteHook(new ReadBundleFileHook(serviceProvider), hookService));
+        serviceProvider.RegisterService<IReadSaveFileHook>(ExecuteHook(new ReadSaveFileHook(serviceProvider), hookService));
     }
 
     private static THook ExecuteHook<THook>(THook hook, IHookService hookService) where THook : IHook {
