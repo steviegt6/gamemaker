@@ -4,11 +4,13 @@ using System.Linq;
 using System.Runtime.Loader;
 using Tomat.GameBreaker.API;
 using Tomat.GameBreaker.API.DependencyInjection;
+using Tomat.GameBreaker.API.FileModification;
 using Tomat.GameBreaker.API.Hooking;
 using Tomat.GameBreaker.API.ModLoader;
 using Tomat.GameBreaker.API.PatternSearching;
 using Tomat.GameBreaker.API.Platform;
 using Tomat.GameBreaker.ManagedHost.DefaultMod;
+using Tomat.GameBreaker.ManagedHost.FileModification;
 using Tomat.GameBreaker.ManagedHost.Hooking;
 using Tomat.GameBreaker.ManagedHost.ModLoader;
 using Tomat.GameBreaker.ManagedHost.PatternSearching;
@@ -48,6 +50,7 @@ internal sealed class ManagedHostGame : Game {
         provider.RegisterService<IPatternSearchService>(new PatternSearchService());
         provider.RegisterService<IHookService>(new MinHookHookService());
         provider.RegisterService<IModLoader>(new DefaultModLoader());
+        provider.RegisterService<IFileModifierService>(new FileModifierService());
         return provider;
     }
 

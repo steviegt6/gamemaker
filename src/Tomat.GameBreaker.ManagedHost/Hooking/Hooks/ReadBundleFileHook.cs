@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices.Marshalling;
 using System.Runtime.Versioning;
 using Tomat.GameBreaker.API.DependencyInjection;
+using Tomat.GameBreaker.API.FileModification;
 using Tomat.GameBreaker.API.Hooking;
 using Tomat.GameBreaker.API.Hooking.Hooks;
 using Tomat.GameBreaker.API.PatternSearching;
@@ -15,6 +17,7 @@ internal sealed class ReadBundleFileHook : IReadBundleFileHook {
 
     private readonly IPlatformService platform;
     private readonly IPatternSearchService patternSearcher;
+    private readonly IFileModifierService fileModifier;
 
     // ReSharper disable once NotAccessedField.Local
     private IReadBundleFileHook.Delegate? delegateHolder;
@@ -22,6 +25,7 @@ internal sealed class ReadBundleFileHook : IReadBundleFileHook {
     public ReadBundleFileHook(IServiceProvider provider) {
         platform = provider.ExpectService<IPlatformService>();
         patternSearcher = provider.ExpectService<IPatternSearchService>();
+        fileModifier = provider.ExpectService<IFileModifierService>();
     }
 
     [SupportedOSPlatform("windows5.1.2600")]
@@ -54,8 +58,16 @@ internal sealed class ReadBundleFileHook : IReadBundleFileHook {
     }
 
     private unsafe byte* Hook(byte* a1, nuint* a2) {
-        Console.WriteLine("ReadBundleFile called with: {0}", AnsiStringMarshaller.ConvertToManaged(a1));
-        // Console.WriteLine("ReadBundleFile returned: {0}", AnsiStringMarshaller.ConvertToManaged(ret));
+        // Expecting a1 to never be null here... let's hope.
+        var path = AnsiStringMarshaller.ConvertToManaged(a1)!;
+        Console.WriteLine("ReadBundleFile called with: {0}", path);
+
+        if (fileModifier.TryModifyFile(path, FileContext.Save, out var newPath)) {
+            Console.WriteLine("ReadBundleFile redirected to: {0}", newPath);
+            return Original!(AnsiStringMarshaller.ConvertToUnmanaged(newPath), a2);
+            // return AnsiStringMarshaller.ConvertToUnmanaged(File.ReadAllText(newPath));
+        }
+
         return Original!(a1, a2);
     }
 }

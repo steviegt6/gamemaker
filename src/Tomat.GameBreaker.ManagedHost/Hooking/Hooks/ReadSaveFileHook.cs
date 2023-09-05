@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using System.Runtime.Versioning;
 using Tomat.GameBreaker.API.DependencyInjection;
+using Tomat.GameBreaker.API.FileModification;
 using Tomat.GameBreaker.API.Hooking;
 using Tomat.GameBreaker.API.Hooking.Hooks;
 using Tomat.GameBreaker.API.PatternSearching;
@@ -10,11 +12,12 @@ using IServiceProvider = Tomat.GameBreaker.API.DependencyInjection.IServiceProvi
 
 namespace Tomat.GameBreaker.ManagedHost.Hooking.Hooks;
 
-internal sealed class ReadSaveFileHook : IReadSaveFileHook {
+internal sealed partial class ReadSaveFileHook : IReadSaveFileHook {
     public IReadSaveFileHook.Delegate? Original { get; set; }
 
     private readonly IPlatformService platform;
     private readonly IPatternSearchService patternSearcher;
+    private readonly IFileModifierService fileModifier;
 
     // ReSharper disable once NotAccessedField.Local
     private IReadSaveFileHook.Delegate? delegateHolder;
@@ -22,6 +25,7 @@ internal sealed class ReadSaveFileHook : IReadSaveFileHook {
     public ReadSaveFileHook(IServiceProvider provider) {
         platform = provider.ExpectService<IPlatformService>();
         patternSearcher = provider.ExpectService<IPatternSearchService>();
+        fileModifier = provider.ExpectService<IFileModifierService>();
     }
 
     [SupportedOSPlatform("windows5.1.2600")]
@@ -57,8 +61,21 @@ internal sealed class ReadSaveFileHook : IReadSaveFileHook {
     }
 
     private unsafe void* Hook(byte* a1, nuint* a2, void* a3) {
-        Console.WriteLine("ReadSaveFile called with: {0}", AnsiStringMarshaller.ConvertToManaged(a1));
-        // Console.WriteLine("ReadBundleFile returned: {0}", AnsiStringMarshaller.ConvertToManaged(ret));
+        // Expecting a1 to never be null here... let's hope.
+        var path = AnsiStringMarshaller.ConvertToManaged(a1)!;
+        Console.WriteLine("ReadSaveFile called with: {0}", path);
+
+        if (fileModifier.TryModifyFile(path, FileContext.Save, out var newPath)) {
+            Console.WriteLine("ReadSaveFile redirected to: {0}", newPath);
+            return Original!(AnsiStringMarshaller.ConvertToUnmanaged(newPath), a2, a3);
+            /*void** pFile = null;
+            Open(pFile, newPath, "rb");*/
+        }
+        
         return Original!(a1, a2, a3);
     }
+    
+    /*[LibraryImport("msvcrt.dll", EntryPoint = "fopen_s", SetLastError = true, StringMarshalling = StringMarshalling.Custom, StringMarshallingCustomType = typeof(AnsiStringMarshaller))]
+    [UnmanagedCallConv(CallConvs = new[] { typeof(System.Runtime.CompilerServices.CallConvCdecl) })]
+    private static unsafe partial int Open(void** pFile, string fileName, string mode);*/
 }
