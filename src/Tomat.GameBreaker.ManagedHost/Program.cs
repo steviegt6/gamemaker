@@ -13,8 +13,6 @@ internal static class Program {
     [UnmanagedCallersOnly]
     [SupportedOSPlatform("windows5.1.2600")]
     internal static unsafe void Main(short* cwd) {
-        Debugger.Launch();
-        Debugger.Break();
         Console.WriteLine($"Managed context recognizing current directory: '{NativeUtil.ReadWCharPtr(cwd)}'");
 
         Console.WriteLine("Setting up game...");
