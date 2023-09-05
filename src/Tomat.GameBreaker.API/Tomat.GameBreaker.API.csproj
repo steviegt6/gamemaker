@@ -7,4 +7,13 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Tomat.GameMaker.IFF\Tomat.GameMaker.IFF.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2023.2.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0-preview.7.23375.6"/>
+    </ItemGroup>
+
 </Project>

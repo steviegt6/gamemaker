@@ -9,10 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MedallionTopologicalSort" Version="1.0.0" />
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.18-beta">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="MinHook.NET" Version="1.1.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
