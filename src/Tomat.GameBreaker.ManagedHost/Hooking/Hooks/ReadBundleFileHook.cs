@@ -15,6 +15,7 @@ internal sealed class ReadBundleFileHook : IReadBundleFileHook {
     private readonly IPlatformService platform;
     private readonly IPatternSearchService patternSearcher;
 
+    // ReSharper disable once NotAccessedField.Local
     private IReadBundleFileHook.Delegate? delegateHolder;
 
     public ReadBundleFileHook(IServiceProvider provider) {
@@ -32,24 +33,18 @@ internal sealed class ReadBundleFileHook : IReadBundleFileHook {
                 0xEB, 0x00,                   // JMP  <rel8>
             };
             var patternMask = "xxxx?x????x?"u8.ToArray();
-            
+
             if (!patternSearcher.FindByteArray(pattern, patternMask, out var address))
                 throw new Exception("Failed to find pattern for ReadBundleFile hook.");
-            
+
             Console.WriteLine("Found ReadBundleFile pattern at 0x{0:X}", address);
             Console.WriteLine("Pointing to byte: 0x{0:X}", *(byte*)address.ToPointer());
 
             var instructionBase = address + 5;
             var relative = *(int*)(instructionBase + 1).ToPointer();
             var eip = instructionBase + 5 + (nuint)relative;
-            
-            hookService.CreateHook((nint)eip, delegateHolder = Hook);
-            // Console.WriteLine(*(int*)(address + 5));
-            return;
 
-            /*var relative = address + 1;
-            var function = relative + (nuint)(*(int*)(address + 5).ToPointer());
-            hookService.CreateHook((nint)function, Hook);*/
+            hookService.CreateHook((nint)eip, delegateHolder = Hook);
         }
         else {
             // TODO: Support hooking on 32-bit systems.
