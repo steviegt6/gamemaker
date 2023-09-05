@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using System.Runtime.Versioning;
 using Tomat.GameBreaker.API.DependencyInjection;
 using Tomat.GameBreaker.API.Hooking;
@@ -17,6 +19,7 @@ internal sealed class ReadBundleFileHook : IReadBundleFileHook {
 
     // ReSharper disable once NotAccessedField.Local
     private IReadBundleFileHook.Delegate? delegateHolder;
+    private GCHandle handle;
 
     public ReadBundleFileHook(IServiceProvider provider) {
         platform = provider.ExpectService<IPlatformService>();
@@ -44,7 +47,9 @@ internal sealed class ReadBundleFileHook : IReadBundleFileHook {
             var relative = *(int*)(instructionBase + 1).ToPointer();
             var eip = instructionBase + 5 + (nuint)relative;
 
-            hookService.CreateHook((nint)eip, delegateHolder = Hook);
+            IReadBundleFileHook.Delegate hook = Hook;
+            handle = GCHandle.Alloc(hook);
+            this.CreateHook(hookService, (nint)eip, hook);
         }
         else {
             // TODO: Support hooking on 32-bit systems.
@@ -52,8 +57,9 @@ internal sealed class ReadBundleFileHook : IReadBundleFileHook {
         }
     }
 
-    private unsafe string Hook(string a1, uint* a2) {
-        Console.WriteLine("ReadBundleFile called with: {0}, {1} ({2:X8})", a1, *a2, (nint)a2);
+    private unsafe byte* Hook(byte* a1, nuint* a2) {
+        Console.WriteLine("ReadBundleFile called with: {0}", AnsiStringMarshaller.ConvertToManaged(a1));
+        // Console.WriteLine("ReadBundleFile returned: {0}", AnsiStringMarshaller.ConvertToManaged(ret));
         return Original!(a1, a2);
     }
 }
