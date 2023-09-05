@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using System.Runtime.Versioning;
 using Tomat.GameBreaker.API.DependencyInjection;
@@ -19,7 +18,6 @@ internal sealed class ReadBundleFileHook : IReadBundleFileHook {
 
     // ReSharper disable once NotAccessedField.Local
     private IReadBundleFileHook.Delegate? delegateHolder;
-    private GCHandle handle;
 
     public ReadBundleFileHook(IServiceProvider provider) {
         platform = provider.ExpectService<IPlatformService>();
@@ -47,9 +45,7 @@ internal sealed class ReadBundleFileHook : IReadBundleFileHook {
             var relative = *(int*)(instructionBase + 1).ToPointer();
             var eip = instructionBase + 5 + (nuint)relative;
 
-            IReadBundleFileHook.Delegate hook = Hook;
-            handle = GCHandle.Alloc(hook);
-            this.CreateHook(hookService, (nint)eip, hook);
+            this.CreateHook(hookService, (nint)eip, delegateHolder = Hook);
         }
         else {
             // TODO: Support hooking on 32-bit systems.
