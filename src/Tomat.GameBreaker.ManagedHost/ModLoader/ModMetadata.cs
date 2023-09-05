@@ -34,6 +34,8 @@ internal sealed class ModMetadata : IModMetadata {
 
     // Disgusting, evil hack: read to field 'version', then write from field
     // 'parsedVersion' (accessed through property 'Version'.
+    // I am realizing after committing this that serialization isn't ever even
+    // used... just deserialization. Oh well, keeping this.
     [JsonProperty("version")]
     private string? WritableVersion {
         get => Version.ToString();
