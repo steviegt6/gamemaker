@@ -11,10 +11,9 @@ internal static class HookManager {
     public static void CreateHooksForGame(Game game) {
         var serviceProvider = game.ServiceProvider;
         var hookService = serviceProvider.ExpectService<IHookService>();
-        var patternSearchService = serviceProvider.ExpectService<IPatternSearchService>();
 
         serviceProvider.RegisterService<IMessageBoxWHook>(ExecuteHook(new MessageBoxWHook(), hookService));
-        serviceProvider.RegisterService<IReadBundleFileHook>(ExecuteHook(new ReadBundleFileHook(patternSearchService), hookService));
+        serviceProvider.RegisterService<IReadBundleFileHook>(ExecuteHook(new ReadBundleFileHook(serviceProvider), hookService));
     }
 
     private static THook ExecuteHook<THook>(THook hook, IHookService hookService) where THook : IHook {

@@ -16,9 +16,6 @@ extern "C" __declspec(dllexport) BOOL find_byte_array(const byte* pattern, const
         region_size = module_info.SizeOfImage;
     }
 
-    printf("region_base: %p\n", reinterpret_cast<void*>(region_base));
-    printf("region_size: %p\n", reinterpret_cast<void*>(region_size));
-
     const size_t pattern_size = pattern_length < mask_length ? pattern_length : mask_length;
     for (unsigned i = 0; i < region_size - pattern_size; i++)
     {
