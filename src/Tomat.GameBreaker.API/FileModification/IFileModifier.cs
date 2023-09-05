@@ -1,4 +1,4 @@
-﻿namespace Tomat.GameBreaker.API.ModLoader.Features.FileModification;
+﻿namespace Tomat.GameBreaker.API.FileModification;
 
 /// <summary>
 ///     Allows mods to perform modifications on files retrieved through

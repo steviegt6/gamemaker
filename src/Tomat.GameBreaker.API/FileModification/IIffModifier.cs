@@ -1,7 +1,7 @@
 ﻿using Tomat.GameMaker.IFF;
 using Tomat.GameMaker.IFF.Chunks;
 
-namespace Tomat.GameBreaker.API.ModLoader.Features.FileModification; 
+namespace Tomat.GameBreaker.API.FileModification; 
 
 /// <summary>
 ///     An alternative to <see cref="IFileModifier"/> custom-tailored to
