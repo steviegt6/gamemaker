@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Tomat.GameBreaker.API.ModLoader;
 
@@ -16,8 +17,11 @@ internal sealed class DefaultLoadContext : ModLoadContext {
             return null;
 
         // See if we can just... load it?
-        if (base.Load(assemblyName) is { } baseAssembly)
-            return baseAssembly;
+        /*if (base.Load(assemblyName) is { } baseAssembly)
+            return baseAssembly;*/
+        
+        if (All.ToList()[0].LoadFromAssemblyName(assemblyName) is { } magicAssembly)
+            return magicAssembly;
 
         // TODO: Unsure of how necessary this is. Better safe than sorry?
         if (Default.LoadFromAssemblyName(assemblyName) is { } defaultAssembly)

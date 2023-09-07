@@ -69,10 +69,11 @@ internal sealed class DefaultModLoader : IModLoader {
 
             // Just load the assembly, don't load any types or anything else
             // dangerous yet.
-            var asm = Assembly.Load(modDll);
+            var modLoadContext = new DefaultLoadContext(canonicalModName);
+            var asm = modLoadContext.LoadFromAssemblyPath(modDll);
 
             // Resolve the mod's metadata. This should be safe.
-            using var metadataStream = asm.GetFile(canonicalModName + ".metadata.json");
+            using var metadataStream = asm.GetManifestResourceStream(canonicalModName + ".metadata.json");
             if (metadataStream is null)
                 throw new FileNotFoundException("Could not find metadata file for mod.", canonicalModName + ".metadata.json");
 
@@ -81,7 +82,6 @@ internal sealed class DefaultModLoader : IModLoader {
             if (metadata is null)
                 throw new FileLoadException("Could not deserialize metadata file for mod.", canonicalModName + ".metadata.json");
 
-            var modLoadContext = new DefaultLoadContext(canonicalModName);
             var assemblyResolver = new AssemblyResolver(modLoadContext, asm, modDir);
 
             var mod = new Mod(metadata, modLoadContext, assemblyResolver, asm);

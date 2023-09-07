@@ -13,9 +13,10 @@ internal sealed class GameMakerExtnChunk : AbstractChunk,
     public GameMakerExtnChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
-        Extensions = context.ReadPointerList<GameMakerExtension>();
-
         CheckFormatAndUpdateVersion(context);
+        CheckFormatAndUpdateVersion2(context);
+
+        Extensions = context.ReadPointerList<GameMakerExtension>();
 
         if (!context.VersionInfo.IsAtLeast(GM_1_0_0_9999))
             return;
@@ -34,9 +35,8 @@ internal sealed class GameMakerExtnChunk : AbstractChunk,
     }
 
     private void CheckFormatAndUpdateVersion(DeserializationContext context) {
-        if (!context.VersionInfo.IsAtLeast(GM_2_3) || context.VersionInfo.IsAtLeast(GM_2022_6)) {
+        if (!context.VersionInfo.IsAtLeast(GM_2_3) || context.VersionInfo.IsAtLeast(GM_2022_6))
             return;
-        }
 
         var is20226 = true;
         var oldPos = context.Position;
@@ -95,5 +95,28 @@ internal sealed class GameMakerExtnChunk : AbstractChunk,
 
         if (is20226)
             context.VersionInfo.UpdateTo(GM_2022_6);
+    }
+
+    private void CheckFormatAndUpdateVersion2(DeserializationContext context)
+    {
+        if (!context.VersionInfo.IsAtLeast(GM_2022_6) || context.VersionInfo.IsAtLeast(GM_2023_4))
+            return;
+
+        var oldPos = context.Position;
+
+        var extensionCount = context.ReadInt32();
+
+        if (extensionCount > 0) {
+            context.Position = (int)context.ReadUInt32();
+            context.Position += sizeof(int) * 3;
+
+            var filesPtr = context.ReadInt32();
+            var optionsPtr = context.ReadInt32();
+
+            if (filesPtr > optionsPtr)
+                context.VersionInfo.UpdateTo(GM_2023_4);
+        }
+
+        context.Position = oldPos;
     }
 }

@@ -11,6 +11,8 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
 
     public GameMakerPointer<GameMakerString> ClassName { get; set; }
 
+    public GameMakerPointer<GameMakerString> Version { get; set; }
+
     public GameMakerPointerList<GameMakerExtensionFile>? Files {
         get {
             // filesPointer?.Object ?? files ?? null;
@@ -31,6 +33,8 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
     public void Read(DeserializationContext context) {
         EmptyString = context.ReadPointerAndObject<GameMakerString>();
         Name = context.ReadPointerAndObject<GameMakerString>();
+        if (context.VersionInfo.IsAtLeast(GM_2023_4))
+            Version = context.ReadPointerAndObject<GameMakerString>();
         ClassName = context.ReadPointerAndObject<GameMakerString>();
 
         if (context.VersionInfo.IsAtLeast(GM_2022_6)) {
@@ -45,6 +49,8 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
     public void Write(SerializationContext context) {
         context.Write(EmptyString);
         context.Write(Name);
+        if (context.VersionInfo.IsAtLeast(GM_2023_4))
+            context.Write(Version);
         context.Write(ClassName);
 
         if (context.VersionInfo.IsAtLeast(GM_2022_6)) {

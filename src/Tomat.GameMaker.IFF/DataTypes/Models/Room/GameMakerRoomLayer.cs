@@ -82,8 +82,17 @@ public sealed class GameMakerRoomLayer : IGameMakerSerializable {
                 break;
 
             case GameMakerRoomLayerKind.Effect:
-                Effect = new GameMakerRoomLayerEffect();
-                Effect.Read(context);
+                // In 2022.1+, effects are empty.
+                if (context.VersionInfo.IsAtLeast(GM_2022_1)) {
+                    Effect = new GameMakerRoomLayerEffect {
+                        EffectType = EffectType,
+                        Properties = EffectProperties,
+                    };
+                }
+                else {
+                    Effect = new GameMakerRoomLayerEffect();
+                    Effect.Read(context);
+                }
                 break;
 
             default:

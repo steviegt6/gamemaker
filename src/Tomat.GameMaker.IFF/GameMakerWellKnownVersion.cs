@@ -83,4 +83,9 @@ public enum GameMakerWellKnownVersion {
     ///     GameMaker, version 2023.1.
     /// </summary>
     GM_2023_1,
+
+    /// <summary>
+    ///     GameMaker, version 2023.4.
+    /// </summary>
+    GM_2023_4,
 }

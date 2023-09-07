@@ -34,6 +34,7 @@ public sealed class GameMakerVersionInfo {
         { GM_2022_8, NormalizeVersion(new Version(2022, 8)) },
         { GM_2022_9, NormalizeVersion(new Version(2022, 9)) },
         { GM_2023_1, NormalizeVersion(new Version(2023, 1)) },
+        { GM_2023_4, NormalizeVersion(new Version(2023, 4)) },
     };
 
     private Version backingVersion = VERSION_DEFAULT;

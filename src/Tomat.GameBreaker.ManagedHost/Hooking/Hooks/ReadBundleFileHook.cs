@@ -62,7 +62,7 @@ internal sealed class ReadBundleFileHook : IReadBundleFileHook {
         var path = AnsiStringMarshaller.ConvertToManaged(a1)!;
         Console.WriteLine("ReadBundleFile called with: {0}", path);
 
-        if (fileModifier.TryModifyFile(path, FileContext.Save, out var newPath)) {
+        if (fileModifier.TryModifyFile(path, FileContext.Bundle, out var newPath)) {
             Console.WriteLine("ReadBundleFile redirected to: {0}", newPath);
             return Original!(AnsiStringMarshaller.ConvertToUnmanaged(newPath), a2);
             // return AnsiStringMarshaller.ConvertToUnmanaged(File.ReadAllText(newPath));
