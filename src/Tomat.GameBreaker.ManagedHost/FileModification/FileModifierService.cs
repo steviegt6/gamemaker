@@ -27,6 +27,8 @@ internal sealed class FileModifierService : IFileModifierService {
     public bool TryModifyFile(string path, FileContext context, [NotNullWhen(returnValue: true)] out string? newPath) {
         newPath = null;
 
+        var tmpFile = GetTmpFileAndCleanUpLeftoverTmpFiles(path);
+
         if (IsIff(path, context)) {
             var modifiable = false;
             foreach (var iffModifier in iffModifiers)
@@ -51,15 +53,11 @@ internal sealed class FileModifierService : IFileModifierService {
                     modified |= iffModifier.ModifyIff(path, context, deserCtx);
 
                 if (modified) {
-                    var tmpPath = path + ".tmp";
-                    var tmpNum = 0;
-                    while (File.Exists(tmpPath))
-                        tmpPath = path + $".tmp{tmpNum++}";
-
-                    using var fs = File.Open(tmpPath, FileMode.Create, FileAccess.Write, FileShare.None);
+                    using var fs = File.Open(tmpFile, FileMode.Create, FileAccess.Write, FileShare.None);
                     var writer = new GameMakerIffWriter();
                     deserCtx.IffFile.Write(new SerializationContext(writer, deserCtx.IffFile, deserCtx.VersionInfo));
-                    newPath = tmpPath;
+                    fs.Write(writer.Data, 0, deserCtx.IffFile.Form.Size + 8);
+                    newPath = tmpFile;
                 }
 
                 return modified;
@@ -85,14 +83,9 @@ internal sealed class FileModifierService : IFileModifierService {
                     modified |= fileModifier.ModifyFile(path, context, ref data);
 
                 if (modified) {
-                    var tmpPath = path + ".tmp";
-                    var tmpNum = 0;
-                    while (File.Exists(tmpPath))
-                        tmpPath = path + $".tmp{tmpNum++}";
-
-                    using var fs2 = File.Open(tmpPath, FileMode.Create, FileAccess.Write, FileShare.None);
+                    using var fs2 = File.Open(tmpFile, FileMode.Create, FileAccess.Write, FileShare.None);
                     fs2.Write(data, 0, data.Length);
-                    newPath = tmpPath;
+                    newPath = tmpFile;
                 }
 
                 return modified;
@@ -100,6 +93,29 @@ internal sealed class FileModifierService : IFileModifierService {
         }
 
         return false;
+    }
+
+    private static string GetTmpFileAndCleanUpLeftoverTmpFiles(string path) {
+        const string tmp = "tmp";
+
+        var dirName = Path.GetDirectoryName(path) ?? throw new InvalidOperationException();
+        var fileName = Path.GetFileNameWithoutExtension(path);
+        var fileExtension = Path.GetExtension(path);
+
+        foreach (var file in Directory.EnumerateFiles(dirName, $"{fileName}.{tmp}*{fileExtension}")) {
+            try {
+                File.Delete(file);
+            }
+            catch (Exception e) {
+                Console.WriteLine($"Failed to delete {file}: {e}");
+            }
+        }
+        
+        var tmpCount = 0;
+        while (File.Exists($"{fileName}.{tmp}{tmpCount}{fileExtension}"))
+            tmpCount++;
+        
+        return Path.Combine(dirName, $"{fileName}.{tmp}{tmpCount}{fileExtension}");
     }
 
     private static bool IsIff(string path, FileContext context) {

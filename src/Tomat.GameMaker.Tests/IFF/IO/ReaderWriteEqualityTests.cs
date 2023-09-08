@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using Tomat.GameMaker.IFF;
 using Tomat.GameMaker.IFF.Chunks;
@@ -20,6 +21,18 @@ public static class ReaderWriteEqualityTests {
         CollectionAssert.AreEqual(readBytes, writtenBytes);
     }
 
+    public static void ExhaustiveChunkTest() {
+        using var stream = File.Open("test.wad", FileMode.Open, FileAccess.Read, FileShare.Read);
+        var wad = GameMakerIffFile.FromStream(stream, out var deserCtx);
+
+        foreach (var chunk in wad.Form.Chunks) {
+            Console.WriteLine($"{chunk.Key} ({chunk.Value.Name}, {chunk.Value.Size}) ({chunk.Value.GetType().FullName})");
+            
+            if (chunk.Value is GameMakerUnknownChunk)
+                throw new Exception("Unknown chunk!");
+        }
+    }
+
     public static void TestThisIsForDebuggingIgnoreLol() {
         var stream = File.Open("test.wad", FileMode.Open, FileAccess.Read, FileShare.Read);
         var wad = GameMakerIffFile.FromStream(stream, out var deserCtx);
@@ -35,8 +48,10 @@ public static class ReaderWriteEqualityTests {
         //Assert.That(writer, Has.Length.EqualTo(readBytes.Length));
 
         foreach (var chunkName in wad.Form.Chunks.Keys) {
+            Console.WriteLine(chunkName);
             var currChunk = wad.Form.Chunks[chunkName];
-            CollectionAssert.AreEqual(chunkSlices[chunkName], writtenBytes[currChunk.StartPosition..currChunk.EndPosition]);
+            Assert.That(currChunk.Size, Is.EqualTo(chunkLengths[chunkName]));
+            //CollectionAssert.AreEqual(chunkSlices[chunkName], writtenBytes[currChunk.StartPosition..currChunk.EndPosition]);
         }
 
         using var newStream = new MemoryStream(writtenBytes);

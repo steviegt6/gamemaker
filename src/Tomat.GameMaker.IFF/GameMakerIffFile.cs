@@ -35,7 +35,7 @@ public sealed class GameMakerIffFile : IGameMakerSerializable {
         context.Write("FORM"u8.ToArray());
         var formSizePos = context.BeginLength();
         Form.Write(context);
-        context.EndLength(formSizePos);
+        Form.Size = context.EndLength(formSizePos);
 
         context.FinalizePointers();
     }

@@ -37,6 +37,8 @@ public sealed class GameMakerFont : IGameMakerSerializable {
 
     public int Ascender { get; set; }
 
+    public uint SdfSpread { get; set; }
+
     public GameMakerPointerList<GameMakerGlyph> Glyphs { get; set; } = null!;
 
     public void Read(DeserializationContext context) {
@@ -62,7 +64,8 @@ public sealed class GameMakerFont : IGameMakerSerializable {
             AscenderOffset = context.ReadInt32();
         if (context.VersionInfo.IsAtLeast(GM_2022_2))
             Ascender = context.ReadInt32();
-
+        if (context.VersionInfo.IsAtLeast(GM_2023_2))
+            SdfSpread = context.ReadUInt32();
         Glyphs = context.ReadPointerList<GameMakerGlyph>();
     }
 
@@ -85,6 +88,8 @@ public sealed class GameMakerFont : IGameMakerSerializable {
             context.Write(AscenderOffset);
         if (context.VersionInfo.IsAtLeast(GM_2022_2))
             context.Write(Ascender);
+        if (context.VersionInfo.IsAtLeast(GM_2023_2))
+            context.Write(SdfSpread);
         context.Write(Glyphs);
     }
 }

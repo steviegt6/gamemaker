@@ -13,13 +13,16 @@ public sealed class GameMakerExtension : IGameMakerSerializable {
 
     public GameMakerPointer<GameMakerString> Version { get; set; }
 
-    public GameMakerPointerList<GameMakerExtensionFile>? Files {
+    public GameMakerPointerList<GameMakerExtensionFile> Files {
         get {
             // filesPointer?.Object ?? files ?? null;
             if (filesPointer.HasValue && filesPointer.Value.TryGetObject(out var obj))
                 return obj;
 
-            return files;
+            if (files is not null)
+                return files;
+
+            throw new Exception("Files pointer does not exist.");
         }
     }
 

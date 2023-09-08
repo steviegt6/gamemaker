@@ -55,6 +55,8 @@ public sealed class GameMakerRoom : IGameMakerSerializable {
     // GMS2.3+ only
     public List<int>? SequenceIds { get; set; }
 
+    private int pos;
+
     public void Read(DeserializationContext context) {
         Name = context.ReadPointerAndObject<GameMakerString>();
         Caption = context.ReadPointerAndObject<GameMakerString>();
@@ -121,6 +123,7 @@ public sealed class GameMakerRoom : IGameMakerSerializable {
 
         context.Position = gameObjectListPointer;
         GameObjects = context.ReadPointerAndObject<GameMakerPointerList<GameMakerRoomGameObject>>(gameObjectListPointer);
+        pos = context.Position;
     }
 
     public void Write(SerializationContext context) {

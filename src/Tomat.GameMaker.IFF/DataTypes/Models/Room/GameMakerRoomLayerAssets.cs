@@ -1,4 +1,5 @@
 ﻿using Tomat.GameMaker.IFF.Chunks;
+using Tomat.GameMaker.IFF.DataTypes.Models.ParticleSystem;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Room;
 
@@ -12,6 +13,9 @@ public sealed class GameMakerRoomLayerAssets : IGameMakerSerializable {
 
     // Removed in 2.3.2
     public GameMakerPointer<GameMakerPointerList<GameMakerRoomLayerAssetInstance>> NineSlices { get; set; }
+    
+    // GMS 2023.2+
+    public GameMakerPointer<GameMakerPointerList<GameMakerRoomParticleSystem>> ParticleSystems { get; set; }
 
     public void Read(DeserializationContext context) {
         LegacyTiles = context.ReadPointerAndObject<GameMakerPointerList<GameMakerRoomTile>>();
@@ -22,8 +26,11 @@ public sealed class GameMakerRoomLayerAssets : IGameMakerSerializable {
         
         Sequences = context.ReadPointerAndObject<GameMakerPointerList<GameMakerRoomLayerAssetInstance>>();
         
-        if (context.VersionInfo.IsAtLeast(GM_2_3_2))
+        if (!context.VersionInfo.IsAtLeast(GM_2_3_2))
             NineSlices = context.ReadPointerAndObject<GameMakerPointerList<GameMakerRoomLayerAssetInstance>>();
+        
+        if (context.VersionInfo.IsAtLeast(GM_2023_2))
+            ParticleSystems = context.ReadPointerAndObject<GameMakerPointerList<GameMakerRoomParticleSystem>>();
     }
 
     public void Write(SerializationContext context) {
@@ -35,6 +42,9 @@ public sealed class GameMakerRoomLayerAssets : IGameMakerSerializable {
             
             if (!context.VersionInfo.IsAtLeast(GM_2_3_2))
                 context.Write(NineSlices);
+            
+            if (context.VersionInfo.IsAtLeast(GM_2023_2))
+                context.Write(ParticleSystems);
         }
         
         context.MarkPointerAndWriteObject(LegacyTiles);

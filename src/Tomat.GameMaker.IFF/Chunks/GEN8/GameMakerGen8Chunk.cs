@@ -131,7 +131,7 @@ internal sealed class GameMakerGen8Chunk : AbstractChunk,
         context.Write(MinorVersion);
         context.Write(ReleaseVersion);
         context.Write(BuildVersion);
-        context.VersionInfo.UpdateTo(new Version(MajorVersion, MinorVersion, ReleaseVersion, BuildVersion));
+        // context.VersionInfo.UpdateTo(new Version(MajorVersion, MinorVersion, ReleaseVersion, BuildVersion));
         context.Write(DefaultWindowWidth);
         context.Write(DefaultWindowHeight);
         context.Write((int)Info);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using System.Runtime.Versioning;
 using Tomat.GameBreaker.API.DependencyInjection;
@@ -18,9 +17,6 @@ internal sealed partial class ReadSaveFileHook : IReadSaveFileHook {
     private readonly IPlatformService platform;
     private readonly IPatternSearchService patternSearcher;
     private readonly IFileModifierService fileModifier;
-
-    // ReSharper disable once NotAccessedField.Local
-    private IReadSaveFileHook.Delegate? delegateHolder;
 
     public ReadSaveFileHook(IServiceProvider provider) {
         platform = provider.ExpectService<IPlatformService>();
@@ -52,7 +48,7 @@ internal sealed partial class ReadSaveFileHook : IReadSaveFileHook {
             var relative = *(int*)(instructionBase + 1).ToPointer();
             var eip = instructionBase + 5 + (nuint)relative;
 
-            this.CreateHook(hookService, (nint)eip, delegateHolder = Hook);
+            this.CreateHook(hookService, (nint)eip, Hook);
         }
         else {
             // TODO: Support hooking on 32-bit systems.

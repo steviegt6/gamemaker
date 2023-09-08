@@ -147,12 +147,18 @@ internal sealed class GameMakerFormChunk : IFormChunk {
                 case "FEAT":
                     context.VersionInfo.UpdateTo(GM_2022_8);
                     break;
+                
+                case "PSEM":
+                    context.VersionInfo.UpdateTo(GM_2023_2);
+                    break;
             }
 
             // Final chunk isn't aligned, which we can infer by whether the end
             // of the chunk is also the end of the file.
-            if (context.Position % context.VersionInfo.ChunkAlignment != 0 && context.Position < context.Length)
-                throw new IOException("Chunk alignment setting does not match actual chunk alignment!");
+            if (context.Position % context.VersionInfo.ChunkAlignment != 0) {
+                if (context.Position != context.Length)
+                    throw new IOException("Chunk alignment setting does not match actual chunk alignment!");
+            }
         }
 
         Chunks = new Dictionary<string, IGameMakerChunk>();
