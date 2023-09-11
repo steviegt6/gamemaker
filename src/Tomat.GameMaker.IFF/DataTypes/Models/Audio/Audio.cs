@@ -3,7 +3,11 @@ using Tomat.GameMaker.IFF.Chunks;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Audio;
 
-public sealed class GameMakerAudio : IGameMakerSerializable {
+public interface IAudio : IGameMakerSerializable {
+    Memory<byte> Data { get; set; }
+}
+
+internal sealed class GameMakerAudio : IAudio {
     public Memory<byte> Data { get; set; }
 
     public void Read(DeserializationContext context) {
