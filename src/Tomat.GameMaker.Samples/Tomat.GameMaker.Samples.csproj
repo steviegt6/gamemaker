@@ -13,8 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Tomat.GameMaker.Decompiler.Disassembler\Tomat.GameMaker.Decompiler.Disassembler.csproj" />
-        <ProjectReference Include="..\Tomat.GameMaker.Decompiler\Tomat.GameMaker.Decompiler.csproj" />
         <ProjectReference Include="..\Tomat.GameMaker.IFF\Tomat.GameMaker.IFF.csproj" />
     </ItemGroup>
 
