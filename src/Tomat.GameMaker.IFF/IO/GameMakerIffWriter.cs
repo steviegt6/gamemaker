@@ -182,7 +182,7 @@ public sealed class GameMakerIffWriter : IGameMakerIffWriter {
             Data[addr + 2] = (byte)((value >> 16) & 0xFF);
             Data[addr + 3] = (byte)((value >> 24) & 0xFF);
         }*/
-        
+
         void writeInt32(int addr, int value) {
             Unsafe.As<byte, int>(ref Data[addr]) = value;
             // Pretty sure Unsafe.WriteUnaligned just calls Unsafe.As...
