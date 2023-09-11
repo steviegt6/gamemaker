@@ -27,22 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.Compiler.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.Compiler.CSharp.Runner", "Tomat.GameBreaker.Compiler.CSharp.Runner\Tomat.GameBreaker.Compiler.CSharp.Runner.csproj", "{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}"
 EndProject
-Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "HoloCure", "..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\HoloCure\HoloCure.exe", "{0B8D48F8-BF43-40B0-9850-26E1C6E0A598}"
-	ProjectSection(DebuggerProjectSystem) = preProject
-		PortSupplier = 00000000-0000-0000-0000-000000000000
-		Executable = C:\Program Files (x86)\Steam\steamapps\common\HoloCure\HoloCure.exe
-		RemoteMachine = DESKTOP-QDVKBTH
-		StartingDirectory = C:\Program Files (x86)\Steam\steamapps\common\HoloCure
-		Environment = Default
-		LaunchingEngine = e55ccc87-77c9-4222-8310-09f38e24c40f
-		UseLegacyDebugEngines = No
-		LaunchSQLEngine = No
-		AttachLaunchAction = No
-		IORedirection = Auto
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.HoloCure.DmlRs", "..\..\holocure-mods\src\Tomat.HoloCure.DmlRs\Tomat.HoloCure.DmlRs.csproj", "{145A0DA8-4E5B-452D-8BD4-4D3528BF488D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,18 +131,6 @@ Global
 		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Release|x64.ActiveCfg = Release|Any CPU
 		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Release|x64.Build.0 = Release|Any CPU
-		{0B8D48F8-BF43-40B0-9850-26E1C6E0A598}.Debug|Any CPU.ActiveCfg = Release|x64
-		{0B8D48F8-BF43-40B0-9850-26E1C6E0A598}.Debug|x64.ActiveCfg = Release|x64
-		{0B8D48F8-BF43-40B0-9850-26E1C6E0A598}.Release|Any CPU.ActiveCfg = Release|x64
-		{0B8D48F8-BF43-40B0-9850-26E1C6E0A598}.Release|x64.ActiveCfg = Release|x64
-		{145A0DA8-4E5B-452D-8BD4-4D3528BF488D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{145A0DA8-4E5B-452D-8BD4-4D3528BF488D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{145A0DA8-4E5B-452D-8BD4-4D3528BF488D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{145A0DA8-4E5B-452D-8BD4-4D3528BF488D}.Debug|x64.Build.0 = Debug|Any CPU
-		{145A0DA8-4E5B-452D-8BD4-4D3528BF488D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{145A0DA8-4E5B-452D-8BD4-4D3528BF488D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{145A0DA8-4E5B-452D-8BD4-4D3528BF488D}.Release|x64.ActiveCfg = Release|Any CPU
-		{145A0DA8-4E5B-452D-8BD4-4D3528BF488D}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
