@@ -14,7 +14,7 @@ internal sealed class GameMakerFeatChunk : AbstractChunk,
     public GameMakerFeatChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
-        context.Pad(4);
+        context.Align(4);
 
         var count = context.ReadInt32();
         FeatureFlags = new List<GameMakerPointer<GameMakerString>>(count);
@@ -23,7 +23,7 @@ internal sealed class GameMakerFeatChunk : AbstractChunk,
     }
 
     public override void Write(SerializationContext context) {
-        context.Pad(4);
+        context.Align(4);
 
         context.Write(FeatureFlags.Count);
         foreach (var flag in FeatureFlags)

@@ -118,14 +118,14 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
 
                     TextureItems = new GameMakerRemotePointerList<GameMakerTextureItem>();
                     TextureItems.Read(context);
-                    context.Pad(4);
+                    context.Align(4);
                     begin = context.Position;
                     var jpegTablesLength = context.ReadInt32();
                     if (context.ReadInt32() != 8)
                         throw new InvalidDataException("Expected 8, SWF format incorrect.");
 
                     context.Position += jpegTablesLength;
-                    context.Pad(4);
+                    context.Align(4);
                     context.Position += (context.ReadInt32() * 8) + 4;
                     var frameCount = context.ReadInt32();
                     context.Position += 16;
@@ -136,7 +136,7 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
 
                     for (var i = 0; i < maskCount; i++) {
                         context.Position += context.ReadInt32();
-                        context.Pad(4);
+                        context.Align(4);
                     }
 
                     var swfDataLength = context.Position - begin;
@@ -145,7 +145,7 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
                     break;
 
                 case GameMakerSpriteType.Spine:
-                    context.Pad(4);
+                    context.Align(4);
 
                     begin = context.Position;
                     _ = context.ReadUInt32(); // Version number.
@@ -225,12 +225,12 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
                         throw new InvalidOperationException("TextureItems is null.");
 
                     context.Write(TextureItems);
-                    context.Pad(4);
+                    context.Align(4);
                     context.Write(SpriteBuffer);
                     break;
 
                 case GameMakerSpriteType.Spine:
-                    context.Pad(4);
+                    context.Align(4);
                     context.Write(SpriteBuffer);
                     break;
 
@@ -239,12 +239,12 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
             }
 
             if (!Sequence.IsNull) {
-                context.Pad(4);
+                context.Align(4);
                 context.MarkPointerAndWriteObject(Sequence);
             }
 
             if (!NineSlice.IsNull) {
-                context.Pad(4);
+                context.Align(4);
                 context.MarkPointerAndWriteObject(NineSlice);
             }
         }
@@ -291,7 +291,7 @@ public sealed class GameMakerSprite : IGameMakerSerializable {
         // Pad to 4 bytes.
         if (total % 4 != 0)
             total += 4 - (total % 4);
-        context.Pad(4);
+        context.Align(4);
 
         var totalBits = (Width + 7) / 8 * 8 * Height * CollisionMasks.Count;
         var totalBytes = ((totalBits + 31) / 32 * 32) / 8;

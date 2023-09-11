@@ -29,7 +29,7 @@ internal sealed class GameMakerTxtrChunk : AbstractChunk,
             page.ExpectObject().TextureData.ExpectObject().Write(context);
 
         // TODO: Not necessarily alignment padding, Write((int)0)?
-        context.Pad(4);
+        context.Align(4);
     }
 
     private static void DoFormatCheck(DeserializationContext context) {

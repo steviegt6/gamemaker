@@ -109,7 +109,7 @@ internal sealed class GameMakerFontChunk : AbstractChunk,
                             // If we only have one font, align to the chunk
                             // boundary.
                             if (fontCount == 1)
-                                context.Pad(context.VersionInfo.ChunkAlignment);
+                                context.Align(context.VersionInfo.ChunkAlignment);
                         }
                     }
                 }

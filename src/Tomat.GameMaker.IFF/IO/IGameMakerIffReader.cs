@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.DataTypes;
 
@@ -47,12 +48,25 @@ public static class GameMakerIffReaderExtensions {
         return new Guid(reader.ReadBytes(16).Span);
     }
 
-    public static void Pad(this IGameMakerIffReader reader, int align) {
+    public static void Pad(this IGameMakerIffReader reader, int pad) {
+        _ = reader.ReadBytes(pad);
+    }
+
+    public static void Align(this IGameMakerIffReader reader, int align) {
         var pad = reader.Position % align;
         if (pad == 0)
             return;
 
         reader.Position += align - pad;
+    }
+
+    public static void GmAlign(this IGameMakerIffReader reader, int align) {
+        var pad = align - 1;
+
+        while ((reader.Position & pad) != 0) {
+            // reader.Position++;
+            Debug.Assert(reader.ReadByte() == 0);
+        }
     }
 
     public static GameMakerPointer<T> ReadPointer<T>(this IGameMakerIffReader reader, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {

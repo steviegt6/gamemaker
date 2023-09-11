@@ -1,8 +1,23 @@
 ﻿using Tomat.GameMaker.IFF.Chunks;
+using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.AnimationCurve;
 
-public sealed class GameMakerAnimationCurveChannelPoint : IGameMakerSerializable {
+/* model GMCurvePoint {
+ *     float x;
+ *     float value;
+ * #if VERSION >= 2.3.1
+ *     float bezierX0;
+ *     float bezierY0;
+ *     float bezierX1;
+ *     float bezierY1;
+ * #else
+ *     pad[8];
+ * #endif
+ * }
+ */
+
+public sealed class GameMakerCurvePoint : IGameMakerSerializable {
     public float X { get; set; }
 
     public float Value { get; set; }
@@ -19,19 +34,11 @@ public sealed class GameMakerAnimationCurveChannelPoint : IGameMakerSerializable
         X = context.ReadSingle();
         Value = context.ReadSingle();
 
-        // In 2.3, an int32 with a value of zero would be set here. It cannot be
-        // version 2.3 if this value isn't zero.
-        if (context.ReadUInt32() != 0) {
+        // Bitwise AND here is important because we want both to run.
+        if (context.ReadInt32() == 0 & context.ReadInt32() == 0)
             context.VersionInfo.UpdateTo(GM_2_3_1);
-            context.Position -= sizeof(uint);
-        }
-        else {
-            // If BezierX0 equals zero (above), then BezierY0 equals zero as
-            // well.
-            if (context.ReadUInt32() == 0)
-                context.VersionInfo.UpdateTo(GM_2_3_1);
-            context.Position -= sizeof(uint) * 2;
-        }
+        else
+            context.Position -= sizeof(int) * 2;
 
         if (context.VersionInfo.IsAtLeast(GM_2_3_1)) {
             BezierX0 = context.ReadSingle();
@@ -42,7 +49,7 @@ public sealed class GameMakerAnimationCurveChannelPoint : IGameMakerSerializable
         else {
             // Skip over the aforementioned should-be-zero int32 values on older
             // versions.
-            context.Position += sizeof(uint);
+            context.Pad(sizeof(int) * 2);
         }
     }
 
@@ -57,10 +64,7 @@ public sealed class GameMakerAnimationCurveChannelPoint : IGameMakerSerializable
             context.Write(BezierY1);
         }
         else {
-            // Write out the aforementioned should-be-zero int32 values on older
-            // versions.
-            context.Write(0);
-            context.Write(0);
+            context.Pad(sizeof(int) * 2);
         }
     }
 }

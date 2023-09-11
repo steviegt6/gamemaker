@@ -16,7 +16,7 @@ internal sealed class GameMakerPsysChunk : AbstractChunk,
     public GameMakerPsysChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
-        context.Pad(4);
+        context.Align(4);
         ChunkVersion = context.ReadInt32();
         if (ChunkVersion != 1)
             throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}.");
@@ -25,7 +25,7 @@ internal sealed class GameMakerPsysChunk : AbstractChunk,
     }
 
     public override void Write(SerializationContext context) {
-        context.Pad(4);
+        context.Align(4);
 
         if (ChunkVersion != 1)
             throw new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}.");

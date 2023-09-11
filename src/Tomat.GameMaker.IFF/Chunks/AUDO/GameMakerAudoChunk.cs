@@ -20,7 +20,7 @@ internal sealed class GameMakerAudoChunk : AbstractChunk,
         context.Write(
             Audio,
             beforeWriter: (ctx, _, _) => {
-                ctx.Pad(4);
+                ctx.Align(4);
             }
         );
     }

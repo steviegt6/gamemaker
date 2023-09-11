@@ -29,13 +29,13 @@ internal sealed class GameMakerStrgChunk : AbstractChunk,
         context.Write(
             Strings,
             beforeWriter: (ctx, _, _) => {
-                ctx.Pad(ctx.VersionInfo.StringAlignment);
+                ctx.Align(ctx.VersionInfo.StringAlignment);
             },
             elementPointerWriter: (ctx, element) => {
                 ctx.Write(element, useTypeOffset: false);
             }
         );
 
-        context.Pad(128);
+        context.Align(128);
     }
 }

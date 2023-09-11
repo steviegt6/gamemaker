@@ -80,7 +80,7 @@ public sealed class GameMakerTextureData : IGameMakerSerializable {
     }
 
     public void Write(SerializationContext context) {
-        context.Pad(128);
+        context.Align(128);
         context.Pointers[this] = context.Position;
 
         if (IsQoi && IsBZip2) {

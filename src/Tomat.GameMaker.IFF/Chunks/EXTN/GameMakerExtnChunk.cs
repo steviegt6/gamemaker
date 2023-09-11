@@ -79,7 +79,7 @@ internal sealed class GameMakerExtnChunk : AbstractChunk,
                 if (is20226) {
                     if (extensionCount == 1) {
                         context.Position += 16;
-                        context.Pad(16);
+                        context.Align(16);
                     }
 
                     if (context.Position != firstExtensionEndPointer)

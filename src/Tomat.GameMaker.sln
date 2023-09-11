@@ -7,25 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.IFF", "Toma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.Tests", "Tomat.GameMaker.Tests\Tomat.GameMaker.Tests.csproj", "{F9B742F9-8358-4494-BB7F-D57F1C0F3792}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.Benchmarks", "Tomat.GameMaker.Benchmarks\Tomat.GameMaker.Benchmarks.csproj", "{CC24BB75-A131-4A4F-84BD-7A6705B999F9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.Samples", "Tomat.GameMaker.Samples\Tomat.GameMaker.Samples.csproj", "{C465DB76-3C6C-49FE-BD41-14DC31494BFE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.Decompiler", "Tomat.GameMaker.Decompiler\Tomat.GameMaker.Decompiler.csproj", "{53C19408-08F9-427B-9F0A-562CC0EE90B0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameMaker.Decompiler.Disassembler", "Tomat.GameMaker.Decompiler.Disassembler\Tomat.GameMaker.Decompiler.Disassembler.csproj", "{FEF115D1-B3D3-43E4-9A71-543362EB1300}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.Runner", "Tomat.GameBreaker.Runner\Tomat.GameBreaker.Runner.csproj", "{08746A2D-9DB7-4410-9646-DA0EC45B648A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tomat.GameBreaker.Host", "Tomat.GameBreaker.Host\Tomat.GameBreaker.Host.vcxproj", "{D80BA414-369C-4610-8604-0436E169C3EF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.ManagedHost", "Tomat.GameBreaker.ManagedHost\Tomat.GameBreaker.ManagedHost.csproj", "{B59C3AED-91BD-4D6C-97F2-0FDA80C3E1FB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.API", "Tomat.GameBreaker.API\Tomat.GameBreaker.API.csproj", "{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.Compiler.CSharp", "Tomat.GameBreaker.Compiler.CSharp\Tomat.GameBreaker.Compiler.CSharp.csproj", "{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.GameBreaker.Compiler.CSharp.Runner", "Tomat.GameBreaker.Compiler.CSharp.Runner\Tomat.GameBreaker.Compiler.CSharp.Runner.csproj", "{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,14 +39,6 @@ Global
 		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Release|x64.ActiveCfg = Release|Any CPU
 		{F9B742F9-8358-4494-BB7F-D57F1C0F3792}.Release|x64.Build.0 = Release|Any CPU
-		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Debug|x64.Build.0 = Debug|Any CPU
-		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Release|x64.ActiveCfg = Release|Any CPU
-		{CC24BB75-A131-4A4F-84BD-7A6705B999F9}.Release|x64.Build.0 = Release|Any CPU
 		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -67,30 +47,6 @@ Global
 		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Release|x64.ActiveCfg = Release|Any CPU
 		{C465DB76-3C6C-49FE-BD41-14DC31494BFE}.Release|x64.Build.0 = Release|Any CPU
-		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Debug|x64.Build.0 = Debug|Any CPU
-		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Release|x64.ActiveCfg = Release|Any CPU
-		{53C19408-08F9-427B-9F0A-562CC0EE90B0}.Release|x64.Build.0 = Release|Any CPU
-		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Debug|x64.Build.0 = Debug|Any CPU
-		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|x64.ActiveCfg = Release|Any CPU
-		{FEF115D1-B3D3-43E4-9A71-543362EB1300}.Release|x64.Build.0 = Release|Any CPU
-		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Debug|x64.Build.0 = Debug|Any CPU
-		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Release|x64.ActiveCfg = Release|Any CPU
-		{08746A2D-9DB7-4410-9646-DA0EC45B648A}.Release|x64.Build.0 = Release|Any CPU
 		{D80BA414-369C-4610-8604-0436E169C3EF}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{D80BA414-369C-4610-8604-0436E169C3EF}.Debug|Any CPU.Build.0 = Debug|x64
 		{D80BA414-369C-4610-8604-0436E169C3EF}.Debug|x64.ActiveCfg = Debug|x64
@@ -115,22 +71,6 @@ Global
 		{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}.Release|x64.ActiveCfg = Release|Any CPU
 		{BF1C9D05-9B07-4D7E-977D-4A183BBAF9B4}.Release|x64.Build.0 = Release|Any CPU
-		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Debug|x64.Build.0 = Debug|Any CPU
-		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Release|x64.ActiveCfg = Release|Any CPU
-		{2B8B742A-FFC3-4FE4-A34F-E37D57F8E04A}.Release|x64.Build.0 = Release|Any CPU
-		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Debug|x64.Build.0 = Debug|Any CPU
-		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Release|x64.ActiveCfg = Release|Any CPU
-		{63D3CAEB-312E-4F7D-89CA-03AD7C5050D0}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -134,43 +134,43 @@ public sealed class GameMakerShader : IGameMakerSerializable {
         }
 
         if (!Hlsl11VertexBuffer.IsNull) {
-            context.Pad(8);
+            context.Align(8);
             context.MarkPointerAndWriteObject(Hlsl11VertexBuffer);
         }
 
         if (!Hlsl11PixelBuffer.IsNull) {
-            context.Pad(8);
+            context.Align(8);
             context.MarkPointerAndWriteObject(Hlsl11PixelBuffer);
         }
 
         if (!PsslVertexBuffer.IsNull) {
-            context.Pad(8);
+            context.Align(8);
             context.MarkPointerAndWriteObject(PsslVertexBuffer);
         }
 
         if (!PsslPixelBuffer.IsNull) {
-            context.Pad(8);
+            context.Align(8);
             context.MarkPointerAndWriteObject(PsslPixelBuffer);
         }
 
         if (!CgPsVitaVertexBuffer.IsNull) {
-            context.Pad(8);
+            context.Align(8);
             context.MarkPointerAndWriteObject(CgPsVitaVertexBuffer);
         }
 
         if (!CgPsVitaPixelBuffer.IsNull) {
-            context.Pad(8);
+            context.Align(8);
             context.MarkPointerAndWriteObject(CgPsVitaPixelBuffer);
         }
 
         if (Version >= 2) {
             if (!CgPs3VertexBuffer.IsNull) {
-                context.Pad(16);
+                context.Align(16);
                 context.MarkPointerAndWriteObject(CgPs3VertexBuffer);
             }
 
             if (!CgPs3PixelBuffer.IsNull) {
-                context.Pad(8);
+                context.Align(8);
                 context.MarkPointerAndWriteObject(CgPs3PixelBuffer);
             }
         }

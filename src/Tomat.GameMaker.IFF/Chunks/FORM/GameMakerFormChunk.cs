@@ -184,7 +184,7 @@ internal sealed class GameMakerFormChunk : IFormChunk {
             chunk.Write(context);
 
             if (i != Chunks.Count - 1)
-                context.Pad(context.VersionInfo.ChunkAlignment);
+                context.Align(context.VersionInfo.ChunkAlignment);
 
             chunk.Size = context.EndLength(chunkLengthPosition);
             i++;

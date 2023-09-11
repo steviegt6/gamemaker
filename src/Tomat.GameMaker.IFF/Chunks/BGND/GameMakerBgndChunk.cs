@@ -30,7 +30,7 @@ internal sealed class GameMakerBgndChunk : AbstractChunk,
         context.Write(
             Backgrounds,
             beforeWriter: (ctx, _, _) => {
-                ctx.Pad(context.VersionInfo.BackgroundAlignment);
+                ctx.Align(context.VersionInfo.BackgroundAlignment);
             }
         );
     }

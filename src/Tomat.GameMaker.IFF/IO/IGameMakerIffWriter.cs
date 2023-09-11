@@ -58,17 +58,28 @@ public interface IGameMakerIffWriter : IGameMakerIffDataHandler {
 }
 
 public static class GameMakerIffWriterExtensions {
+    public static void Pad(this IGameMakerIffWriter writer, int pad) {
+        writer.Write(new byte[pad]);
+    }
+
     /// <summary>
-    ///     Pads the writer's position to the specified alignment.
+    ///     Aligns the writer's position to the specified alignment.
     /// </summary>
-    /// <param name="writer">The writer to pad.</param>
+    /// <param name="writer">The writer to align.</param>
     /// <param name="align">The alignment to align to.</param>
-    public static void Pad(this IGameMakerIffWriter writer, int align) {
+    public static void Align(this IGameMakerIffWriter writer, int align) {
         var pad = writer.Position % align;
         if (pad == 0)
             return;
 
         writer.Write(new byte[align - pad]);
+    }
+
+    public static void GmAlign(this IGameMakerIffWriter writer, int align) {
+        var pad = align - 1;
+
+        while ((writer.Position & align) != pad)
+            writer.Write((byte) 0);
     }
 
     public static void WriteAt(this IGameMakerIffWriter writer, int position, int value) {
