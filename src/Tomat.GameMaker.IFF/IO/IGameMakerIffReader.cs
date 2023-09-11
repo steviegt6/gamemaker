@@ -40,7 +40,11 @@ public interface IGameMakerIffReader : IGameMakerIffDataHandler {
 
     double ReadDouble();
 
-    GameMakerPointer<T> ReadPointer<T>(int addr, bool useTypeOffset = true) where T : IGameMakerSerializable, new();
+    GameMakerPointer<TInterface> ReadPointer<TInterface, TImplementation>(
+        int addr,
+        bool useTypeOffset = true
+    ) where TInterface : IGameMakerSerializable
+      where TImplementation : TInterface, new();
 }
 
 public static class GameMakerIffReaderExtensions {
@@ -69,7 +73,11 @@ public static class GameMakerIffReaderExtensions {
         }
     }
 
-    public static GameMakerPointer<T> ReadPointer<T>(this IGameMakerIffReader reader, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
-        return reader.ReadPointer<T>(reader.ReadInt32(), useTypeOffset);
+    public static GameMakerPointer<TInterface> ReadPointer<TInterface, TImplementation>(
+        this IGameMakerIffReader reader,
+        bool useTypeOffset = true
+    ) where TInterface : IGameMakerSerializable
+      where TImplementation : TInterface, new() {
+        return reader.ReadPointer<TInterface, TImplementation>(reader.ReadInt32(), useTypeOffset);
     }
 }

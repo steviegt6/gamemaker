@@ -90,42 +90,29 @@ public sealed record DeserializationContext(IGameMakerIffReader Reader, GameMake
         return Reader.ReadDouble();
     }
 
-    public GameMakerPointer<T> ReadPointer<T>(int addr, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
-        return Reader.ReadPointer<T>(addr, useTypeOffset);
+    public GameMakerPointer<TInterface> ReadPointer<TInterface, TImplementation>(
+        int addr,
+        bool useTypeOffset = true
+    ) where TInterface : IGameMakerSerializable
+      where TImplementation : TInterface, new() {
+        return Reader.ReadPointer<TInterface, TImplementation>(addr, useTypeOffset);
     }
 #endregion
 
-    public GameMakerPointer<T> ReadPointerAndObject<T>(int addr, bool returnAfter = true, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
-        var ptr = ReadPointer<T>(addr, useTypeOffset);
-        ptr.ReadPointerObject(this, returnAfter);
+    public GameMakerPointer<TInterface> ReadPointerAndObject<TInterface, TImplementation>(
+        int addr,
+        bool returnAfter = true,
+        bool useTypeOffset = true
+    ) where TInterface : IGameMakerSerializable
+      where TImplementation : TInterface, new() {
+        var ptr = ReadPointer<TInterface, TImplementation>(addr, useTypeOffset);
+        ptr.ReadPointerObject<TImplementation>(this, returnAfter);
         return ptr;
     }
 
-    public GameMakerPointer<T> ReadPointerAndObject<T>(bool returnAfter = true, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
-        return ReadPointerAndObject<T>(ReadInt32(), returnAfter, useTypeOffset);
-    }
-
-    public GameMakerList<T> ReadList<T>(GameMakerList<T>.ListRead? beforeRead = null, GameMakerList<T>.ListRead? afterRead = null, GameMakerList<T>.ListElementRead? elementReader = null) where T : IGameMakerSerializable, new() {
-        var list = new GameMakerList<T>();
-        list.Read(this, beforeRead, afterRead, elementReader);
-        return list;
-    }
-
-    public GameMakerPointerList<T> ReadPointerList<T>(GameMakerPointerList<T>.ListRead? beforeRead = null, GameMakerPointerList<T>.ListRead? afterRead = null, GameMakerPointerList<T>.ListElementRead? elementReader = null)
-        where T : IGameMakerSerializable, new() {
-        var list = new GameMakerPointerList<T>();
-        list.Read(this, beforeRead, afterRead, elementReader);
-        return list;
-    }
-
-    public GameMakerRemotePointerList<T> ReadRemotePointerList<T>(
-        GameMakerRemotePointerList<T>.ListRead? beforeRead = null,
-        GameMakerRemotePointerList<T>.ListRead? afterRead = null,
-        GameMakerRemotePointerList<T>.ListElementRead? elementReader = null)
-        where T : IGameMakerSerializable, new() {
-        var list = new GameMakerRemotePointerList<T>();
-        list.Read(this, beforeRead, afterRead, elementReader);
-        return list;
+    public GameMakerPointer<TInterface> ReadPointerAndObject<TInterface, TImplementation>(bool returnAfter = true, bool useTypeOffset = true) where TInterface : IGameMakerSerializable
+                                                                                                                                              where TImplementation : TInterface, new() {
+        return ReadPointerAndObject<TInterface, TImplementation>(ReadInt32(), returnAfter, useTypeOffset);
     }
 
     public string ReadNullTerminatedString(Encoding encoding) {

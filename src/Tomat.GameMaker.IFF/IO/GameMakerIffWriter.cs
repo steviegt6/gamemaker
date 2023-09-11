@@ -126,7 +126,7 @@ public sealed class GameMakerIffWriter : IGameMakerIffWriter {
         WriteGenericStruct(value);
     }
 
-    public void Write<T>(GameMakerPointer<T> ptr, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
+    public void Write<T>(GameMakerPointer<T> ptr, bool useTypeOffset = true) where T : IGameMakerSerializable {
         if (ptr.IsNull) {
             Write(0);
             return;

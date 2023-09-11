@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.Code;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.Code;
 
 namespace Tomat.GameMaker.IFF.Chunks.CODE;
 

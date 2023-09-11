@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models.ParticleSystemEmitter;
 using Tomat.GameMaker.IFF.IO;
 

@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models.EmbeddedImage;
 
 namespace Tomat.GameMaker.IFF.Chunks.EMBI;

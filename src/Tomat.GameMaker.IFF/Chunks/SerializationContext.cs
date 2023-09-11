@@ -101,7 +101,7 @@ public sealed record SerializationContext(IGameMakerIffWriter Writer, GameMakerI
         Writer.Write(value);
     }
 
-    public void Write<T>(GameMakerPointer<T> ptr, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
+    public void Write<T>(GameMakerPointer<T> ptr, bool useTypeOffset = true) where T : IGameMakerSerializable {
         Writer.Write(ptr, useTypeOffset);
     }
 
@@ -110,36 +110,12 @@ public sealed record SerializationContext(IGameMakerIffWriter Writer, GameMakerI
     }
 #endregion
 
-    public void MarkPointerAndWriteObject<T>(GameMakerPointer<T> pointer) where T : IGameMakerSerializable, new() {
+    public void MarkPointerAndWriteObject<T>(GameMakerPointer<T> pointer) where T : IGameMakerSerializable {
         if (!pointer.TryGetObject(out var obj))
             throw new InvalidOperationException("Pointer is null.");
 
         pointer.WriteObject(this);
         obj.Write(this);
-    }
-
-    public void Write<T>(GameMakerList<T> list, GameMakerList<T>.ListWrite? beforeWrite = null, GameMakerList<T>.ListWrite? afterWrite = null, GameMakerList<T>.ListElementWrite? elementWriter = null)
-        where T : IGameMakerSerializable, new() {
-        list.Write(this, beforeWrite, afterWrite, elementWriter);
-    }
-
-    public void Write<T>(
-        GameMakerPointerList<T> list,
-        GameMakerPointerList<T>.ListWrite? beforeWriter = null,
-        GameMakerPointerList<T>.ListWrite? afterWriter = null,
-        GameMakerPointerList<T>.ListElementWrite? elementWriter = null,
-        GameMakerPointerList<T>.ListElementWrite? elementPointerWriter = null
-    ) where T : IGameMakerSerializable, new() {
-        list.Write(this, beforeWriter, afterWriter, elementWriter, elementPointerWriter);
-    }
-
-    public void Write<T>(
-        GameMakerRemotePointerList<T> list,
-        GameMakerRemotePointerList<T>.ListWrite? beforeWriter = null,
-        GameMakerRemotePointerList<T>.ListWrite? afterWriter = null,
-        GameMakerRemotePointerList<T>.ListElementWrite? elementPointerWriter = null
-    ) where T : IGameMakerSerializable, new() {
-        list.Write(this, beforeWriter, afterWriter, elementPointerWriter);
     }
 
     public void WriteNullTerminatedString(string value, Encoding encoding) {

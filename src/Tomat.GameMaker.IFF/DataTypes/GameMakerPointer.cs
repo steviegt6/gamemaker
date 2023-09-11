@@ -11,9 +11,9 @@ namespace Tomat.GameMaker.IFF.DataTypes;
 ///     position of the object in the GameMaker IFF file, as well as (possibly)
 ///     a reference to the object itself (set by <see cref="ReadPointerObject"/>).
 /// </summary>
-/// <typeparam name="T">The GameMaker object type.</typeparam>
-public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
-    public static readonly GameMakerPointer<T> NULL = new();
+/// <typeparam name="TInterface">The GameMaker object type.</typeparam>
+public struct GameMakerPointer<TInterface> where TInterface : IGameMakerSerializable {
+    public static readonly GameMakerPointer<TInterface> NULL = new();
 
     /// <summary>
     ///     The address of the object in the GameMaker IFF file.
@@ -24,7 +24,7 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
     ///     The instance of the object being pointed to, if
     ///     <see cref="ReadPointerObject"/> has been called.
     /// </summary>
-    private T? ptrObject;
+    private TInterface? ptrObject;
 
     /// <summary>
     ///     Whether the pointer is null.
@@ -39,17 +39,17 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
     ///     The pointer object instance, which will be <see langword="null"/> if
     ///     the pointer <see cref="IsNull"/>.
     /// </returns>
-    public T? GetOrInitializePointerObject(IGameMakerIffReader reader) {
+    public TInterface? GetOrInitializePointerObject<TImplementation>(IGameMakerIffReader reader) where TImplementation : TInterface, new() {
         if (IsNull) {
             ptrObject = default;
             return ptrObject;
         }
 
         if (reader.Pointers.TryGetValue(Address, out var obj)) {
-            ptrObject = (T)obj;
+            ptrObject = (TInterface)obj;
         }
         else {
-            ptrObject = new T();
+            ptrObject = new TImplementation();
             reader.Pointers[Address] = ptrObject;
         }
 
@@ -63,11 +63,11 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
     /// <param name="returnAfter">
     ///     Whether to return to the original position after reading.
     /// </param>
-    public void ReadPointerObject(DeserializationContext context, bool returnAfter) {
+    public void ReadPointerObject<TImplementation>(DeserializationContext context, bool returnAfter) where TImplementation : TInterface, new() {
         if (IsNull)
             return;
 
-        var obj = GetOrInitializePointerObject(context);
+        var obj = GetOrInitializePointerObject<TImplementation>(context);
 
         if (obj is null)
             throw new InvalidOperationException("Pointer object was null despite pointer not being null!");
@@ -91,12 +91,12 @@ public struct GameMakerPointer<T> where T : IGameMakerSerializable, new() {
         context.Pointers[ptrObject] = context.Position;
     }
 
-    public bool TryGetObject([NotNullWhen(returnValue: true)] out T? obj) {
+    public bool TryGetObject([NotNullWhen(returnValue: true)] out TInterface? obj) {
         obj = ptrObject;
         return !IsNull;
     }
 
-    public T ExpectObject() {
+    public TInterface ExpectObject() {
         if (TryGetObject(out var obj))
             return obj;
 

@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.ParticleSystemEmitter;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.ParticleSystemEmitter;
 
 namespace Tomat.GameMaker.IFF.Chunks.PSEM;
 

@@ -42,7 +42,6 @@ using Tomat.GameMaker.IFF.Chunks.TMLN;
 using Tomat.GameMaker.IFF.Chunks.TPAG;
 using Tomat.GameMaker.IFF.Chunks.TXTR;
 using Tomat.GameMaker.IFF.Chunks.VARI;
-using Tomat.GameMaker.IFF.DataTypes.Models.DebugCodeEntry;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.FORM;

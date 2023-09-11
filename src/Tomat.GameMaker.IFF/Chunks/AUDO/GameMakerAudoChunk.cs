@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.Audio;
-using Tomat.GameMaker.IFF.IO;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.Audio;
 
 namespace Tomat.GameMaker.IFF.Chunks.AUDO;
 

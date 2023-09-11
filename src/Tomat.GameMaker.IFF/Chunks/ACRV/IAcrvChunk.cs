@@ -1,7 +1,17 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
+﻿using System.Collections.Generic;
+using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models.AnimationCurve;
 
 namespace Tomat.GameMaker.IFF.Chunks.ACRV;
+
+// chunk ACRV {
+//     align[4];
+//     int32 version;
+//     list<model {
+//         GMAnimationCurve curve;
+//         align[4];
+//     }*> curves;
+// }
 
 /// <summary>
 ///     The <c>ACRV</c> chunk, which contains animation curves.
@@ -16,5 +26,5 @@ public interface IAcrvChunk : IGameMakerChunk {
     /// <summary>
     ///     The list of animation curves.
     /// </summary>
-    GameMakerPointerList<GameMakerAnimationCurve> AnimationCurves { get; set; }
+    List<GameMakerPointer<IAnimationCurve>> AnimationCurves { get; set; }
 }

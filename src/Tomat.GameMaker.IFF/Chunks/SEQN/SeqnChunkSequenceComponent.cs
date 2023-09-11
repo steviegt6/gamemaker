@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.Sequence;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.Sequence;
 
 namespace Tomat.GameMaker.IFF.Chunks.SEQN;
 

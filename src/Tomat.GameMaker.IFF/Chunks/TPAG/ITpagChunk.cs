@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.Texture;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.Texture;
 
 namespace Tomat.GameMaker.IFF.Chunks.TPAG;
 

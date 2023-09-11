@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.FunctionEntry;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.FunctionEntry;
 using Tomat.GameMaker.IFF.DataTypes.Models.Local;
 
 namespace Tomat.GameMaker.IFF.Chunks.FUNC;

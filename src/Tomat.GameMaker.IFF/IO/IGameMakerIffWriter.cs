@@ -52,7 +52,7 @@ public interface IGameMakerIffWriter : IGameMakerIffDataHandler {
 
     void Write(double value);
 
-    void Write<T>(GameMakerPointer<T> ptr, bool useTypeOffset = true) where T : IGameMakerSerializable, new();
+    void Write<T>(GameMakerPointer<T> ptr, bool useTypeOffset = true) where T : IGameMakerSerializable;
 
     void FinalizePointers();
 }

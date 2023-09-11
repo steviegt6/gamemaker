@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.Sound;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.Sound;
 
 namespace Tomat.GameMaker.IFF.Chunks.SOND;
 

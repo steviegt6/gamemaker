@@ -1,19 +1,10 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models.AnimationCurve;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.ACRV;
-
-/* chunk ACRV {
- *     align[4];
- *     int32 version;
- *     list<model {
- *         GMAnimationCurve curve;
- *         align[4];
- *     }*> curves;
- * }
- */
 
 internal sealed class GameMakerAcrvChunk : AbstractChunk,
                                            IAcrvChunk {
@@ -22,19 +13,19 @@ internal sealed class GameMakerAcrvChunk : AbstractChunk,
 
     public int ChunkVersion { get; set; }
 
-    public GameMakerPointerList<GameMakerAnimationCurve> AnimationCurves { get; set; } = null!;
+    public List<GameMakerPointer<IAnimationCurve>> AnimationCurves { get; set; } = null!;
 
     public GameMakerAcrvChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
         context.GmAlign(4);
         ChunkVersion = context.ReadInt32().Expect(VERSION, new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}."));
-        AnimationCurves = context.ReadPointerList<GameMakerAnimationCurve>();
+        AnimationCurves = context.ReadPointerList<IAnimationCurve, GameMakerAnimationCurve>(afterRead: (ctx, _, _) => ctx.GmAlign(4));
     }
 
     public override void Write(SerializationContext context) {
         context.GmAlign(4);
         context.Write(ChunkVersion.Expect(VERSION, new InvalidDataException($"Expected chunk version 1, got {ChunkVersion}.")));
-        context.Write(AnimationCurves);
+        context.WritePointerList(AnimationCurves, afterWrite: (ctx, _, _) => ctx.GmAlign(4));
     }
 }

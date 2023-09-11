@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.Room;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.Room;
 
 namespace Tomat.GameMaker.IFF.Chunks.ROOM;
 

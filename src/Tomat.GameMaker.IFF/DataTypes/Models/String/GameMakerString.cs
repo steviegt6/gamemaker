@@ -5,7 +5,7 @@ namespace Tomat.GameMaker.IFF.DataTypes.Models.String;
 /// <summary>
 ///     Represents a string within a GameMaker IFF file.
 /// </summary>
-public sealed class GameMakerString : IGameMakerSerializable {
+internal sealed class GameMakerString : IString {
     /// <summary>
     ///     The value of the string.
     /// </summary>

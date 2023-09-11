@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.Extension;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.Extension;
 
 namespace Tomat.GameMaker.IFF.Chunks.EXTN;
 

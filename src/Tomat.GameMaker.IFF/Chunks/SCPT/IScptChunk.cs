@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.Script;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.Script;
 
 namespace Tomat.GameMaker.IFF.Chunks.SCPT;
 

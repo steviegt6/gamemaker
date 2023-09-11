@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.FilterEffect;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.FilterEffect;
 
 namespace Tomat.GameMaker.IFF.Chunks.FEDS;
 

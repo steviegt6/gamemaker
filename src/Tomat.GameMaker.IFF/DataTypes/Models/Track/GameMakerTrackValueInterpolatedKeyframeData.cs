@@ -9,7 +9,7 @@ public sealed class GameMakerTrackValueInterpolatedKeyframeData : IGameMakerSeri
 
     public bool IsCurveEmbedded { get; set; }
 
-    public GameMakerAnimationCurve? AnimationCurve { get; set; }
+    public IAnimationCurve? AnimationCurve { get; set; }
 
     public int AnimationCurveId { get; set; }
 

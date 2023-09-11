@@ -1,7 +1,5 @@
 ﻿using System.IO;
-using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models.Background;
-using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.BGND;
 

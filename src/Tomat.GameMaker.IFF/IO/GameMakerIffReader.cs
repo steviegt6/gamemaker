@@ -124,29 +124,34 @@ public sealed class GameMakerIffReader : IGameMakerIffReader {
     /// </summary>
     /// <param name="addr">The address of the pointer.</param>
     /// <param name="useTypeOffset">
-    ///     Whether to use the type offset of <typeparamref name="T" />.
+    ///     Whether to use the type offset of <typeparamref name="TInterface" />.
     /// </param>
-    /// <typeparam name="T">The pointer type.</typeparam>
+    /// <typeparam name="TInterface">The pointer type.</typeparam>
+    /// <typeparam name="TImplementation">The implementing type.</typeparam>
     /// <returns>
     ///     A pointer pointing to the given <paramref name="addr"/> which
     ///     accesses the <see cref="Pointers"/> map.
     /// </returns>
-    public GameMakerPointer<T> ReadPointer<T>(int addr, bool useTypeOffset = true) where T : IGameMakerSerializable, new() {
+    public GameMakerPointer<TInterface> ReadPointer<TInterface, TImplementation>(
+        int addr,
+        bool useTypeOffset = true
+    ) where TInterface : IGameMakerSerializable
+      where TImplementation : TInterface, new() {
         // FIX: If address is zero (null), just return a default (null) pointer.
         // This placement is only particularly important for GameMaker objects
         // with expected pointer offsets (e.g. GameMakerString) since a zeroed
         // address (null) is not offset like normal.
         if (addr == 0)
-            return new GameMakerPointer<T>();
+            return new GameMakerPointer<TInterface>();
 
         if (useTypeOffset)
-            addr -= GameMakerPointerExtensions.GetPointerOffset(typeof(T));
+            addr -= GameMakerPointerExtensions.GetPointerOffset(typeof(TInterface));
 
-        var ptr = new GameMakerPointer<T> {
+        var ptr = new GameMakerPointer<TInterface> {
             Address = addr,
         };
 
-        ptr.GetOrInitializePointerObject(this);
+        ptr.GetOrInitializePointerObject<TImplementation>(this);
         return ptr;
     }
 

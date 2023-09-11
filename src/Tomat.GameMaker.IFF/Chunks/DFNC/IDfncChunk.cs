@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes;
-using Tomat.GameMaker.IFF.DataTypes.Models.DebugFunctionInfo;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.DebugFunctionInfo;
 
 namespace Tomat.GameMaker.IFF.Chunks.DFNC;
 

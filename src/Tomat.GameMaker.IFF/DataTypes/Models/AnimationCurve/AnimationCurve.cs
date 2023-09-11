@@ -1,7 +1,7 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
+﻿using System.Collections.Generic;
+using Tomat.GameMaker.IFF.Chunks;
 
-namespace Tomat.GameMaker.IFF.DataTypes.Models.AnimationCurve;
+namespace Tomat.GameMaker.IFF.DataTypes.Models.AnimationCurve; 
 
 /* model GMAnimationCurve {
  * #if false // TODO: I don't believe names are ever actually included...
@@ -13,12 +13,24 @@ namespace Tomat.GameMaker.IFF.DataTypes.Models.AnimationCurve;
  * }
  */
 
-public sealed class GameMakerAnimationCurve : IGameMakerSerializable {
+public interface IAnimationCurve : IGameMakerSerializable {
+    // GameMakerPointer<GameMakerString> Name { get; set; }
+
+    AnimationCurveGraphType GraphType { get; set; }
+
+    int ChannelCount { get; }
+
+    List<IAnimationCurveChannel> Channels { get; }
+}
+
+internal sealed class GameMakerAnimationCurve : IAnimationCurve {
     // public GameMakerPointer<GameMakerString> Name { get; set; }
 
-    public GameMakerAnimationCurveGraphType GraphType { get; set; }
+    public AnimationCurveGraphType GraphType { get; set; }
 
-    public GameMakerList<GameMakerAnimationCurveChannel> Channels { get; set; } = null!;
+    public int ChannelCount => Channels.Count;
+
+    public List<IAnimationCurveChannel> Channels { get; set; } = null!;
 
     // private readonly bool includeName;
 
@@ -31,8 +43,8 @@ public sealed class GameMakerAnimationCurve : IGameMakerSerializable {
     public void Read(DeserializationContext context) {
         //Name = includeName ? context.ReadPointerAndObject<GameMakerString>() : GameMakerPointer<GameMakerString>.NULL;
 
-        GraphType = (GameMakerAnimationCurveGraphType)context.ReadInt32();
-        Channels = context.ReadList<GameMakerAnimationCurveChannel>();
+        GraphType = (AnimationCurveGraphType)context.ReadInt32();
+        Channels = context.ReadList<IAnimationCurveChannel, GameMakerAnimationCurveChannel>();
     }
 
     public void Write(SerializationContext context) {
@@ -40,6 +52,6 @@ public sealed class GameMakerAnimationCurve : IGameMakerSerializable {
         //     context.Write(Name);
 
         context.Write((int)GraphType);
-        context.Write(Channels);
+        context.WriteList(Channels);
     }
 }
