@@ -2,7 +2,6 @@
 using Tomat.GameBreaker.API.DependencyInjection;
 using Tomat.GameBreaker.API.Hooking;
 using Tomat.GameBreaker.API.Hooking.Hooks;
-using Tomat.GameBreaker.API.PatternSearching;
 using Tomat.GameBreaker.ManagedHost.Hooking.Hooks;
 
 namespace Tomat.GameBreaker.ManagedHost.Hooking;

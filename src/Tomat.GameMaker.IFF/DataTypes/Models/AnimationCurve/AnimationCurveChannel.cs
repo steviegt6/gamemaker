@@ -8,8 +8,10 @@ namespace Tomat.GameMaker.IFF.DataTypes.Models.AnimationCurve;
 //     string* name;
 //     int32 function;
 //     int32 iterations;
-//     int32 pointsCount;
-//     GMCurvePoint[] points;
+//     int32 numPoints;
+//     array {
+//         GMCurvePoint
+//     } points;
 // }
 
 public interface IAnimationCurveChannel : IGameMakerSerializable {
@@ -18,8 +20,6 @@ public interface IAnimationCurveChannel : IGameMakerSerializable {
     AnimationCurveType FunctionType { get; set; }
 
     int Iterations { get; set; }
-
-    int PointsCount { get; }
 
     List<ICurvePoint> Points { get; set; }
 }
@@ -30,8 +30,6 @@ internal sealed class GameMakerAnimationCurveChannel : IAnimationCurveChannel {
     public AnimationCurveType FunctionType { get; set; }
 
     public int Iterations { get; set; }
-
-    public int PointsCount => Points.Count;
 
     public List<ICurvePoint> Points { get; set; } = null!;
 

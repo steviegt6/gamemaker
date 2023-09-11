@@ -7,10 +7,11 @@ namespace Tomat.GameMaker.IFF.Chunks.ACRV;
 // chunk ACRV {
 //     align[4];
 //     int32 version;
-//     list<model {
-//         GMAnimationCurve curve;
+//     int32 numCurves;
+//     array {
+//         AnimationCurve curve;
 //         align[4];
-//     }*> curves;
+//     } curves;
 // }
 
 /// <summary>

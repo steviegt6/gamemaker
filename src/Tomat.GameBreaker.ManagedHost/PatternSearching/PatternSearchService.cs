@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System.Text;
 using Tomat.GameBreaker.API.PatternSearching;
 
 namespace Tomat.GameBreaker.ManagedHost.PatternSearching;
