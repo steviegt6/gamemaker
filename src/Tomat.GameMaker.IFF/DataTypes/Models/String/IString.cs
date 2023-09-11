@@ -1,6 +1,6 @@
 ﻿using Tomat.GameMaker.IFF.Chunks;
 
-namespace Tomat.GameMaker.IFF.DataTypes.Models.String; 
+namespace Tomat.GameMaker.IFF.DataTypes.Models.String;
 
 // model String {
 //     int32 length;
