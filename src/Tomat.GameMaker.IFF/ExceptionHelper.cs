@@ -14,4 +14,15 @@ internal static class ExceptionHelper {
 
         return @this;
     }
+
+    [StackTraceHidden]
+    public static T Expect<T>(this T @this, T value, Func<T, Exception> exception) {
+        if (@this is null && value is null)
+            return @this;
+
+        if (@this is null || !@this.Equals(value))
+            throw exception(value);
+
+        return @this;
+    }
 }

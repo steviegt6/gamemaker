@@ -1,19 +1,39 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using Tomat.GameMaker.IFF.DataTypes;
 using Tomat.GameMaker.IFF.DataTypes.Models.Background;
 
 namespace Tomat.GameMaker.IFF.Chunks.BGND;
+
+// chunk BGND {
+//     int32 numBackgrounds;
+//     array {
+//         align[8];
+//         GMBackground background;
+//     } backgrounds;
+// }
+
+/// <summary>
+///     The <c>BGND</c> chunk, which contains backgrounds.
+/// </summary>
+public interface IBgndChunk : IGameMakerChunk {
+    /// <summary>
+    ///     The list of backgrounds.
+    /// </summary>
+    List<GameMakerPointer<IBackground>> Backgrounds { get; set; }
+}
 
 internal sealed class GameMakerBgndChunk : AbstractChunk,
                                            IBgndChunk {
     public const string NAME = "BGND";
 
-    public GameMakerPointerList<GameMakerBackground> Backgrounds { get; set; } = null!;
+    public List<GameMakerPointer<IBackground>> Backgrounds { get; set; } = null!;
 
     public GameMakerBgndChunk(string name, int size, int startPosition) : base(name, size, startPosition) { }
 
     public override void Read(DeserializationContext context) {
-        Backgrounds = context.ReadPointerList<GameMakerBackground>(
-            elementReader: (ctx, notLast) => {
+        Backgrounds = context.ReadPointerList<IBackground, GameMakerBackground>(
+            readElement: (ctx, notLast) => {
                 var ptr = ctx.ReadInt32();
 
                 if (context.Position % context.VersionInfo.BackgroundAlignment != 0)
