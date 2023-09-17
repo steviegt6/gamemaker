@@ -14,13 +14,13 @@ public interface IFileModifierService {
     /// <param name="modifier">The modifier to add.</param>
     void AddFileModifier(IFileModifier modifier);
 
-    /// <summary>
+    /*/// <summary>
     ///     Adds a <see cref="IIffModifier"/> to the service.
     /// </summary>
     /// <param name="modifier">
     ///     The IFF modifier to add.
     /// </param>
-    void AddIffModifier(IIffModifier modifier);
+    void AddIffModifier(IIffModifier modifier);*/
 
     /// <summary>
     ///     Attempts to modify the file at the given <paramref name="path"/>.

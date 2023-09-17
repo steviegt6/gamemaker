@@ -1,2 +1,10 @@
 ﻿OpenThread
 ResumeThread
+OpenProcess
+ReadProcessMemory
+CreateProcess
+GetModuleHandle
+GetProcAddress
+VirtualAllocEx
+CreateRemoteThread
+WriteProcessMemory

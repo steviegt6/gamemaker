@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Tomat.GameMaker.IFF\Tomat.GameMaker.IFF.csproj" />
+        <!-- <ProjectReference Include="..\Tomat.GameMaker.IFF\Tomat.GameMaker.IFF.csproj" /> -->
     </ItemGroup>
 
     <ItemGroup>

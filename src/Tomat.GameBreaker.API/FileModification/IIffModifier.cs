@@ -1,4 +1,4 @@
-﻿using Tomat.GameMaker.IFF;
+﻿/*using Tomat.GameMaker.IFF;
 using Tomat.GameMaker.IFF.Chunks;
 
 namespace Tomat.GameBreaker.API.FileModification; 
@@ -64,4 +64,4 @@ public interface IIffModifier {
     ///     writing the IFF and loading the modified version.
     /// </remarks>
     bool ModifyIff(string path, FileContext context, DeserializationContext iffContext);
-}
+}*/

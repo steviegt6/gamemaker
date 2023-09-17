@@ -33,7 +33,7 @@ std::wstring find_valid_path(std::string path, const std::wstring& cwd, const st
     return L"";
 }
 
-bool init_dotnet(const nlohmann::json& json, const std::wstring& cwd, const std::wstring& managed_host_dir)
+bool init_dotnet(const nlohmann::json& json, const std::wstring& cwd, const std::wstring& managed_host_dir, native_entry* entry)
 {
     if (!std::filesystem::exists(managed_host_dir))
         msg(yellow, "Managed host directory doesn't exist, this may cause failures.\n");
@@ -66,7 +66,7 @@ bool init_dotnet(const nlohmann::json& json, const std::wstring& cwd, const std:
         return false;
     }
 
-    typedef void (CORECLR_DELEGATE_CALLTYPE* native_entry)(const wchar_t* base_directory);
+
     native_entry entrypoint = nullptr;
     const int rc = load_assembly_and_get_function_pointer(
         assembly_path.c_str(),
@@ -83,7 +83,7 @@ bool init_dotnet(const nlohmann::json& json, const std::wstring& cwd, const std:
         return false;
     }
 
-    entrypoint(cwd.c_str());
+    *entry = entrypoint;
     return true;
 }
 

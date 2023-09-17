@@ -65,13 +65,13 @@ internal sealed class ManagedHostGame : Game {
 
     private static IPlatformService MakePlatformServiceForCurrentPlatform() {
         if (OperatingSystem.IsWindows())
-            return Environment.Is64BitProcess ? new WindowsPlatform64() : new WindowsPlatform32();
+            return new WindowsPlatform(Environment.Is64BitProcess);
 
         if (OperatingSystem.IsMacOS())
-            return Environment.Is64BitProcess ? new OsxPlatform64() : new OsxPlatform32();
+            return new OsxPlatform(Environment.Is64BitProcess);
 
         if (OperatingSystem.IsLinux())
-            return Environment.Is64BitProcess ? new LinuxPlatform64() : new LinuxPlatform32();
+            return new LinuxPlatform(Environment.Is64BitProcess);
 
         throw new PlatformNotSupportedException();
     }

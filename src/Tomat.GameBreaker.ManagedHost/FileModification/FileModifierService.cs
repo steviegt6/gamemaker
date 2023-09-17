@@ -4,9 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using Tomat.GameBreaker.API.FileModification;
-using Tomat.GameMaker.IFF;
-using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameBreaker.ManagedHost.FileModification;
 
@@ -14,22 +11,22 @@ internal sealed class FileModifierService : IFileModifierService {
     private static readonly string[] known_iff_extensions = { ".3ds", ".dat", ".ios", ".psp", ".symbian", ".unx", ".wiiu", ".win", };
 
     private readonly List<IFileModifier> fileModifiers = new();
-    private readonly List<IIffModifier> iffModifiers = new();
+    // private readonly List<IIffModifier> iffModifiers = new();
 
     public void AddFileModifier(IFileModifier modifier) {
         fileModifiers.Add(modifier);
     }
 
-    public void AddIffModifier(IIffModifier modifier) {
+    /*public void AddIffModifier(IIffModifier modifier) {
         iffModifiers.Add(modifier);
-    }
+    }*/
 
     public bool TryModifyFile(string path, FileContext context, [NotNullWhen(returnValue: true)] out string? newPath) {
         newPath = null;
 
         var tmpFile = GetTmpFileAndCleanUpLeftoverTmpFiles(path);
 
-        if (IsIff(path, context)) {
+        /*if (IsIff(path, context)) {
             var modifiable = false;
             foreach (var iffModifier in iffModifiers)
                 modifiable |= iffModifier.CanModify(path, context);
@@ -62,7 +59,7 @@ internal sealed class FileModifierService : IFileModifierService {
 
                 return modified;
             }
-        }
+        }*/
 
     TreatAsRegular:
         {
@@ -98,6 +95,9 @@ internal sealed class FileModifierService : IFileModifierService {
     private static string GetTmpFileAndCleanUpLeftoverTmpFiles(string path) {
         const string tmp = "tmp";
 
+        if (!Path.IsPathRooted(path))
+            path = Path.GetFullPath(path);
+
         var dirName = Path.GetDirectoryName(path) ?? throw new InvalidOperationException();
         var fileName = Path.GetFileNameWithoutExtension(path);
         var fileExtension = Path.GetExtension(path);
@@ -110,11 +110,11 @@ internal sealed class FileModifierService : IFileModifierService {
                 Console.WriteLine($"Failed to delete {file}: {e}");
             }
         }
-        
+
         var tmpCount = 0;
-        while (File.Exists($"{fileName}.{tmp}{tmpCount}{fileExtension}"))
+        while (File.Exists(Path.Combine(dirName, $"{fileName}.{tmp}{tmpCount}{fileExtension}")))
             tmpCount++;
-        
+
         return Path.Combine(dirName, $"{fileName}.{tmp}{tmpCount}{fileExtension}");
     }
 

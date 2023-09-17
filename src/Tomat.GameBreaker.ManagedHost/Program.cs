@@ -1,48 +1,31 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
-using Windows.Win32;
-using Windows.Win32.System.Threading;
 using Tomat.GameBreaker.API;
+using Tomat.GameBreaker.API.DependencyInjection;
+using Tomat.GameBreaker.API.Platform;
 using Tomat.GameBreaker.ManagedHost.Utilities;
 
 namespace Tomat.GameBreaker.ManagedHost;
 
 internal static class Program {
     [UnmanagedCallersOnly]
-    [SupportedOSPlatform("windows5.1.2600")]
-    internal static unsafe void Main(short* cwd) {
+    internal static unsafe void Main(short* pCwd, short* pDllPath, int major, int minor, int patch) {
         Debugger.Launch();
-        var dir = NativeUtil.ReadWCharPtr(cwd);
-        Console.WriteLine($"Managed context recognizing current directory: '{dir}'");
+        var cwd = NativeUtil.ReadWCharPtr(pCwd);
+        var dllPath = NativeUtil.ReadWCharPtr(pDllPath);
+        Console.WriteLine($"Managed context recognizing current directory: '{cwd}'");
+        Console.WriteLine($"Managed context recognizing DLL path: '{dllPath}'");
 
         Console.WriteLine("Setting up game...");
-        Game game = new ManagedHostGame(dir);
+        Game game = new ManagedHostGame(cwd);
+
+        var proc = Process.GetCurrentProcess();
+        var platform = game.ServiceProvider.ExpectService<IPlatformService>();
+        if (!platform.IsSuspended(proc))
+            platform.Restart(proc, new[] { dllPath });
+
         game.Initialize();
-        ResumeProcess();
-    }
-
-    /*[LibraryImport("dbgcore.dll", EntryPoint = "resume_process")]
-    private static partial void ResumeProcess();*/
-
-    [SupportedOSPlatform("windows5.1.2600")]
-    private static void ResumeProcess() {
-        var process = Process.GetCurrentProcess();
-
-        foreach (ProcessThread thread in process.Threads) {
-            var threadHandle = PInvoke.OpenThread(THREAD_ACCESS_RIGHTS.THREAD_SUSPEND_RESUME, false, (uint)thread.Id);
-            if (threadHandle.IsNull)
-                continue;
-
-            uint suspendCount;
-
-            do {
-                suspendCount = PInvoke.ResumeThread(threadHandle);
-            }
-            while (suspendCount > 0);
-
-            PInvoke.CloseHandle(threadHandle);
-        }
+        platform.Resume(proc);
     }
 }
