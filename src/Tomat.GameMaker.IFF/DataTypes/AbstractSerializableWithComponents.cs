@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Tomat.GameMaker.IFF.Chunks;
 
 namespace Tomat.GameMaker.IFF.DataTypes;
 

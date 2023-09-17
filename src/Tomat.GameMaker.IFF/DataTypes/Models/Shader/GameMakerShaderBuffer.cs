@@ -1,5 +1,4 @@
 ﻿using System;
-using Tomat.GameMaker.IFF.Chunks;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Shader;
 

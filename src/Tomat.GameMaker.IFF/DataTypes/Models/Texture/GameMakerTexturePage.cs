@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Texture;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Texture;
 
 public sealed class GameMakerTexturePage : IGameMakerSerializable {
     public uint Scaled { get; set; }

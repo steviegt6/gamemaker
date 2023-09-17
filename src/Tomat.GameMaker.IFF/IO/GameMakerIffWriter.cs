@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.DataTypes;
 
 namespace Tomat.GameMaker.IFF.IO;

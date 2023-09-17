@@ -1,16 +1,14 @@
 ﻿using System;
 using System.IO;
-using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.Chunks.STRG;
 using Tomat.GameMaker.IFF.DataTypes.Models.Code;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Variable;
 
 public sealed class GameMakerVariable : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> Name { get; set; }
 
-    public GameMakerCodeInstanceType VariableType { get; set; }
+    public CodeInstanceType VariableType { get; set; }
 
     public int VariableId { get; set; }
 
@@ -20,7 +18,7 @@ public sealed class GameMakerVariable : IGameMakerSerializable {
         Name = context.ReadPointerAndObject<GameMakerString>();
 
         if (context.VersionInfo.FormatId > 14) {
-            VariableType = (GameMakerCodeInstanceType)context.ReadInt32();
+            VariableType = (CodeInstanceType)context.ReadInt32();
 
             // TODO: Handle max struct ID detection for compilation.
 

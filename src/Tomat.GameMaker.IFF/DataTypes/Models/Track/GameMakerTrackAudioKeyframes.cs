@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.Sequence.Keyframes;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.Sequence.Keyframes;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Track;
 

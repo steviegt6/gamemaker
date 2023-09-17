@@ -1,7 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.DebugScript;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.DebugScript;
 
 public sealed class GameMakerDebugScript : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> Source { get; set; }

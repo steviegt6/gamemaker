@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.AnimationCurve;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Track;
 

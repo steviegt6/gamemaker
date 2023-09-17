@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Tomat.GameMaker.IFF.Chunks;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Room; 
 

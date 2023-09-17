@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.TextureGroupInfo; 
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.TextureGroupInfo; 
 
 public sealed class GameMakerTextureGroupInfoResourceId : IGameMakerSerializable {
     public int Id { get; set; }

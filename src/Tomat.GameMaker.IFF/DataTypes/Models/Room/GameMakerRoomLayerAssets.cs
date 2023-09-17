@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Room;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Room;
 
 public sealed class GameMakerRoomLayerAssets : IGameMakerSerializable {
     public GameMakerPointer<GameMakerPointerList<GameMakerRoomTile>> LegacyTiles { get; set; }

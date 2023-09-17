@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Path; 
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Path; 
 
 public sealed class GameMakerPathPoint : IGameMakerSerializable {
     public float X { get; set; }

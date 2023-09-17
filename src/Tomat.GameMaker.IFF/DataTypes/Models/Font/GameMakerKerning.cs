@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Font;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Font;
 
 public sealed class GameMakerKerning : IGameMakerSerializable {
     public short Other { get; set; }

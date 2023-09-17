@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.DataTypes;
 
 namespace Tomat.GameMaker.IFF.IO;
@@ -78,7 +77,7 @@ public static class GameMakerIffWriterExtensions {
     public static void GmAlign(this IGameMakerIffWriter writer, int align) {
         var pad = align - 1;
 
-        while ((writer.Position & align) != pad)
+        while ((writer.Position & pad) != 0)
             writer.Write((byte) 0);
     }
 

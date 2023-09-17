@@ -1,7 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Local;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Local;
 
 public sealed class GameMakerLocal : IGameMakerSerializable {
     public int Index { get; set; }

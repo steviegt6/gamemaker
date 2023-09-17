@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.DataTypes.Models.Sequence;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Sprite;

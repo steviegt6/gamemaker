@@ -1,8 +1,6 @@
 ﻿using System.IO;
-using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.Chunks.STRG;
 using Tomat.GameMaker.IFF.DataTypes.Models.Code;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.FunctionEntry;
 

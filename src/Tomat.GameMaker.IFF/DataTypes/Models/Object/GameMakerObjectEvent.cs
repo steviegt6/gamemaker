@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Object;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Object;
 
 public sealed class GameMakerObjectEvent : IGameMakerSerializable {
     public int SubType { get; set; }

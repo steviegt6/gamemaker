@@ -1,6 +1,4 @@
 ﻿using System;
-using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
 using Tomat.GameMaker.IFF.DataTypes.Models.Texture;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Font;

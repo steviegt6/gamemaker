@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.DataTypes.Models.Sequence.Keyframes;
 using Tomat.GameMaker.IFF.DataTypes.Models.Sprite;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
 using Tomat.GameMaker.IFF.DataTypes.Models.Track;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Sequence;

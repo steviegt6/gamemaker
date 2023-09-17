@@ -1,7 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Sound;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Sound;
 
 public sealed class GameMakerSound : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> Name { get; set; }

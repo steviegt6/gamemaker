@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.NineSlice;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.NineSlice;
 
 public sealed class GameMakerNineSlice : IGameMakerSerializable {
     public const int TILE_MODES_LENGTH = 5;

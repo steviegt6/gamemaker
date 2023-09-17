@@ -1,7 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Sequence.Keyframes;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Sequence.Keyframes;
 
 public sealed class GameMakerMoment : IGameMakerSerializable {
     // Should be zero if none, one if there's a message.

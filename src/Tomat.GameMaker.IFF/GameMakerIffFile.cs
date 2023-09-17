@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.Chunks.FORM;
 using Tomat.GameMaker.IFF.IO;
 

@@ -2,13 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using Tomat.GameMaker.IFF.Chunks.ACRV;
-using Tomat.GameMaker.IFF.Chunks.AGRP;
-using Tomat.GameMaker.IFF.Chunks.AUDO;
-using Tomat.GameMaker.IFF.Chunks.BGND;
 using Tomat.GameMaker.IFF.Chunks.CODE;
-using Tomat.GameMaker.IFF.Chunks.DAFL;
-using Tomat.GameMaker.IFF.Chunks.DBGI;
 using Tomat.GameMaker.IFF.Chunks.DFNC;
 using Tomat.GameMaker.IFF.Chunks.EMBI;
 using Tomat.GameMaker.IFF.Chunks.EXTN;

@@ -54,9 +54,9 @@ internal sealed class GameMakerVariChunk : AbstractChunk,
                 component.VarCount2 = 0;
 
                 foreach (var variable in Variables!) {
-                    if (variable.VariableType == GameMakerCodeInstanceType.Global)
+                    if (variable.VariableType == CodeInstanceType.Global)
                         component.VarCount1++;
-                    else if (variable is { VariableId: >= 0, VariableType: GameMakerCodeInstanceType.Self })
+                    else if (variable is { VariableId: >= 0, VariableType: CodeInstanceType.Self })
                         component.VarCount2++;
                 }
             }
@@ -64,7 +64,7 @@ internal sealed class GameMakerVariChunk : AbstractChunk,
                 component.VarCount1 = -1;
 
                 foreach (var variable in Variables!) {
-                    if (variable.VariableType is GameMakerCodeInstanceType.Global or GameMakerCodeInstanceType.Self)
+                    if (variable.VariableType is CodeInstanceType.Global or CodeInstanceType.Self)
                         component.VarCount1 = Math.Max(component.VarCount1, variable.VariableId);
                 }
 

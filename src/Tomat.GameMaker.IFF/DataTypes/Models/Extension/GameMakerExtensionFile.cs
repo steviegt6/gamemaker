@@ -1,7 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Extension;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Extension;
 
 public sealed class GameMakerExtensionFile : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> FileName { get; set; }

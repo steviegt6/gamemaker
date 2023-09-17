@@ -1,4 +1,4 @@
-﻿using Tomat.GameMaker.IFF.DataTypes.Models.String;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.Chunks.STRG;

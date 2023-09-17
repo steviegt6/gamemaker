@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.ParticleSystem;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.ParticleSystem;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Room;
 

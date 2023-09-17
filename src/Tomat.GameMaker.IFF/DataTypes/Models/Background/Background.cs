@@ -1,33 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
-using Tomat.GameMaker.IFF.DataTypes.Models.Texture;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Background;
-
-// model GMBackground {
-//     string* name;
-//     bool transparent;
-//     bool smooth;
-//     bool preload;
-//     TexturePageEntry* texturePageEntry;
-// #if VERSION >= 2.0.0
-//     int32 const2; // always 2
-//     int tileWidth;
-//     int tileHeight;
-//     int tileHSep;
-//     int tileVSep;
-//     int columns;
-//     int frames;
-//     int tileCount;
-//     int32 const0; // always 0
-//     long frameLength; // numFrameData
-//     array {
-//         uint
-//     } frameData;
-// #endif
-// }
 
 public interface IBackground : IGameMakerSerializable {
     GameMakerPointer<IString> Name { get; set; }
@@ -63,7 +37,7 @@ public interface IBackgroundGm2Component {
 
     long FrameLength { get; set; }
 
-    List<List<uint>> FrameData { get; set; }
+    List<List<int>> FrameData { get; set; }
 }
 
 internal sealed class GameMakerBackground : AbstractSerializableWithComponents,
@@ -89,7 +63,7 @@ internal sealed class GameMakerBackground : AbstractSerializableWithComponents,
 
         public required long FrameLength { get; set; }
 
-        public required List<List<uint>> FrameData { get; set; }
+        public required List<List<int>> FrameData { get; set; }
     }
 
     public const int CONST_2 = 2;
@@ -125,12 +99,12 @@ internal sealed class GameMakerBackground : AbstractSerializableWithComponents,
         var tileCount = context.ReadInt32();
         var const0 = context.ReadInt32().Expect(CONST_0, x => new InvalidDataException($"Expected {CONST_0}, got {x}."));
         var frameLength = context.ReadInt64();
-        var frameData = new List<List<uint>>(tileCount);
+        var frameData = new List<List<int>>(tileCount);
 
         for (var i = 0; i < tileCount; i++) {
-            var tileFrames = new List<uint>(frames);
+            var tileFrames = new List<int>(frames);
             for (var j = 0; j < frames; j++)
-                tileFrames.Add(context.ReadUInt32());
+                tileFrames.Add(context.ReadInt32());
 
             frameData.Add(tileFrames);
         }

@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Code; 
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Code; 
 
 public sealed class GameMakerCodeInstructionReference<T> : IGameMakerSerializable {
     public int NextOccurence { get; set; }

@@ -1,5 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.Sprite;
+﻿using Tomat.GameMaker.IFF.DataTypes.Models.Sprite;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Room;
 

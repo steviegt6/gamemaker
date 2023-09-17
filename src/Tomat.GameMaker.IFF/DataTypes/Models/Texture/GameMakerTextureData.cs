@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using ICSharpCode.SharpZipLib.BZip2;
-using Tomat.GameMaker.IFF.Chunks;
 using Tomat.GameMaker.IFF.IO;
 
 namespace Tomat.GameMaker.IFF.DataTypes.Models.Texture;

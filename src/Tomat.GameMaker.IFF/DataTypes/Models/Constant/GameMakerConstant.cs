@@ -1,7 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Constant;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Constant;
 
 public sealed class GameMakerConstant : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> Name { get; set; }

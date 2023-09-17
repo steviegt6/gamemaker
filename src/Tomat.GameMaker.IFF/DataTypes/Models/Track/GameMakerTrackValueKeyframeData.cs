@@ -1,6 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.Track;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.Track;
 
 public sealed class GameMakerTrackValueKeyframeData : IGameMakerSerializable {
     public int Value { get; set; }

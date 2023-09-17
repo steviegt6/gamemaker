@@ -1,7 +1,4 @@
-﻿using Tomat.GameMaker.IFF.Chunks;
-using Tomat.GameMaker.IFF.DataTypes.Models.String;
-
-namespace Tomat.GameMaker.IFF.DataTypes.Models.ParticleSystemEmitter;
+﻿namespace Tomat.GameMaker.IFF.DataTypes.Models.ParticleSystemEmitter;
 
 public sealed class GameMakerParticleSystemEmitter : IGameMakerSerializable {
     public GameMakerPointer<GameMakerString> Name { get; set; }
