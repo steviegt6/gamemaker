@@ -11,7 +11,7 @@ namespace Tomat.GameBreaker.ManagedHost;
 internal static class Program {
     [UnmanagedCallersOnly]
     internal static unsafe void Main(short* pCwd, short* pDllPath, int major, int minor, int patch) {
-        Debugger.Launch();
+        //Debugger.Launch();
         var cwd = NativeUtil.ReadWCharPtr(pCwd);
         var dllPath = NativeUtil.ReadWCharPtr(pDllPath);
         Console.WriteLine($"Managed context recognizing current directory: '{cwd}'");

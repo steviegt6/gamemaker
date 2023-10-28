@@ -6,12 +6,15 @@ using Tomat.GameBreaker.API;
 using Tomat.GameBreaker.API.DependencyInjection;
 using Tomat.GameBreaker.API.FileModification;
 using Tomat.GameBreaker.API.Hooking;
+using Tomat.GameBreaker.API.Marshalling;
 using Tomat.GameBreaker.API.ModLoader;
 using Tomat.GameBreaker.API.PatternSearching;
 using Tomat.GameBreaker.API.Platform;
 using Tomat.GameBreaker.ManagedHost.DefaultMod;
 using Tomat.GameBreaker.ManagedHost.FileModification;
 using Tomat.GameBreaker.ManagedHost.Hooking;
+using Tomat.GameBreaker.ManagedHost.Marshalling;
+using Tomat.GameBreaker.ManagedHost.Marshalling.Types;
 using Tomat.GameBreaker.ManagedHost.ModLoader;
 using Tomat.GameBreaker.ManagedHost.PatternSearching;
 using Tomat.GameBreaker.ManagedHost.Platform;
@@ -51,6 +54,11 @@ internal sealed class ManagedHostGame : Game {
         provider.RegisterService<IHookService>(new MinHookHookService());
         provider.RegisterService<IModLoader>(new DefaultModLoader());
         provider.RegisterService<IFileModifierService>(new FileModifierService());
+
+        IMarshallingService marshallingService = new MarshallingService();
+        provider.RegisterService(marshallingService);
+        marshallingService.RegisterMarshaller(new RValueMarshaller());
+
         return provider;
     }
 
