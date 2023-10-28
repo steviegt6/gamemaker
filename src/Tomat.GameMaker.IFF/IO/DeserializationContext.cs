@@ -10,20 +10,22 @@ namespace Tomat.GameMaker.IFF.IO;
 public sealed class DeserializationContext {
     private static readonly Encoding encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 
-    public HighCapacityArray<byte> Data { get; }
+    private readonly Stream stream;
 
-    public long Position { get; set; }
+    public long Position {
+        get => stream.Position;
+        set => stream.Position = value;
+    }
 
-    public long Length => Data.Length;
+    public long Length => stream.Length;
 
-    public DeserializationContext(HighCapacityArray<byte> data) {
-        Data = data;
+    public DeserializationContext(Stream stream) {
+        this.stream = stream;
     }
 
 #region Reading
     public byte ReadByte() {
-        AssertAvailableSize<byte>();
-        return Data[Position++];
+        return ReadGenericStruct<byte>();
     }
 
     public bool ReadBoolean(bool wide) {
@@ -70,32 +72,26 @@ public sealed class DeserializationContext {
         return ReadGenericStruct<double>();
     }
 
-    public Span<byte> ReadBytes(int count) {
+    public byte[] ReadBytes(int count) {
         AssertAvailableSize(count);
-        return Data.GetSpan(Position, count);
+        var buffer = new byte[count];
+        var read = stream.Read(buffer, 0, count);
+        Debug.Assert(read == count);
+        return buffer;
     }
 
     public char[] ReadChars(int count) {
-        return encoding.GetChars(ReadBytes(count).ToArray());
+        return encoding.GetChars(ReadBytes(count));
     }
 
     private unsafe T ReadGenericStruct<T>() where T : unmanaged {
         AssertAvailableSize<T>();
 
         var size = sizeof(T);
-
-        if (Data.IsContiguous(Position, Position + size)) {
-            var result = Unsafe.ReadUnaligned<T>(ref Data.Ref(Position));
-            Position += size;
-            return result;
-        }
-
-        var buffer = stackalloc byte[size];
-        for (var i = 0; i < size; i++)
-            buffer[i] = Data[Position + i];
-
-        Position += size;
-        return Unsafe.ReadUnaligned<T>(buffer);
+        Span<byte> buffer = stackalloc byte[size];
+        var read = stream.Read(buffer);
+        Debug.Assert(read == size);
+        return Unsafe.ReadUnaligned<T>(ref buffer[0]);
     }
 
     [Conditional("DEBUG")]
@@ -118,7 +114,7 @@ public sealed class DeserializationContext {
             throw new FileNotFoundException("Can not create deserialization context from file that does not exist.", path);
 
         using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-        return new DeserializationContext(HighCapacityArray.FromFileStream(fs));
+        return new DeserializationContext(fs);
     }
 #endregion
 }
