@@ -67,6 +67,14 @@ public static class LoggerExtensions {
                 nameParts[i] = nameParts[i][..4];
         }
 
-        return logger.MakeChildWithName(assemblyName + '.' + string.Join('.', nameParts));
+        return logger.MakeChildWithName( /*assemblyName + '.' +*/ string.Join('.', nameParts));
+    }
+
+    public static Logger AsChild<T>(this Logger logger) {
+        return logger.MakeChildFromType(typeof(T));
+    }
+
+    public static Logger AsChild(this Logger logger, Type type) {
+        return logger.MakeChildFromType(type);
     }
 }

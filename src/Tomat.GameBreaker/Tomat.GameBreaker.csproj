@@ -5,6 +5,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,6 +14,8 @@
 
     <ItemGroup>
         <PackageReference Include="ImGui.NET" Version="1.90.0.1"/>
+        <PackageReference Include="Silk.NET.GLFW" Version="2.20.0"/>
+        <PackageReference Include="Silk.NET.SDL" Version="2.20.0"/>
     </ItemGroup>
 
 </Project>
