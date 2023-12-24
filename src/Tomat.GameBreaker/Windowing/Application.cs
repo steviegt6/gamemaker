@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Silk.NET.Windowing;
 
 namespace Tomat.GameBreaker.Windowing;
@@ -10,14 +10,28 @@ namespace Tomat.GameBreaker.Windowing;
 ///     The abstract application shell of a program.
 /// </summary>
 public abstract class Application : IDisposable {
-    protected List<ImGuiWindow> Windows { get; } = new();
+    protected delegate T WindowFactory<out T>(ref WindowOptions windowOptions) where T : ImGuiWindow;
 
-    protected virtual T InitializeWindow<T>(WindowOptions windowOptions, Func<IWindow, T> windowFactory) where T : ImGuiWindow {
+    private int windowCount;
+
+    protected virtual T InitializeWindow<T>(WindowOptions windowOptions, WindowFactory<T> windowFactory) where T : ImGuiWindow {
+        var windowInstance = windowFactory(ref windowOptions);
         var window = Window.Create(windowOptions);
-        var windowInstance = windowFactory(window);
-        windowInstance.Initialize();
-        windowInstance.Run();
+        windowInstance.Initialize(window);
+        Task.Run(
+            () => {
+                windowInstance.Run();
+                windowInstance.Dispose();
+            }
+        );
+
+        windowCount++;
+        window.Closing += () => windowCount--;
         return windowInstance;
+    }
+
+    public void WaitForWindows() {
+        while (windowCount > 0) { }
     }
 
     /// <summary>

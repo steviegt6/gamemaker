@@ -15,7 +15,7 @@ public abstract class ImGuiWindow : IDisposable {
     /// <summary>
     ///     The underlying window.
     /// </summary>
-    public IWindow Window { get; }
+    public IWindow Window { get; private set; } = null!;
 
     public ImGuiController Controller { get; private set; } = null!;
 
@@ -23,7 +23,13 @@ public abstract class ImGuiWindow : IDisposable {
 
     public IInputContext InputContext { get; private set; } = null!;
 
-    protected ImGuiWindow(IWindow window) {
+    protected ImGuiWindow(ref WindowOptions options) { }
+
+    public virtual void Run() {
+        Window.Run();
+    }
+
+    public virtual void Initialize(IWindow window) {
         Window = window;
 
         Window.Load += () => {
@@ -32,13 +38,13 @@ public abstract class ImGuiWindow : IDisposable {
                 window,
                 InputContext = window.CreateInput()
             );
-
-            Initialize();
         };
 
         Window.FramebufferResize += s => {
             Gl.Viewport(s);
         };
+
+        window.Update += Update;
 
         Window.Render += delta => {
             Controller.Update((float) delta);
@@ -46,7 +52,7 @@ public abstract class ImGuiWindow : IDisposable {
             Gl.ClearColor(0, 0, 0, 0);
             Gl.Clear(ClearBufferMask.ColorBufferBit);
 
-            Update();
+            Render(delta);
 
             Controller.Render();
         };
@@ -58,13 +64,9 @@ public abstract class ImGuiWindow : IDisposable {
         };
     }
 
-    public virtual void Run() {
-        Window.Run();
-    }
+    public virtual void Update(double delta) { }
 
-    public virtual void Initialize() { }
-
-    public virtual void Update() { }
+    public virtual void Render(double delta) { }
 
     protected virtual void Dispose(bool disposing) {
         if (disposing)

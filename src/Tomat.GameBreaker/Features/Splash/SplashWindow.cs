@@ -1,19 +1,15 @@
-﻿using Silk.NET.Windowing;
-using Tomat.GameBreaker.Platforms;
+﻿using Silk.NET.Maths;
+using Silk.NET.Windowing;
 using Tomat.GameBreaker.Windowing;
 
 namespace Tomat.GameBreaker.Features.Splash;
 
 internal sealed class SplashWindow : ImGuiWindow {
-    public SplashWindow(IWindow window) : base(window) { }
-
-    public override void Initialize() {
-        base.Initialize();
-
-        /*Window.Resizable = false;
-        Window.BorderVisible = false;
-        Window.X = Sdl2Native.SDL_WINDOWPOS_CENTERED;
-        Window.Y = Sdl2Native.SDL_WINDOWPOS_CENTERED;*/
-        Platform.MakeWindowTransparent(this);
+    public SplashWindow(ref WindowOptions options) : base(ref options) {
+        options = options with {
+            Size = new Vector2D<int>(640, 400),
+            Title = "Splash",
+            WindowBorder = WindowBorder.Hidden,
+        };
     }
 }
