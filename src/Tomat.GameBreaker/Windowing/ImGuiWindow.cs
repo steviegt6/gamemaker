@@ -1,69 +1,74 @@
 ﻿using System;
-using Veldrid;
-using Veldrid.Sdl2;
+using Silk.NET.Input;
+using Silk.NET.OpenGL;
+using Silk.NET.OpenGL.Extensions.ImGui;
+using Silk.NET.Windowing;
 
 namespace Tomat.GameBreaker.Windowing;
 
 /// <summary>
 ///     An ImGui window, to be used with <see cref="Application"/>.
 ///     <br />
-///     Contains necessities for rendering ImGui to a Veldrid-provided SDL
-///     window.
+///     Contains necessities for rendering ImGui to a window.
 /// </summary>
 public abstract class ImGuiWindow : IDisposable {
     /// <summary>
-    ///     The underlying SDL window.
+    ///     The underlying window.
     /// </summary>
-    public Sdl2Window Window { get; }
+    public IWindow Window { get; }
 
-    /// <summary>
-    ///     The graphics device to which this window belongs.
-    /// </summary>
-    public GraphicsDevice GraphicsDevice { get; }
+    public ImGuiController Controller { get; private set; } = null!;
 
-    /// <summary>
-    ///     The command list.
-    /// </summary>
-    /// <remarks>
-    ///     May be null before initialization and after disposal.
-    /// </remarks>
-    public CommandList? CommandList { get; set; }
+    public GL Gl { get; private set; } = null!;
 
-    public event Action? OnResized;
+    public IInputContext InputContext { get; private set; } = null!;
 
-    protected ImGuiWindow(Sdl2Window window, GraphicsDevice graphicsDevice) {
+    protected ImGuiWindow(IWindow window) {
         Window = window;
-        GraphicsDevice = graphicsDevice;
 
-        // TODO: I actually don't know if we can just do
-        // Window.Resized += OnResized or if it won't respond to later
-        // subscriptions. One would assume so, but better safe than sorry.
-        Window.Resized += () => {
-            OnResized?.Invoke();
+        Window.Load += () => {
+            Controller = new ImGuiController(
+                Gl = window.CreateOpenGL(),
+                window,
+                InputContext = window.CreateInput()
+            );
+
+            Initialize();
+        };
+
+        Window.FramebufferResize += s => {
+            Gl.Viewport(s);
+        };
+
+        Window.Render += delta => {
+            Controller.Update((float) delta);
+
+            Gl.ClearColor(0, 0, 0, 0);
+            Gl.Clear(ClearBufferMask.ColorBufferBit);
+
+            Update();
+
+            Controller.Render();
+        };
+
+        Window.Closing += () => {
+            Controller.Dispose();
+            InputContext.Dispose();
+            Gl.Dispose();
         };
     }
 
-    /// <summary>
-    ///     Initializes this window for running through a
-    ///     <see cref="WindowRunContext"/> in an <see cref="Application"/>.
-    /// </summary>
-    public virtual void Initialize() {
-        CommandList = GraphicsDevice.ResourceFactory.CreateCommandList();
+    public virtual void Run() {
+        Window.Run();
     }
 
-    /// <summary>
-    ///     Updates this window through a <see cref="WindowRunContext"/>
-    ///     in an <see cref="Application"/>.
-    /// </summary>
+    public virtual void Initialize() { }
+
     public virtual void Update() { }
 
     protected virtual void Dispose(bool disposing) {
-        if (!disposing)
-            return;
-
-        GraphicsDevice.Dispose();
-        CommandList?.Dispose();
-        Window.Close();
+        if (disposing)
+            Window.Dispose();
     }
 
     public void Dispose() {

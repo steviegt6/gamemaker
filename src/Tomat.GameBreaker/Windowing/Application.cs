@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Veldrid;
-using Veldrid.Sdl2;
-using Veldrid.StartupUtilities;
+using Silk.NET.Windowing;
 
 namespace Tomat.GameBreaker.Windowing;
 
@@ -12,40 +10,14 @@ namespace Tomat.GameBreaker.Windowing;
 ///     The abstract application shell of a program.
 /// </summary>
 public abstract class Application : IDisposable {
-    protected List<WindowRunContext> Windows { get; } = new();
+    protected List<ImGuiWindow> Windows { get; } = new();
 
-    private readonly List<ImGuiWindow> windowsToInitialize = new();
-
-    public virtual T InitializeWindow<T>(WindowCreateInfo windowCreateInfo, Func<Sdl2Window, GraphicsDevice, T> windowFactory) where T : ImGuiWindow {
-        var window = VeldridStartup.CreateWindow(windowCreateInfo);
-        var graphicsDevice = VeldridStartup.CreateGraphicsDevice(
-            window,
-            new GraphicsDeviceOptions {
-                PreferDepthRangeZeroToOne = true,
-                PreferStandardClipSpaceYDirection = true,
-                ResourceBindingModel = ResourceBindingModel.Improved,
-                SyncToVerticalBlank = true,
-            }
-        );
-
-        var windowInstance = windowFactory(window, graphicsDevice);
-        windowsToInitialize.Add(windowInstance);
+    protected virtual T InitializeWindow<T>(WindowOptions windowOptions, Func<IWindow, T> windowFactory) where T : ImGuiWindow {
+        var window = Window.Create(windowOptions);
+        var windowInstance = windowFactory(window);
+        windowInstance.Initialize();
+        windowInstance.Run();
         return windowInstance;
-    }
-
-    /// <summary>
-    ///     Runs the application.
-    /// </summary>
-    public virtual void Run() {
-        foreach (var window in windowsToInitialize)
-            Windows.Add(new WindowRunContext(window));
-
-        windowsToInitialize.Clear();
-
-        foreach (var window in Windows)
-            window.Run();
-
-        Windows.RemoveAll(x => x.Disposed);
     }
 
     /// <summary>

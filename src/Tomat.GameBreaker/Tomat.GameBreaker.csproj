@@ -10,14 +10,13 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Tomat.GameMaker\Tomat.GameMaker.csproj"/>
-        <ProjectReference Include="..\Veldrid.ImGui\Veldrid.ImGui.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ImGui.NET" Version="1.90.0.1"/>
-        <PackageReference Include="Veldrid" Version="4.9.0"/>
-        <PackageReference Include="Veldrid.SPIRV" Version="1.0.15"/>
-        <PackageReference Include="Veldrid.StartupUtilities" Version="4.9.0"/>
+        <PackageReference Include="Silk.NET.Input" Version="2.20.0"/>
+        <PackageReference Include="Silk.NET.OpenGL" Version="2.20.0"/>
+        <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.20.0"/>
+        <PackageReference Include="Silk.NET.Windowing" Version="2.20.0"/>
     </ItemGroup>
 
 </Project>

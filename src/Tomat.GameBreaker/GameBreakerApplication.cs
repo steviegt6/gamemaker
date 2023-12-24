@@ -1,18 +1,19 @@
-﻿using Tomat.GameBreaker.Features.Splash;
+﻿using Silk.NET.Maths;
+using Silk.NET.Windowing;
+using Tomat.GameBreaker.Features.Splash;
 using Tomat.GameBreaker.Windowing;
-using Veldrid.StartupUtilities;
 
 namespace Tomat.GameBreaker;
 
 internal sealed class GameBreakerApplication : Application {
     public GameBreakerApplication() {
         InitializeWindow<SplashWindow>(
-            new WindowCreateInfo {
-                WindowWidth = 640,
-                WindowHeight = 400,
-                WindowTitle = "Splash",
+            WindowOptions.Default with {
+                Size = new Vector2D<int>(640, 400),
+                Title = "Splash",
+                WindowBorder = WindowBorder.Hidden,
             },
-            (window, device) => new SplashWindow(window, device)
+            window => new SplashWindow(window)
         );
     }
 }
