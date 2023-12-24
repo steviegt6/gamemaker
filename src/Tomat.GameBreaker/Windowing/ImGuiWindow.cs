@@ -1,55 +1,69 @@
 ﻿using System;
-using Tomat.GameBreaker.Logging;
+using Veldrid;
+using Veldrid.Sdl2;
 
 namespace Tomat.GameBreaker.Windowing;
 
+/// <summary>
+///     An ImGui window, to be used with <see cref="Application"/>.
+///     <br />
+///     Contains necessities for rendering ImGui to a Veldrid-provided SDL
+///     window.
+/// </summary>
 public abstract class ImGuiWindow : IDisposable {
     /// <summary>
-    ///     Internal name for window identification.
+    ///     The underlying SDL window.
     /// </summary>
-    public string InternalName { get; }
+    public Sdl2Window Window { get; }
 
     /// <summary>
-    ///     The title of the window upon initialization.
+    ///     The graphics device to which this window belongs.
     /// </summary>
-    public string InitialTitle { get; }
+    public GraphicsDevice GraphicsDevice { get; }
 
     /// <summary>
-    ///     The width of the window upon initialization.
-    /// </summary>
-    public int InitialWidth { get; }
-
-    /// <summary>
-    ///     The height of the window upon initialization.
-    /// </summary>
-    public int InitialHeight { get; }
-
-    /// <summary>
-    ///     The underlying, implementation-specific window.
+    ///     The command list.
     /// </summary>
     /// <remarks>
-    ///     Provides some guaranteed functionality.
-    ///     <br />
-    ///     May be <see langword="null"/> if the window has been instantiated
-    ///     but not yet created through
-    ///     <see cref="IWindowProvider.CreateWindow{T}"/>.
+    ///     May be null before initialization and after disposal.
     /// </remarks>
-    public IWindow Window { get; set; } = null!;
+    public CommandList? CommandList { get; set; }
 
-    protected ImGuiWindow(string internalName, string initialTitle, int initialWidth, int initialHeight) {
-        InternalName = internalName;
-        InitialTitle = initialTitle;
-        InitialWidth = initialWidth;
-        InitialHeight = initialHeight;
+    public event Action? OnResized;
+
+    protected ImGuiWindow(Sdl2Window window, GraphicsDevice graphicsDevice) {
+        Window = window;
+        GraphicsDevice = graphicsDevice;
+
+        // TODO: I actually don't know if we can just do
+        // Window.Resized += OnResized or if it won't respond to later
+        // subscriptions. One would assume so, but better safe than sorry.
+        Window.Resized += () => {
+            OnResized?.Invoke();
+        };
     }
 
-    public virtual void OnRun(Logger logger) { }
+    /// <summary>
+    ///     Initializes this window for running through a
+    ///     <see cref="WindowRunContext"/> in an <see cref="Application"/>.
+    /// </summary>
+    public virtual void Initialize() {
+        CommandList = GraphicsDevice.ResourceFactory.CreateCommandList();
+    }
 
-    public virtual void OnUpdate(Logger logger) { }
+    /// <summary>
+    ///     Updates this window through a <see cref="WindowRunContext"/>
+    ///     in an <see cref="Application"/>.
+    /// </summary>
+    public virtual void Update() { }
 
     protected virtual void Dispose(bool disposing) {
-        if (disposing)
-            Window.Dispose();
+        if (!disposing)
+            return;
+
+        GraphicsDevice.Dispose();
+        CommandList?.Dispose();
+        Window.Close();
     }
 
     public void Dispose() {
