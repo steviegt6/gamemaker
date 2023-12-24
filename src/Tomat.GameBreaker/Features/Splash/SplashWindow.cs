@@ -12,4 +12,10 @@ internal sealed class SplashWindow : ImGuiWindow {
             WindowBorder = WindowBorder.Hidden,
         };
     }
+
+    public override void Render(double delta) {
+        base.Render(delta);
+        
+        ImGuiNET.ImGui.ShowDemoWindow();
+    }
 }
