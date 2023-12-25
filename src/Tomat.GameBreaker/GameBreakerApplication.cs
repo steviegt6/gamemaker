@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Silk.NET.Core;
 using Silk.NET.Windowing;
 using SixLabors.ImageSharp;
@@ -25,15 +26,21 @@ internal sealed class GameBreakerApplication : Application {
         splash.StartTask(
             "Test 1",
             1f,
-            t => {
-                t.Progress = 1f;
+            async t => {
+                while (t.Progress < 1f) {
+                    t.Progress += 0.01f;
+                    await Task.Delay(20);
+                }
             }
         );
         splash.StartTask(
             "Test 2",
             2f,
-            t => {
-                t.Progress = 0.5f;
+            async t => {
+                while (t.Progress < 1f) {
+                    t.Progress += 0.05f;
+                    await Task.Delay(30);
+                }
             }
         );
     }

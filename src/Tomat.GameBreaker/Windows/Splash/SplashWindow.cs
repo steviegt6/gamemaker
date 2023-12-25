@@ -51,7 +51,7 @@ internal sealed class SplashWindow : ImGuiWindow {
         drawList.AddText(new Vector2(15, 30), 0xFFFFFFFF, $"v{typeof(Program).Assembly.GetName().Version}");
         drawList.AddText(new Vector2(15, 45), 0xFFFFFFFF, "https://github.com/steviegt6/gamemaker");
 
-        var progressBgStart = new Vector2(99, 357);
+        var progressBgStart = new Vector2(99, 350);
         var progressBgSize = new Vector2(442, 30);
 
         var progressStart = progressBgStart + new Vector2(0, 20);
@@ -67,9 +67,9 @@ internal sealed class SplashWindow : ImGuiWindow {
         }
     }
 
-    public void StartTask(string taskName, float taskWeight, Action<SplashTask> taskAction) {
+    public void StartTask(string taskName, float taskWeight, Func<SplashTask, Task> taskAction) {
         var task = new SplashTask(taskWeight, 0f, taskName, taskAction);
         tasks.Add(task);
-        Task.Run(() => taskAction(task));
+        Task.Run(async () => await taskAction(task));
     }
 }

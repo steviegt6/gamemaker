@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Tomat.GameBreaker.Windows.Splash;
 
@@ -9,9 +10,9 @@ public sealed class SplashTask {
 
     public string Name { get; }
 
-    public Action<SplashTask> Task { get; }
+    public Func<SplashTask, Task> Task { get; }
 
-    public SplashTask(float weight, float progress, string name, Action<SplashTask> task) {
+    public SplashTask(float weight, float progress, string name, Func<SplashTask, Task> task) {
         Weight = weight;
         Progress = progress;
         Name = name;
