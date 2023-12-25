@@ -11,7 +11,7 @@ using Tomat.GameBreaker.Utilities;
 
 namespace Tomat.GameBreaker.Windows.Splash;
 
-internal sealed class SplashWindow : ImGuiWindow {
+internal sealed class SplashWindow : GameBreakerWindow {
     private readonly List<SplashTask> tasks = new();
 
     private ImGuiImage splashImage = null!;
@@ -29,8 +29,8 @@ internal sealed class SplashWindow : ImGuiWindow {
         };
     }
 
-    public override void Initialize(IWindow window) {
-        base.Initialize(window);
+    public override void Initialize(Application app, IWindow window) {
+        base.Initialize(app, window);
 
         Window.Load += () => {
             Window.Center();
@@ -41,7 +41,7 @@ internal sealed class SplashWindow : ImGuiWindow {
         };
     }
 
-    public override void Render(double delta) {
+    protected override void Render(double delta) {
         base.Render(delta);
 
         var drawList = ImGui.GetBackgroundDrawList();

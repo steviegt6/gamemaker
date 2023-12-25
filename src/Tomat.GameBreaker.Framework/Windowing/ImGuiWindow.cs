@@ -23,13 +23,16 @@ public abstract class ImGuiWindow : IDisposable {
 
     public IInputContext InputContext { get; private set; } = null!;
 
+    public Application App { get; set; } = null!;
+
     protected ImGuiWindow(ref WindowOptions options) { }
 
     public virtual void Run() {
         Window.Run();
     }
 
-    public virtual void Initialize(IWindow window) {
+    public virtual void Initialize(Application app, IWindow window) {
+        App = app;
         Window = window;
 
         Window.Load += () => {
@@ -64,9 +67,9 @@ public abstract class ImGuiWindow : IDisposable {
         };
     }
 
-    public virtual void Update(double delta) { }
+    protected virtual void Update(double delta) { }
 
-    public virtual void Render(double delta) { }
+    protected virtual void Render(double delta) { }
 
     protected virtual void Dispose(bool disposing) {
         if (disposing)

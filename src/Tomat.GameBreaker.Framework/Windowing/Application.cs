@@ -21,7 +21,7 @@ public abstract class Application : IDisposable {
     protected virtual T InitializeWindow<T>(ref WindowOptions windowOptions, WindowFactory<T> windowFactory) where T : ImGuiWindow {
         var windowInstance = windowFactory(ref windowOptions);
         var window = Window.Create(windowOptions);
-        windowInstance.Initialize(window);
+        windowInstance.Initialize(this, window);
         Task.Run(
             () => {
                 windowInstance.Run();

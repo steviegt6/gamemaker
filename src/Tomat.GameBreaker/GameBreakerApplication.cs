@@ -1,9 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using Silk.NET.Core;
+﻿using System.Threading.Tasks;
 using Silk.NET.Windowing;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using Tomat.GameBreaker.Framework.Logging;
 using Tomat.GameBreaker.Framework.Windowing;
 using Tomat.GameBreaker.Utilities;
@@ -33,6 +29,7 @@ internal sealed class GameBreakerApplication : Application {
                 }
             }
         );
+
         splash.StartTask(
             "Test 2",
             2f,
