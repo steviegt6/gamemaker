@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Buffers;
-using System.Runtime.InteropServices;
+using System.Numerics;
 using Silk.NET.Core;
+using Silk.NET.OpenGL;
+using Silk.NET.Windowing;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -16,6 +18,10 @@ public sealed unsafe class ImGuiImage : IDisposable {
     public int Height => image.Height;
 
     public void* Ptr => handle.Pointer;
+
+    public nint Native => (nint)Ptr;
+
+    public Vector2 Size => new(Width, Height);
 
     public int Length => image.Width * image.Height * sizeof(Rgba32);
 
@@ -40,5 +46,20 @@ public sealed unsafe class ImGuiImage : IDisposable {
         // Memory<byte>. We have an EVIL ToArray (Memmove) call, but I'll suck
         // it up.
         return new RawImage(Width, Height, new Memory<byte>(new Span<byte>(Ptr, Length).ToArray()));
+    }
+
+    public nint AsOpenGlImage(IWindow window) {
+        var gl = GL.GetApi(window.GLContext);
+
+        gl.GenTextures(1, out uint texture);
+        gl.BindTexture(TextureTarget.Texture2D, texture);
+
+        gl.TextureParameterI(texture, TextureParameterName.TextureMinFilter, new[] { (int)GLEnum.Linear });
+        gl.TextureParameterI(texture, TextureParameterName.TextureMagFilter, new[] { (int)GLEnum.Linear });
+        gl.TextureParameterI(texture, TextureParameterName.TextureWrapS, new[] { (int)GLEnum.ClampToEdge });
+        gl.TextureParameterI(texture, TextureParameterName.TextureWrapT, new[] { (int)GLEnum.ClampToEdge });
+
+        gl.TexImage2D(GLEnum.Texture2D, 0, InternalFormat.Rgba, (uint)Width, (uint)Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, Ptr);
+        return (nint)texture;
     }
 }

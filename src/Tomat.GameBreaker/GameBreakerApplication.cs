@@ -17,9 +17,24 @@ internal sealed class GameBreakerApplication : Application {
         logger.Debug("Initializing application...");
 
         logger.Debug("Initializing splash window...");
-        InitializeWindow(
+        var splash = InitializeWindow(
             WindowOptions.Default,
             (ref WindowOptions options) => new SplashWindow(ref options)
+        );
+
+        splash.StartTask(
+            "Test 1",
+            1f,
+            t => {
+                t.Progress = 1f;
+            }
+        );
+        splash.StartTask(
+            "Test 2",
+            2f,
+            t => {
+                t.Progress = 0.5f;
+            }
         );
     }
 

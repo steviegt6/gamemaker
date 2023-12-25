@@ -10,13 +10,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Tomat.GameBreaker.Framework\Tomat.GameBreaker.Framework.csproj" />
+        <ProjectReference Include="..\Tomat.GameBreaker.Framework\Tomat.GameBreaker.Framework.csproj"/>
         <ProjectReference Include="..\Tomat.GameMaker\Tomat.GameMaker.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
         <None Remove="resources\icon.png"/>
         <EmbeddedResource Include="resources\icon.png"/>
+        <None Remove="resources\splash_image.png"/>
+        <EmbeddedResource Include="resources\splash_image.png"/>
     </ItemGroup>
 
 </Project>
