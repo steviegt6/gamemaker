@@ -12,14 +12,20 @@ using Tomat.GameBreaker.Utilities;
 namespace Tomat.GameBreaker.Windows.Splash;
 
 internal sealed class SplashWindow : GameBreakerWindow {
+    public bool Completed { get; private set; }
+
+    public event Action? OnCompleted;
+
     private readonly List<SplashTask> tasks = new();
+    private readonly List<SplashTask> queuedTasks = new();
 
     private ImGuiImage splashImage = null!;
     private nint splashImageGl;
+    private ImGuiViewportPtr? viewportPtr;
 
     private float TaskProgress => tasks.Sum(t => t.Progress * t.Weight) / tasks.Sum(t => t.Weight);
 
-    public SplashWindow(ref WindowOptions options) : base(ref options) {
+    public SplashWindow(Application app, ref WindowOptions options) : base(app, ref options) {
         options = options with {
             Size = new Vector2D<int>(640, 400),
             Title = "Splash",
@@ -29,22 +35,24 @@ internal sealed class SplashWindow : GameBreakerWindow {
         };
     }
 
-    public override void Initialize(Application app, IWindow window) {
-        base.Initialize(app, window);
-
-        Window.Load += () => {
+    public override void Initialize(IWindow window) {
+        window.Load += () => {
             Window.Center();
             Window.IsVisible = true;
 
             ImageExt.FromAssemblyResource("resources.splash_image.png", out splashImage);
             splashImageGl = splashImage.AsOpenGlImage(window);
         };
+
+        base.Initialize(window);
     }
 
     protected override void Render(double delta) {
         base.Render(delta);
 
-        var drawList = ImGui.GetBackgroundDrawList();
+        viewportPtr ??= ImGui.GetMainViewport();
+
+        var drawList = ImGui.GetBackgroundDrawList(viewportPtr.Value);
         drawList.AddImage(splashImageGl, Vector2.Zero, splashImage.Size);
 
         drawList.AddText(new Vector2(15, 15), 0xFFFFFFFF, "Tomat.GameBreaker by Tomat");
@@ -65,11 +73,31 @@ internal sealed class SplashWindow : GameBreakerWindow {
             drawList.AddText(progressStart + new Vector2(5, -20), 0xFFFFFFFF, string.Join(" | ", unfinished));
             drawList.PopClipRect();
         }
+
+        if (TaskProgress < 1f || Completed)
+            return;
+
+        OnCompleted?.Invoke();
+        Completed = true;
     }
 
     public void StartTask(string taskName, float taskWeight, Func<SplashTask, Task> taskAction) {
         var task = new SplashTask(taskWeight, 0f, taskName, taskAction);
         tasks.Add(task);
         Task.Run(async () => await taskAction(task));
+    }
+
+    public void QueueTask(string taskName, float taskWeight, Func<SplashTask, Task> taskAction) {
+        var task = new SplashTask(taskWeight, 0f, taskName, taskAction);
+        queuedTasks.Add(task);
+    }
+
+    public void RunQueuedTasks() {
+        foreach (var task in queuedTasks) {
+            tasks.Add(task);
+            Task.Run(async () => await task.Task(task));
+        }
+
+        queuedTasks.Clear();
     }
 }

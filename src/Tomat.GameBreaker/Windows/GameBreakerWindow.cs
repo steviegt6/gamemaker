@@ -10,12 +10,8 @@ internal abstract class GameBreakerWindow : ImGuiWindow {
         set => base.App = value;
     }
 
-    protected GameBreakerWindow(ref WindowOptions options) : base(ref options) { }
-
-    public override void Initialize(Application app, IWindow window) {
+    protected GameBreakerWindow(Application app, ref WindowOptions options) : base(app, ref options) {
         if (app is not GameBreakerApplication)
             throw new ArgumentException("Application must be of type GameBreakerApplication.", nameof(app));
-
-        base.Initialize(app, window);
     }
 }

@@ -21,4 +21,8 @@
         <EmbeddedResource Include="resources\splash_image.png"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+    </ItemGroup>
+
 </Project>

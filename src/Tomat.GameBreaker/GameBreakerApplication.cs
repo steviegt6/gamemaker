@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Silk.NET.Windowing;
 using Tomat.GameBreaker.Framework.Logging;
 using Tomat.GameBreaker.Framework.Windowing;
 using Tomat.GameBreaker.Utilities;
+using Tomat.GameBreaker.Windows.Main;
 using Tomat.GameBreaker.Windows.Splash;
 
 namespace Tomat.GameBreaker;
@@ -10,16 +13,37 @@ namespace Tomat.GameBreaker;
 internal sealed class GameBreakerApplication : Application {
     private readonly Logger logger = Log.AsType<GameBreakerApplication>();
 
+    public GameBreakerSettings Settings { get; }
+
+    // We'll use splash to queue start-up tasks and also keep the application
+    // alive (window will remain open but hidden).
+    public SplashWindow Splash { get; }
+
+    public MainWindow? Main { get; private set; }
+
     public GameBreakerApplication() {
         logger.Debug("Initializing application...");
 
+        logger.Debug("Reading settings file...");
+        if (File.Exists("gamebreaker.settings.json"))
+            Settings = JsonConvert.DeserializeObject<GameBreakerSettings>(File.ReadAllText("gamebreaker.settings.json"))!;
+
+        if (Settings is null) {
+            logger.Debug("Settings file not found, creating new settings file...");
+            Settings = new GameBreakerSettings();
+        }
+
         logger.Debug("Initializing splash window...");
-        var splash = InitializeWindow(
+        Splash = InitializeWindow(
             WindowOptions.Default,
-            (ref WindowOptions options) => new SplashWindow(ref options)
+            (Application app, ref WindowOptions options) => new SplashWindow(app, ref options)
         );
 
-        splash.StartTask(
+        Splash.Window.Load += () => {
+            Splash.RunQueuedTasks();
+        };
+
+        Splash.QueueTask(
             "Test 1",
             1f,
             async t => {
@@ -30,7 +54,7 @@ internal sealed class GameBreakerApplication : Application {
             }
         );
 
-        splash.StartTask(
+        Splash.QueueTask(
             "Test 2",
             2f,
             async t => {
@@ -40,6 +64,23 @@ internal sealed class GameBreakerApplication : Application {
                 }
             }
         );
+
+        // Once all start-up procedures are complete, we can hide the splash and
+        // open the main window.
+        Splash.OnCompleted += () => {
+            // Splash.Window.IsVisible = false;
+
+            // Also make it open the main window.
+            Main = InitializeWindow(
+                WindowOptions.Default,
+                (Application app, ref WindowOptions options) => new MainWindow(app, ref options)
+            );
+
+            Main.Window.Closing += () => {
+                Splash.Window.Close();
+                Splash.Dispose();
+            };
+        };
     }
 
     protected override T InitializeWindow<T>(ref WindowOptions windowOptions, WindowFactory<T> windowFactory) {
@@ -54,5 +95,16 @@ internal sealed class GameBreakerApplication : Application {
         };
 
         return window;
+    }
+
+    public override bool ShouldExit() {
+        var res = base.ShouldExit();
+
+        if (!res)
+            return res;
+
+        logger.Debug("All windows closed, exiting...");
+        File.WriteAllText("gamebreaker.settings.json", JsonConvert.SerializeObject(Settings, Formatting.Indented));
+        return true;
     }
 }

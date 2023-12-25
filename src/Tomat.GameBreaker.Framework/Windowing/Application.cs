@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using Silk.NET.Windowing;
 
 namespace Tomat.GameBreaker.Framework.Windowing;
@@ -10,32 +10,48 @@ namespace Tomat.GameBreaker.Framework.Windowing;
 ///     The abstract application shell of a program.
 /// </summary>
 public abstract class Application : IDisposable {
-    protected delegate T WindowFactory<out T>(ref WindowOptions windowOptions) where T : ImGuiWindow;
+    protected delegate T WindowFactory<out T>(Application app, ref WindowOptions windowOptions) where T : ImGuiWindow;
+
+    protected List<ImGuiWindow> Windows { get; } = new();
+
+    private readonly List<ImGuiWindow> queuedWindows = new();
 
     private int windowCount;
 
-    protected virtual T InitializeWindow<T>(WindowOptions windowOptions, WindowFactory<T> windowFactory) where T : ImGuiWindow {
+    protected T InitializeWindow<T>(WindowOptions windowOptions, WindowFactory<T> windowFactory) where T : ImGuiWindow {
         return InitializeWindow(ref windowOptions, windowFactory);
     }
 
     protected virtual T InitializeWindow<T>(ref WindowOptions windowOptions, WindowFactory<T> windowFactory) where T : ImGuiWindow {
-        var windowInstance = windowFactory(ref windowOptions);
+        var windowInstance = windowFactory(this, ref windowOptions);
         var window = Window.Create(windowOptions);
-        windowInstance.Initialize(this, window);
-        Task.Run(
-            () => {
-                windowInstance.Run();
-                windowInstance.Dispose();
-            }
-        );
+        windowInstance.Initialize(window);
 
         windowCount++;
-        window.Closing += () => windowCount--;
+        window.Closing += () => {
+            windowCount--;
+            window.Dispose();
+        };
+
+        queuedWindows.Add(windowInstance);
         return windowInstance;
     }
 
-    public void WaitForWindows() {
-        while (windowCount > 0) { }
+    public virtual void UpdateWindows() {
+        foreach (var window in queuedWindows)
+            Windows.Add(window);
+
+        queuedWindows.Clear();
+
+        foreach (var window in Windows)
+            window.DoEvents();
+
+        Windows.RemoveAll(window => window.Window.IsClosing);
+    }
+
+    public virtual bool ShouldExit() {
+        // By default, we'll just exit when no windows exist.
+        return windowCount <= 0;
     }
 
     /// <summary>

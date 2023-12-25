@@ -10,5 +10,6 @@ Log.Debug("Starting application...");
 
 using var app = new GameBreakerApplication();
 
-Log.Debug("Begin window wait...");
-app.WaitForWindows();
+Log.Debug("Entering main window loop...");
+while (!app.ShouldExit())
+    app.UpdateWindows();

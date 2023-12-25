@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Tomat.GameBreaker": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
