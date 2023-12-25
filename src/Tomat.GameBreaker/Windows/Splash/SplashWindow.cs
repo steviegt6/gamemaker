@@ -2,9 +2,11 @@
 using Silk.NET.Windowing;
 using Tomat.GameBreaker.Framework.Windowing;
 
-namespace Tomat.GameBreaker.Features.Splash;
+namespace Tomat.GameBreaker.Windows.Splash;
 
 internal sealed class SplashWindow : ImGuiWindow {
+    
+    
     public SplashWindow(ref WindowOptions options) : base(ref options) {
         options = options with {
             Size = new Vector2D<int>(640, 400),

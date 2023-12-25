@@ -3,9 +3,10 @@ using Silk.NET.Core;
 using Silk.NET.Windowing;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using Tomat.GameBreaker.Features.Splash;
 using Tomat.GameBreaker.Framework.Logging;
 using Tomat.GameBreaker.Framework.Windowing;
+using Tomat.GameBreaker.Utilities;
+using Tomat.GameBreaker.Windows.Splash;
 
 namespace Tomat.GameBreaker;
 
@@ -22,17 +23,14 @@ internal sealed class GameBreakerApplication : Application {
         );
     }
 
-    protected override unsafe T InitializeWindow<T>(ref WindowOptions windowOptions, WindowFactory<T> windowFactory) {
+    protected override T InitializeWindow<T>(ref WindowOptions windowOptions, WindowFactory<T> windowFactory) {
         var oldName = windowOptions.Title;
         var window = base.InitializeWindow(ref windowOptions, windowFactory);
         logger.Debug($"Received window initialization request (\"{oldName}\" -> \"{windowOptions.Title}\")");
 
         window.Window.Load += () => {
-            using var stream = typeof(GameBreakerApplication).Assembly.GetManifestResourceStream("Tomat.GameBreaker.resources.icon.png")!;
-            using var image = Image.Load<Rgba32>(stream);
-            var bytes = new byte[image.Width * image.Height * sizeof(Rgba32)];
-            image.CopyPixelDataTo(bytes);
-            var rawImg = new RawImage(image.Width, image.Height, new Memory<byte>(bytes));
+            ImageExt.FromAssemblyResource("resources.icon.png", out var img);
+            var rawImg = img.AsRaw();
             window.Window.SetWindowIcon(ref rawImg);
         };
 
