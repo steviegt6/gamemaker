@@ -1,6 +1,6 @@
 ﻿using Silk.NET.Maths;
 using Silk.NET.Windowing;
-using Tomat.GameBreaker.Windowing;
+using Tomat.GameBreaker.Framework.Windowing;
 
 namespace Tomat.GameBreaker.Features.Splash;
 

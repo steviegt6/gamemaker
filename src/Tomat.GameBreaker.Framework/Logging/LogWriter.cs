@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace Tomat.GameBreaker.Logging;
+namespace Tomat.GameBreaker.Framework.Logging;
 
 public interface ILogWriter : IDisposable {
     void Write(ILogEntry entry);

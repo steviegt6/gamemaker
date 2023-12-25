@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tomat.GameBreaker.Logging;
+namespace Tomat.GameBreaker.Framework.Logging;
 
 public interface ILogEntry {
     DateTime Timestamp { get; }

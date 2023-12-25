@@ -4,8 +4,8 @@ using Silk.NET.Windowing;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Tomat.GameBreaker.Features.Splash;
-using Tomat.GameBreaker.Logging;
-using Tomat.GameBreaker.Windowing;
+using Tomat.GameBreaker.Framework.Logging;
+using Tomat.GameBreaker.Framework.Windowing;
 
 namespace Tomat.GameBreaker;
 

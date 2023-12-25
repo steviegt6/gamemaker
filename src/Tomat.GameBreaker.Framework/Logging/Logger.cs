@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tomat.GameBreaker.Logging;
+namespace Tomat.GameBreaker.Framework.Logging;
 
 public sealed class Logger {
     public string Name { get; }

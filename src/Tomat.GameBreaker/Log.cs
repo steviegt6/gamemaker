@@ -1,5 +1,5 @@
 ﻿using System;
-using Tomat.GameBreaker.Logging;
+using Tomat.GameBreaker.Framework.Logging;
 
 namespace Tomat.GameBreaker;
 

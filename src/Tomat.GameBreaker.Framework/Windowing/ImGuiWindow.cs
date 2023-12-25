@@ -4,7 +4,7 @@ using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
 
-namespace Tomat.GameBreaker.Windowing;
+namespace Tomat.GameBreaker.Framework.Windowing;
 
 /// <summary>
 ///     An ImGui window, to be used with <see cref="Application"/>.

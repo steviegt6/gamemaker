@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Silk.NET.Windowing;
 
-namespace Tomat.GameBreaker.Windowing;
+namespace Tomat.GameBreaker.Framework.Windowing;
 
 // Loosely based on https://github.com/GovermanGambo/Akithos/tree/main.
 

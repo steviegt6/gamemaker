@@ -10,15 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Tomat.GameBreaker.Framework\Tomat.GameBreaker.Framework.csproj" />
         <ProjectReference Include="..\Tomat.GameMaker\Tomat.GameMaker.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Silk.NET.Input" Version="2.20.0"/>
-        <PackageReference Include="Silk.NET.OpenGL" Version="2.20.0"/>
-        <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.20.0"/>
-        <PackageReference Include="Silk.NET.Windowing" Version="2.20.0"/>
-        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.1"/>
     </ItemGroup>
 
     <ItemGroup>
