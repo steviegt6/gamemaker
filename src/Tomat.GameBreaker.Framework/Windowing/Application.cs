@@ -38,8 +38,10 @@ public abstract class Application : IDisposable {
     }
 
     public virtual void UpdateWindows() {
-        foreach (var window in queuedWindows)
+        foreach (var window in queuedWindows) {
+            window.Window.Initialize();
             Windows.Add(window);
+        }
 
         queuedWindows.Clear();
 

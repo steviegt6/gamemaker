@@ -36,15 +36,15 @@ internal sealed class SplashWindow : GameBreakerWindow {
     }
 
     public override void Initialize(IWindow window) {
-        window.Load += () => {
+        base.Initialize(window);
+        
+        Window.Load += () => {
             Window.Center();
             Window.IsVisible = true;
 
             ImageExt.FromAssemblyResource("resources.splash_image.png", out splashImage);
             splashImageGl = splashImage.AsOpenGlImage(window);
         };
-
-        base.Initialize(window);
     }
 
     protected override void Render(double delta) {

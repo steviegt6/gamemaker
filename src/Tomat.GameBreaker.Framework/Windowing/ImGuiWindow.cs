@@ -78,8 +78,6 @@ public abstract class ImGuiWindow : IDisposable {
             InputContext.Dispose();
             Gl.Dispose();
         };
-
-        window.Initialize();
     }
 
     protected virtual void Update(double delta) { }
