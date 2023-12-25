@@ -9,6 +9,9 @@ using Silk.NET.Windowing;
 using Tomat.GameBreaker.Framework.Windowing;
 using Tomat.GameBreaker.Utilities;
 
+// Heavily inspired by:
+// https://github.com/WerWolv/ImHex/blob/master/main/gui/source/init/splash_window.cpp
+
 namespace Tomat.GameBreaker.Windows.Splash;
 
 internal sealed class SplashWindow : GameBreakerWindow {
