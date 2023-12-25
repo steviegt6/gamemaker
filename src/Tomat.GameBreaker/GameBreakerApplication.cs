@@ -4,20 +4,28 @@ using Silk.NET.Windowing;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Tomat.GameBreaker.Features.Splash;
+using Tomat.GameBreaker.Logging;
 using Tomat.GameBreaker.Windowing;
 
 namespace Tomat.GameBreaker;
 
 internal sealed class GameBreakerApplication : Application {
+    private readonly Logger logger = Log.AsType<GameBreakerApplication>();
+
     public GameBreakerApplication() {
+        logger.Debug("Initializing application...");
+
+        logger.Debug("Initializing splash window...");
         InitializeWindow(
             WindowOptions.Default,
             (ref WindowOptions options) => new SplashWindow(ref options)
         );
     }
 
-    protected override unsafe T InitializeWindow<T>(WindowOptions windowOptions, WindowFactory<T> windowFactory) {
-        var window = base.InitializeWindow(windowOptions, windowFactory);
+    protected override unsafe T InitializeWindow<T>(ref WindowOptions windowOptions, WindowFactory<T> windowFactory) {
+        var oldName = windowOptions.Title;
+        var window = base.InitializeWindow(ref windowOptions, windowFactory);
+        logger.Debug($"Received window initialization request (\"{oldName}\" -> \"{windowOptions.Title}\")");
 
         window.Window.Load += () => {
             using var stream = typeof(GameBreakerApplication).Assembly.GetManifestResourceStream("Tomat.GameBreaker.resources.icon.png")!;

@@ -15,6 +15,10 @@ public abstract class Application : IDisposable {
     private int windowCount;
 
     protected virtual T InitializeWindow<T>(WindowOptions windowOptions, WindowFactory<T> windowFactory) where T : ImGuiWindow {
+        return InitializeWindow(ref windowOptions, windowFactory);
+    }
+
+    protected virtual T InitializeWindow<T>(ref WindowOptions windowOptions, WindowFactory<T> windowFactory) where T : ImGuiWindow {
         var windowInstance = windowFactory(ref windowOptions);
         var window = Window.Create(windowOptions);
         windowInstance.Initialize(window);
