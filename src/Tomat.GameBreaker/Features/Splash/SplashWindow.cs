@@ -10,12 +10,22 @@ internal sealed class SplashWindow : ImGuiWindow {
             Size = new Vector2D<int>(640, 400),
             Title = "Splash",
             WindowBorder = WindowBorder.Hidden,
+            IsVisible = false,
+        };
+    }
+
+    public override void Initialize(IWindow window) {
+        base.Initialize(window);
+
+        Window.Load += () => {
+            Window.Center();
+            Window.IsVisible = true;
         };
     }
 
     public override void Render(double delta) {
         base.Render(delta);
-        
+
         ImGuiNET.ImGui.ShowDemoWindow();
     }
 }
