@@ -11,6 +11,7 @@ internal sealed class SplashWindow : ImGuiWindow {
             Title = "Splash",
             WindowBorder = WindowBorder.Hidden,
             IsVisible = false,
+            TransparentFramebuffer = true,
         };
     }
 
